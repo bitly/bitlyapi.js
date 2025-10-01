@@ -1,0 +1,26 @@
+name: Update TypeScript client
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 15 * * 1'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: setup java
+        run: |
+          sudo apt-get install -y openjdk-21-jdk
+          java -version
+      - name: Update client
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: scripts/update_client.sh

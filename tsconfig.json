@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "outDir": "dist",
     "lib": [
       "es6",

@@ -1,7 +1,8 @@
 #!/bin/sh
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
-VENDOR_DIR=$SCRIPT_DIR/../vendor
+cd $SCRIPT_DIR
+VENDOR_DIR=../vendor
 
 set -e
 
@@ -12,8 +13,9 @@ if [ ! -e $VENDOR_DIR/v4.json ]; then
     wget https://dev.bitly.com/v4/v4.json -O $VENDOR_DIR/v4.json
 fi
 
+rm -rf ../src
 ./openapi-generator-cli.sh generate \
     --input-spec $VENDOR_DIR/v4.json \
     --generator-name typescript-fetch \
     --config ../conf/openapi_config.json \
-    --output ../src 
+    --output ../src
