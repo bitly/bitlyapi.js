@@ -1,0 +1,8 @@
+{
+  "paramNaming": "snake_case",
+  "enumPropertyNaming": "snake_case",
+  "modelPropertyNaming": "snake_case",
+  "useSingleRequestParameter": "true",
+  "stringEnums": true,
+  "enumNameSuffix": "Enum"
+}
