@@ -20,13 +20,6 @@ import {
     ViewMetricToJSON,
     ViewMetricToJSONTyped,
 } from './ViewMetric';
-import type { OtherViewMetrics } from './OtherViewMetrics';
-import {
-    OtherViewMetricsFromJSON,
-    OtherViewMetricsFromJSONTyped,
-    OtherViewMetricsToJSON,
-    OtherViewMetricsToJSONTyped,
-} from './OtherViewMetrics';
 
 /**
  * 
@@ -66,10 +59,10 @@ export interface SiteCityViewMetrics {
     site_views?: Array<ViewMetric>;
     /**
      * 
-     * @type {OtherViewMetrics}
+     * @type {object}
      * @memberof SiteCityViewMetrics
      */
-    other_metrics?: OtherViewMetrics;
+    other_metrics?: object;
 }
 
 /**
@@ -110,7 +103,7 @@ export function SiteCityViewMetricsFromJSONTyped(json: any, ignoreDiscriminator:
         'facet': json['facet'] == null ? undefined : json['facet'],
         'unit_reference': json['unit_reference'] == null ? undefined : json['unit_reference'],
         'site_views': json['site_views'] == null ? undefined : ((json['site_views'] as Array<any>).map(ViewMetricFromJSON)),
-        'other_metrics': json['other_metrics'] == null ? undefined : OtherViewMetricsFromJSON(json['other_metrics']),
+        'other_metrics': json['other_metrics'] == null ? undefined : json['other_metrics'],
     };
 }
 
@@ -130,7 +123,7 @@ export function SiteCityViewMetricsToJSONTyped(value?: SiteCityViewMetrics | nul
         'facet': value['facet'],
         'unit_reference': value['unit_reference'],
         'site_views': value['site_views'] == null ? undefined : ((value['site_views'] as Array<any>).map(ViewMetricToJSON)),
-        'other_metrics': OtherViewMetricsToJSON(value['other_metrics']),
+        'other_metrics': value['other_metrics'],
     };
 }
 

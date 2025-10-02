@@ -20,13 +20,6 @@ import {
     ViewMetricToJSON,
     ViewMetricToJSONTyped,
 } from './ViewMetric';
-import type { OtherViewMetrics } from './OtherViewMetrics';
-import {
-    OtherViewMetricsFromJSON,
-    OtherViewMetricsFromJSONTyped,
-    OtherViewMetricsToJSON,
-    OtherViewMetricsToJSONTyped,
-} from './OtherViewMetrics';
 
 /**
  * 
@@ -66,10 +59,10 @@ export interface CityViewMetrics {
     launchpad_views?: Array<ViewMetric>;
     /**
      * 
-     * @type {OtherViewMetrics}
+     * @type {object}
      * @memberof CityViewMetrics
      */
-    other_metrics?: OtherViewMetrics;
+    other_metrics?: object;
 }
 
 /**
@@ -110,7 +103,7 @@ export function CityViewMetricsFromJSONTyped(json: any, ignoreDiscriminator: boo
         'facet': json['facet'] == null ? undefined : json['facet'],
         'unit_reference': json['unit_reference'] == null ? undefined : json['unit_reference'],
         'launchpad_views': json['launchpad_views'] == null ? undefined : ((json['launchpad_views'] as Array<any>).map(ViewMetricFromJSON)),
-        'other_metrics': json['other_metrics'] == null ? undefined : OtherViewMetricsFromJSON(json['other_metrics']),
+        'other_metrics': json['other_metrics'] == null ? undefined : json['other_metrics'],
     };
 }
 
@@ -130,7 +123,7 @@ export function CityViewMetricsToJSONTyped(value?: CityViewMetrics | null, ignor
         'facet': value['facet'],
         'unit_reference': value['unit_reference'],
         'launchpad_views': value['launchpad_views'] == null ? undefined : ((value['launchpad_views'] as Array<any>).map(ViewMetricToJSON)),
-        'other_metrics': OtherViewMetricsToJSON(value['other_metrics']),
+        'other_metrics': value['other_metrics'],
     };
 }
 

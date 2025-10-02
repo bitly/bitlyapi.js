@@ -78,9 +78,9 @@ export function BillingInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'billing_contact': json['billing_contact'] == null ? undefined : BillingContactFromJSON(json['billing_contact']),
-        'basic_info': json['basic_info'] == null ? undefined : BasicInfoFromJSON(json['basic_info']),
-        'billing_address': json['billing_address'] == null ? undefined : BillingAddressFromJSON(json['billing_address']),
+        'billing_contact': json['billing_contact'] == null ? undefined : json['billing_contact'],
+        'basic_info': json['basic_info'] == null ? undefined : json['basic_info'],
+        'billing_address': json['billing_address'] == null ? undefined : json['billing_address'],
     };
 }
 
@@ -95,9 +95,9 @@ export function BillingInfoToJSONTyped(value?: BillingInfo | null, ignoreDiscrim
 
     return {
         
-        'billing_contact': BillingContactToJSON(value['billing_contact']),
-        'basic_info': BasicInfoToJSON(value['basic_info']),
-        'billing_address': BillingAddressToJSON(value['billing_address']),
+        'billing_contact': value['billing_contact'],
+        'basic_info': value['basic_info'],
+        'billing_address': value['billing_address'],
     };
 }
 

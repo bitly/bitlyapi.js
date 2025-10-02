@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Charge } from './Charge';
-import {
-    ChargeFromJSON,
-    ChargeFromJSONTyped,
-    ChargeToJSON,
-    ChargeToJSONTyped,
-} from './Charge';
 import type { Payments } from './Payments';
 import {
     PaymentsFromJSON,
@@ -27,6 +20,13 @@ import {
     PaymentsToJSON,
     PaymentsToJSONTyped,
 } from './Payments';
+import type { Charges } from './Charges';
+import {
+    ChargesFromJSON,
+    ChargesFromJSONTyped,
+    ChargesToJSON,
+    ChargesToJSONTyped,
+} from './Charges';
 
 /**
  * 
@@ -60,10 +60,10 @@ export interface PaymentInvoice {
     invoice_id?: string;
     /**
      * 
-     * @type {Array<Charge>}
+     * @type {Charges}
      * @memberof PaymentInvoice
      */
-    charges?: Array<Charge>;
+    charges?: Charges;
     /**
      * 
      * @type {number}
@@ -106,12 +106,6 @@ export interface PaymentInvoice {
      * @memberof PaymentInvoice
      */
     invoice_url?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PaymentInvoice
-     */
-    status?: string;
 }
 
 /**
@@ -135,7 +129,7 @@ export function PaymentInvoiceFromJSONTyped(json: any, ignoreDiscriminator: bool
         'invoice_due_date': json['invoice_due_date'] == null ? undefined : json['invoice_due_date'],
         'invoice_number': json['invoice_number'] == null ? undefined : json['invoice_number'],
         'invoice_id': json['invoice_id'] == null ? undefined : json['invoice_id'],
-        'charges': json['charges'] == null ? undefined : ((json['charges'] as Array<any>).map(ChargeFromJSON)),
+        'charges': json['charges'] == null ? undefined : json['charges'],
         'subtotal': json['subtotal'] == null ? undefined : json['subtotal'],
         'total_tax': json['total_tax'] == null ? undefined : json['total_tax'],
         'total': json['total'] == null ? undefined : json['total'],
@@ -143,7 +137,6 @@ export function PaymentInvoiceFromJSONTyped(json: any, ignoreDiscriminator: bool
         'description': json['description'] == null ? undefined : json['description'],
         'invoice_provider': json['invoice_provider'] == null ? undefined : json['invoice_provider'],
         'invoice_url': json['invoice_url'] == null ? undefined : json['invoice_url'],
-        'status': json['status'] == null ? undefined : json['status'],
     };
 }
 
@@ -162,7 +155,7 @@ export function PaymentInvoiceToJSONTyped(value?: PaymentInvoice | null, ignoreD
         'invoice_due_date': value['invoice_due_date'],
         'invoice_number': value['invoice_number'],
         'invoice_id': value['invoice_id'],
-        'charges': value['charges'] == null ? undefined : ((value['charges'] as Array<any>).map(ChargeToJSON)),
+        'charges': value['charges'],
         'subtotal': value['subtotal'],
         'total_tax': value['total_tax'],
         'total': value['total'],
@@ -170,7 +163,6 @@ export function PaymentInvoiceToJSONTyped(value?: PaymentInvoice | null, ignoreD
         'description': value['description'],
         'invoice_provider': value['invoice_provider'],
         'invoice_url': value['invoice_url'],
-        'status': value['status'],
     };
 }
 

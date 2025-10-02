@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { OtherBitlinkClicksMetrics } from './OtherBitlinkClicksMetrics';
-import {
-    OtherBitlinkClicksMetricsFromJSON,
-    OtherBitlinkClicksMetricsFromJSONTyped,
-    OtherBitlinkClicksMetricsToJSON,
-    OtherBitlinkClicksMetricsToJSONTyped,
-} from './OtherBitlinkClicksMetrics';
 import type { CityBitlinkClicksMetric } from './CityBitlinkClicksMetric';
 import {
     CityBitlinkClicksMetricFromJSON,
@@ -66,10 +59,10 @@ export interface CityBitlinkClicksMetrics {
     metrics?: Array<CityBitlinkClicksMetric>;
     /**
      * 
-     * @type {OtherBitlinkClicksMetrics}
+     * @type {object}
      * @memberof CityBitlinkClicksMetrics
      */
-    other_metrics?: OtherBitlinkClicksMetrics;
+    other_metrics?: object;
 }
 
 /**
@@ -106,7 +99,7 @@ export function CityBitlinkClicksMetricsFromJSONTyped(json: any, ignoreDiscrimin
         'facet': json['facet'] == null ? undefined : json['facet'],
         'unit_reference': json['unit_reference'] == null ? undefined : json['unit_reference'],
         'metrics': json['metrics'] == null ? undefined : ((json['metrics'] as Array<any>).map(CityBitlinkClicksMetricFromJSON)),
-        'other_metrics': json['other_metrics'] == null ? undefined : OtherBitlinkClicksMetricsFromJSON(json['other_metrics']),
+        'other_metrics': json['other_metrics'] == null ? undefined : json['other_metrics'],
     };
 }
 
@@ -126,7 +119,7 @@ export function CityBitlinkClicksMetricsToJSONTyped(value?: CityBitlinkClicksMet
         'facet': value['facet'],
         'unit_reference': value['unit_reference'],
         'metrics': value['metrics'] == null ? undefined : ((value['metrics'] as Array<any>).map(CityBitlinkClicksMetricToJSON)),
-        'other_metrics': OtherBitlinkClicksMetricsToJSON(value['other_metrics']),
+        'other_metrics': value['other_metrics'],
     };
 }
 

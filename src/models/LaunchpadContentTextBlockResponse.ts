@@ -147,8 +147,8 @@ export function LaunchpadContentTextBlockResponseFromJSONTyped(json: any, ignore
     }
     return {
         
-        'content': json['content'] == null ? undefined : TextBlockContentFromJSON(json['content']),
-        'appearance': json['appearance'] == null ? undefined : TextBlockAppearanceResponseFromJSON(json['appearance']),
+        'content': json['content'] == null ? undefined : json['content'],
+        'appearance': json['appearance'] == null ? undefined : json['appearance'],
         'launchpad_id': json['launchpad_id'] == null ? undefined : json['launchpad_id'],
         'button_id': json['button_id'] == null ? undefined : json['button_id'],
         'digital_business_card_id': json['digital_business_card_id'] == null ? undefined : json['digital_business_card_id'],
@@ -175,8 +175,8 @@ export function LaunchpadContentTextBlockResponseToJSONTyped(value?: LaunchpadCo
 
     return {
         
-        'content': TextBlockContentToJSON(value['content']),
-        'appearance': TextBlockAppearanceResponseToJSON(value['appearance']),
+        'content': value['content'],
+        'appearance': value['appearance'],
         'launchpad_id': value['launchpad_id'],
         'button_id': value['button_id'],
         'digital_business_card_id': value['digital_business_card_id'],

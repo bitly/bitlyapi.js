@@ -131,8 +131,8 @@ export function UpgradeOrgBodyFromJSONTyped(json: any, ignoreDiscriminator: bool
         'company_name': json['company_name'] == null ? undefined : json['company_name'],
         'tax_id': json['tax_id'] == null ? undefined : json['tax_id'],
         'promo_code': json['promo_code'] == null ? undefined : json['promo_code'],
-        'billing_info': json['billing_info'] == null ? undefined : BillingInfoFromJSON(json['billing_info']),
-        'contact_info': json['contact_info'] == null ? undefined : BillingInfoFromJSON(json['contact_info']),
+        'billing_info': json['billing_info'] == null ? undefined : json['billing_info'],
+        'contact_info': json['contact_info'] == null ? undefined : json['contact_info'],
     };
 }
 
@@ -155,8 +155,8 @@ export function UpgradeOrgBodyToJSONTyped(value?: UpgradeOrgBody | null, ignoreD
         'company_name': value['company_name'],
         'tax_id': value['tax_id'],
         'promo_code': value['promo_code'],
-        'billing_info': BillingInfoToJSON(value['billing_info']),
-        'contact_info': BillingInfoToJSON(value['contact_info']),
+        'billing_info': value['billing_info'],
+        'contact_info': value['contact_info'],
     };
 }
 

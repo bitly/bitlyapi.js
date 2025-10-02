@@ -95,8 +95,8 @@ export function LaunchpadContentTextBlockRequestFromJSONTyped(json: any, ignoreD
     }
     return {
         
-        'content': json['content'] == null ? undefined : TextBlockContentFromJSON(json['content']),
-        'appearance': json['appearance'] == null ? undefined : TextBlockAppearanceFromJSON(json['appearance']),
+        'content': json['content'] == null ? undefined : json['content'],
+        'appearance': json['appearance'] == null ? undefined : json['appearance'],
         'schedule_start': json['schedule_start'] == null ? undefined : json['schedule_start'],
         'schedule_end': json['schedule_end'] == null ? undefined : json['schedule_end'],
         'is_active': json['is_active'] == null ? undefined : json['is_active'],
@@ -116,8 +116,8 @@ export function LaunchpadContentTextBlockRequestToJSONTyped(value?: LaunchpadCon
 
     return {
         
-        'content': TextBlockContentToJSON(value['content']),
-        'appearance': TextBlockAppearanceToJSON(value['appearance']),
+        'content': value['content'],
+        'appearance': value['appearance'],
         'schedule_start': value['schedule_start'],
         'schedule_end': value['schedule_end'],
         'is_active': value['is_active'],

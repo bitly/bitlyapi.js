@@ -115,7 +115,7 @@ export function ConsumableFeatureFullFromJSONTyped(json: any, ignoreDiscriminato
         'is_enforced': json['is_enforced'] == null ? undefined : json['is_enforced'],
         'is_limited': json['is_limited'] == null ? undefined : json['is_limited'],
         'count': json['count'] == null ? undefined : json['count'],
-        'add_on_usage': json['add_on_usage'] == null ? undefined : AddOnUsageFromJSON(json['add_on_usage']),
+        'add_on_usage': json['add_on_usage'] == null ? undefined : json['add_on_usage'],
     };
 }
 
@@ -139,7 +139,7 @@ export function ConsumableFeatureFullToJSONTyped(value?: ConsumableFeatureFull |
         'is_enforced': value['is_enforced'],
         'is_limited': value['is_limited'],
         'count': value['count'],
-        'add_on_usage': AddOnUsageToJSON(value['add_on_usage']),
+        'add_on_usage': value['add_on_usage'],
     };
 }
 

@@ -78,8 +78,8 @@ export function PaymentInvoiceDetailFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'invoice_summary': json['invoice_summary'] == null ? undefined : PaymentInvoiceFromJSON(json['invoice_summary']),
-        'billing_account': json['billing_account'] == null ? undefined : BillingAccountFromJSON(json['billing_account']),
+        'invoice_summary': json['invoice_summary'] == null ? undefined : json['invoice_summary'],
+        'billing_account': json['billing_account'] == null ? undefined : json['billing_account'],
         'subscription_discounts': json['subscription_discounts'] == null ? undefined : ((json['subscription_discounts'] as Array<any>).map(SubscriptionDiscountFromJSON)),
     };
 }
@@ -95,8 +95,8 @@ export function PaymentInvoiceDetailToJSONTyped(value?: PaymentInvoiceDetail | n
 
     return {
         
-        'invoice_summary': PaymentInvoiceToJSON(value['invoice_summary']),
-        'billing_account': BillingAccountToJSON(value['billing_account']),
+        'invoice_summary': value['invoice_summary'],
+        'billing_account': value['billing_account'],
         'subscription_discounts': value['subscription_discounts'] == null ? undefined : ((value['subscription_discounts'] as Array<any>).map(SubscriptionDiscountToJSON)),
     };
 }

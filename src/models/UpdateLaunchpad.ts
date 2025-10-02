@@ -94,7 +94,7 @@ export function UpdateLaunchpadFromJSONTyped(json: any, ignoreDiscriminator: boo
         'keyword': json['keyword'] == null ? undefined : json['keyword'],
         'uri': json['uri'] == null ? undefined : json['uri'],
         'is_active': json['is_active'],
-        'launchpad_appearance': json['launchpad_appearance'] == null ? undefined : LaunchpadAppearanceFromJSON(json['launchpad_appearance']),
+        'launchpad_appearance': json['launchpad_appearance'] == null ? undefined : json['launchpad_appearance'],
         'qr_code_id': json['qr_code_id'] == null ? undefined : json['qr_code_id'],
     };
 }
@@ -115,7 +115,7 @@ export function UpdateLaunchpadToJSONTyped(value?: UpdateLaunchpad | null, ignor
         'keyword': value['keyword'],
         'uri': value['uri'],
         'is_active': value['is_active'],
-        'launchpad_appearance': LaunchpadAppearanceToJSON(value['launchpad_appearance']),
+        'launchpad_appearance': value['launchpad_appearance'],
         'qr_code_id': value['qr_code_id'],
     };
 }

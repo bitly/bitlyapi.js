@@ -87,7 +87,7 @@ export function FormFieldFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'label': json['label'] == null ? undefined : json['label'],
         'required': json['required'] == null ? undefined : json['required'],
         'response': json['response'] == null ? undefined : json['response'],
-        'config': json['config'] == null ? undefined : FormConfigFromJSON(json['config']),
+        'config': json['config'] == null ? undefined : json['config'],
     };
 }
 
@@ -107,7 +107,7 @@ export function FormFieldToJSONTyped(value?: FormField | null, ignoreDiscriminat
         'label': value['label'],
         'required': value['required'],
         'response': value['response'],
-        'config': FormConfigToJSON(value['config']),
+        'config': value['config'],
     };
 }
 

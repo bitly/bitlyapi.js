@@ -38,13 +38,13 @@ export interface ProductUtilizationResponse {
      */
     lib_created?: boolean;
     /**
-     * whether the Analytics Dashboard product has been utilized.
+     * whether the Analytics Dashboard product has been utilized
      * @type {boolean}
      * @memberof ProductUtilizationResponse
      */
     analytics_dashboard_created?: boolean;
     /**
-     * whether a Custom Domain has been utilized.
+     * whether a Custom Domain has been utilized
      * @type {boolean}
      * @memberof ProductUtilizationResponse
      */

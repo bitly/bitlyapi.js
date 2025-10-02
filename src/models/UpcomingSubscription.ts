@@ -13,14 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { Discount } from './Discount';
-import {
-    DiscountFromJSON,
-    DiscountFromJSONTyped,
-    DiscountToJSON,
-    DiscountToJSONTyped,
-} from './Discount';
-
 /**
  * 
  * @export
@@ -53,10 +45,28 @@ export interface UpcomingSubscription {
     price?: number;
     /**
      * 
-     * @type {Discount}
+     * @type {string}
      * @memberof UpcomingSubscription
      */
-    discount?: Discount;
+    coupon_code?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpcomingSubscription
+     */
+    coupon_duration?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpcomingSubscription
+     */
+    amount_off?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpcomingSubscription
+     */
+    percent_off?: number;
 }
 
 /**
@@ -80,7 +90,10 @@ export function UpcomingSubscriptionFromJSONTyped(json: any, ignoreDiscriminator
         'start_date': json['start_date'] == null ? undefined : json['start_date'],
         'end_date': json['end_date'] == null ? undefined : json['end_date'],
         'price': json['price'] == null ? undefined : json['price'],
-        'discount': json['discount'] == null ? undefined : json['discount'],
+        'coupon_code': json['coupon_code'] == null ? undefined : json['coupon_code'],
+        'coupon_duration': json['coupon_duration'] == null ? undefined : json['coupon_duration'],
+        'amount_off': json['amount_off'] == null ? undefined : json['amount_off'],
+        'percent_off': json['percent_off'] == null ? undefined : json['percent_off'],
     };
 }
 
@@ -99,7 +112,10 @@ export function UpcomingSubscriptionToJSONTyped(value?: UpcomingSubscription | n
         'start_date': value['start_date'],
         'end_date': value['end_date'],
         'price': value['price'],
-        'discount': value['discount'],
+        'coupon_code': value['coupon_code'],
+        'coupon_duration': value['coupon_duration'],
+        'amount_off': value['amount_off'],
+        'percent_off': value['percent_off'],
     };
 }
 

@@ -84,8 +84,8 @@ export function CreateCustomerBodyFromJSONTyped(json: any, ignoreDiscriminator: 
     return {
         
         'org_guid': json['org_guid'] == null ? undefined : json['org_guid'],
-        'tax_address': json['tax_address'] == null ? undefined : BillingAddressFromJSON(json['tax_address']),
-        'invoice_info': json['invoice_info'] == null ? undefined : BillingInfoFromJSON(json['invoice_info']),
+        'tax_address': json['tax_address'] == null ? undefined : json['tax_address'],
+        'invoice_info': json['invoice_info'] == null ? undefined : json['invoice_info'],
         'company_name': json['company_name'] == null ? undefined : json['company_name'],
         'tax_id': json['tax_id'] == null ? undefined : json['tax_id'],
     };
@@ -103,8 +103,8 @@ export function CreateCustomerBodyToJSONTyped(value?: CreateCustomerBody | null,
     return {
         
         'org_guid': value['org_guid'],
-        'tax_address': BillingAddressToJSON(value['tax_address']),
-        'invoice_info': BillingInfoToJSON(value['invoice_info']),
+        'tax_address': value['tax_address'],
+        'invoice_info': value['invoice_info'],
         'company_name': value['company_name'],
         'tax_id': value['tax_id'],
     };

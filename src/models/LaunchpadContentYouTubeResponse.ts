@@ -135,7 +135,7 @@ export function LaunchpadContentYouTubeResponseFromJSONTyped(json: any, ignoreDi
         
         'launchpad_id': json['launchpad_id'] == null ? undefined : json['launchpad_id'],
         'button_id': json['button_id'] == null ? undefined : json['button_id'],
-        'content': json['content'] == null ? undefined : YoutubeVideoResponseFromJSON(json['content']),
+        'content': json['content'] == null ? undefined : json['content'],
         'digital_business_card_id': json['digital_business_card_id'] == null ? undefined : json['digital_business_card_id'],
         'sort_order': json['sort_order'] == null ? undefined : json['sort_order'],
         'schedule_start': json['schedule_start'] == null ? undefined : json['schedule_start'],
@@ -162,7 +162,7 @@ export function LaunchpadContentYouTubeResponseToJSONTyped(value?: LaunchpadCont
         
         'launchpad_id': value['launchpad_id'],
         'button_id': value['button_id'],
-        'content': YoutubeVideoResponseToJSON(value['content']),
+        'content': value['content'],
         'digital_business_card_id': value['digital_business_card_id'],
         'sort_order': value['sort_order'],
         'schedule_start': value['schedule_start'],

@@ -58,8 +58,8 @@ export function ImageCropFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'min': json['min'] == null ? undefined : ImageCropPointFromJSON(json['min']),
-        'max': json['max'] == null ? undefined : ImageCropPointFromJSON(json['max']),
+        'min': json['min'] == null ? undefined : json['min'],
+        'max': json['max'] == null ? undefined : json['max'],
     };
 }
 
@@ -74,8 +74,8 @@ export function ImageCropToJSONTyped(value?: ImageCrop | null, ignoreDiscriminat
 
     return {
         
-        'min': ImageCropPointToJSON(value['min']),
-        'max': ImageCropPointToJSON(value['max']),
+        'min': value['min'],
+        'max': value['max'],
     };
 }
 

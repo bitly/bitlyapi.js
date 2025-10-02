@@ -134,7 +134,7 @@ export function LaunchpadSocialFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'content': json['content'] == null ? undefined : LaunchpadContentSocialFromJSON(json['content']),
+        'content': json['content'] == null ? undefined : json['content'],
         'type': json['type'] == null ? undefined : json['type'],
         'launchpad_id': json['launchpad_id'] == null ? undefined : json['launchpad_id'],
         'button_id': json['button_id'] == null ? undefined : json['button_id'],
@@ -161,7 +161,7 @@ export function LaunchpadSocialToJSONTyped(value?: LaunchpadSocial | null, ignor
 
     return {
         
-        'content': LaunchpadContentSocialToJSON(value['content']),
+        'content': value['content'],
         'type': value['type'],
         'launchpad_id': value['launchpad_id'],
         'button_id': value['button_id'],

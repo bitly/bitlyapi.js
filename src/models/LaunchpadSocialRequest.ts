@@ -73,7 +73,7 @@ export function LaunchpadSocialRequestFromJSONTyped(json: any, ignoreDiscriminat
         'schedule_start': json['schedule_start'] == null ? undefined : json['schedule_start'],
         'schedule_end': json['schedule_end'] == null ? undefined : json['schedule_end'],
         'is_active': json['is_active'] == null ? undefined : json['is_active'],
-        'content': json['content'] == null ? undefined : ContentRequestSocialFromJSON(json['content']),
+        'content': json['content'] == null ? undefined : json['content'],
     };
 }
 
@@ -91,7 +91,7 @@ export function LaunchpadSocialRequestToJSONTyped(value?: LaunchpadSocialRequest
         'schedule_start': value['schedule_start'],
         'schedule_end': value['schedule_end'],
         'is_active': value['is_active'],
-        'content': ContentRequestSocialToJSON(value['content']),
+        'content': value['content'],
     };
 }
 

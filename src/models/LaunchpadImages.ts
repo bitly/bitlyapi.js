@@ -64,9 +64,9 @@ export function LaunchpadImagesFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'profile': json['profile'] == null ? undefined : LaunchpadImageFromJSON(json['profile']),
-        'background': json['background'] == null ? undefined : LaunchpadImageFromJSON(json['background']),
-        'banner': json['banner'] == null ? undefined : LaunchpadImageFromJSON(json['banner']),
+        'profile': json['profile'] == null ? undefined : json['profile'],
+        'background': json['background'] == null ? undefined : json['background'],
+        'banner': json['banner'] == null ? undefined : json['banner'],
     };
 }
 
@@ -81,9 +81,9 @@ export function LaunchpadImagesToJSONTyped(value?: LaunchpadImages | null, ignor
 
     return {
         
-        'profile': LaunchpadImageToJSON(value['profile']),
-        'background': LaunchpadImageToJSON(value['background']),
-        'banner': LaunchpadImageToJSON(value['banner']),
+        'profile': value['profile'],
+        'background': value['background'],
+        'banner': value['banner'],
     };
 }
 

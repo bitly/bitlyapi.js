@@ -134,7 +134,7 @@ export function LaunchpadContentDigitalBusinessCardResponseFromJSONTyped(json: a
     }
     return {
         
-        'content': json['content'] == null ? undefined : DigitalBusinessCardContentFromJSON(json['content']),
+        'content': json['content'] == null ? undefined : json['content'],
         'launchpad_id': json['launchpad_id'] == null ? undefined : json['launchpad_id'],
         'button_id': json['button_id'] == null ? undefined : json['button_id'],
         'digital_business_card_id': json['digital_business_card_id'] == null ? undefined : json['digital_business_card_id'],
@@ -161,7 +161,7 @@ export function LaunchpadContentDigitalBusinessCardResponseToJSONTyped(value?: L
 
     return {
         
-        'content': DigitalBusinessCardContentToJSON(value['content']),
+        'content': value['content'],
         'launchpad_id': value['launchpad_id'],
         'button_id': value['button_id'],
         'digital_business_card_id': value['digital_business_card_id'],

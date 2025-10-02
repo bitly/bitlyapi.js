@@ -96,7 +96,7 @@ export function TextBlockAppearanceRequestFromJSONTyped(json: any, ignoreDiscrim
         'text_color': json['text_color'] == null ? undefined : json['text_color'],
         'alignment': json['alignment'] == null ? undefined : TextBlockAppearanceRequestAlignmentEnumFromJSON(json['alignment']),
         'font_size': json['font_size'] == null ? undefined : TextBlockAppearanceRequestFontSizeEnumFromJSON(json['font_size']),
-        'text_block_style': json['text_block_style'] == null ? undefined : TextBlockStyleFromJSON(json['text_block_style']),
+        'text_block_style': json['text_block_style'] == null ? undefined : json['text_block_style'],
     };
 }
 
@@ -115,7 +115,7 @@ export function TextBlockAppearanceRequestToJSONTyped(value?: TextBlockAppearanc
         'text_color': value['text_color'],
         'alignment': TextBlockAppearanceRequestAlignmentEnumToJSON(value['alignment']),
         'font_size': TextBlockAppearanceRequestFontSizeEnumToJSON(value['font_size']),
-        'text_block_style': TextBlockStyleToJSON(value['text_block_style']),
+        'text_block_style': value['text_block_style'],
     };
 }
 

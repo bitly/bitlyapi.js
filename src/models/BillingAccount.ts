@@ -20,13 +20,6 @@ import {
     UpcomingSubscriptionToJSON,
     UpcomingSubscriptionToJSONTyped,
 } from './UpcomingSubscription';
-import type { Discount } from './Discount';
-import {
-    DiscountFromJSON,
-    DiscountFromJSONTyped,
-    DiscountToJSON,
-    DiscountToJSONTyped,
-} from './Discount';
 import type { Contacts } from './Contacts';
 import {
     ContactsFromJSON,
@@ -166,12 +159,6 @@ export interface BillingAccount {
     upcoming_subscriptions?: Array<UpcomingSubscription>;
     /**
      * 
-     * @type {Discount}
-     * @memberof BillingAccount
-     */
-    current_discount?: Discount;
-    /**
-     * 
      * @type {BillingInfo}
      * @memberof BillingAccount
      */
@@ -250,7 +237,6 @@ export function BillingAccountFromJSONTyped(json: any, ignoreDiscriminator: bool
         'migration_status': json['migration_status'] == null ? undefined : json['migration_status'],
         'stripe_account': json['stripe_account'] == null ? undefined : json['stripe_account'],
         'upcoming_subscriptions': json['upcoming_subscriptions'] == null ? undefined : ((json['upcoming_subscriptions'] as Array<any>).map(UpcomingSubscriptionFromJSON)),
-        'current_discount': json['current_discount'] == null ? undefined : json['current_discount'],
         'billing_info': json['billing_info'] == null ? undefined : BillingInfoFromJSON(json['billing_info']),
         'contacts': json['contacts'] == null ? undefined : ContactsFromJSON(json['contacts']),
         'contact_info': json['contact_info'] == null ? undefined : ContactInfoFromJSON(json['contact_info']),
@@ -286,7 +272,6 @@ export function BillingAccountToJSONTyped(value?: BillingAccount | null, ignoreD
         'migration_status': value['migration_status'],
         'stripe_account': value['stripe_account'],
         'upcoming_subscriptions': value['upcoming_subscriptions'] == null ? undefined : ((value['upcoming_subscriptions'] as Array<any>).map(UpcomingSubscriptionToJSON)),
-        'current_discount': value['current_discount'],
         'billing_info': BillingInfoToJSON(value['billing_info']),
         'contacts': ContactsToJSON(value['contacts']),
         'contact_info': ContactInfoToJSON(value['contact_info']),

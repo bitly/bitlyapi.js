@@ -135,7 +135,7 @@ export function LaunchpadButtonRequestFromJSONTyped(json: any, ignoreDiscriminat
         'is_pinned': json['is_pinned'] == null ? undefined : json['is_pinned'],
         'description': json['description'] == null ? undefined : json['description'],
         'parent': json['parent'] == null ? undefined : json['parent'],
-        'content': json['content'] == null ? undefined : ContentRequestBitlinkFromJSON(json['content']),
+        'content': json['content'] == null ? undefined : json['content'],
         'button_thumbnail_image': json['button_thumbnail_image'] == null ? undefined : ImageCommonFromJSON(json['button_thumbnail_image']),
     };
 }
@@ -161,7 +161,7 @@ export function LaunchpadButtonRequestToJSONTyped(value?: LaunchpadButtonRequest
         'is_pinned': value['is_pinned'],
         'description': value['description'],
         'parent': value['parent'],
-        'content': ContentRequestBitlinkToJSON(value['content']),
+        'content': value['content'],
         'button_thumbnail_image': ImageCommonToJSON(value['button_thumbnail_image']),
     };
 }

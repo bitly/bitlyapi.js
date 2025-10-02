@@ -182,7 +182,7 @@ export function CustomDomainBodyFromJSONTyped(json: any, ignoreDiscriminator: bo
         'validation_error': json['validation_error'] == null ? undefined : json['validation_error'],
         'deeplink_apps': json['deeplink_apps'] == null ? undefined : ((json['deeplink_apps'] as Array<any>).map(MinimalDeeplinkAppFromJSON)),
         'upgrade_insecure_requests': json['upgrade_insecure_requests'] == null ? undefined : json['upgrade_insecure_requests'],
-        'ssl_cert': json['ssl_cert'] == null ? undefined : PublicSSLCertFromJSON(json['ssl_cert']),
+        'ssl_cert': json['ssl_cert'] == null ? undefined : json['ssl_cert'],
     };
 }
 
@@ -213,7 +213,7 @@ export function CustomDomainBodyToJSONTyped(value?: CustomDomainBody | null, ign
         'validation_error': value['validation_error'],
         'deeplink_apps': value['deeplink_apps'] == null ? undefined : ((value['deeplink_apps'] as Array<any>).map(MinimalDeeplinkAppToJSON)),
         'upgrade_insecure_requests': value['upgrade_insecure_requests'],
-        'ssl_cert': PublicSSLCertToJSON(value['ssl_cert']),
+        'ssl_cert': value['ssl_cert'],
     };
 }
 

@@ -1,6 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './AIKeywordsResponse';
 export * from './AccessFeature';
 export * from './AccessFeatures';
 export * from './ActivityLog';
@@ -110,7 +109,7 @@ export * from './ChannelBitlink';
 export * from './ChannelBitlinks';
 export * from './ChannelModify';
 export * from './Channels';
-export * from './Charge';
+export * from './Charges';
 export * from './ChartVisualization';
 export * from './CityBitlinkClicksMetric';
 export * from './CityBitlinkClicksMetrics';
@@ -191,7 +190,6 @@ export * from './DigitalBusinessCardContact';
 export * from './DigitalBusinessCardContent';
 export * from './DigitalBusinessCardContentFile';
 export * from './DigitalBusinessCardLayout';
-export * from './Discount';
 export * from './DomainAgreement';
 export * from './DomainAgreements';
 export * from './DomainDNS';
@@ -482,8 +480,6 @@ export * from './Scans';
 export * from './ScansSummary';
 export * from './SetupIntent';
 export * from './ShareableReport';
-export * from './ShopifyBitlinkOrderMetrics';
-export * from './ShopifyBitlinkOrderTotal';
 export * from './ShopifyDomainDetailsResponse';
 export * from './ShopifyTokenExchangeRequest';
 export * from './Shorten';

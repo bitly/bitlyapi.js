@@ -69,7 +69,7 @@ export function ContactInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'first_name': json['first_name'],
         'last_name': json['last_name'],
-        'address': BillingAddressFromJSON(json['address']),
+        'address': json['address'],
     };
 }
 
@@ -86,7 +86,7 @@ export function ContactInfoToJSONTyped(value?: ContactInfo | null, ignoreDiscrim
         
         'first_name': value['first_name'],
         'last_name': value['last_name'],
-        'address': BillingAddressToJSON(value['address']),
+        'address': value['address'],
     };
 }
 

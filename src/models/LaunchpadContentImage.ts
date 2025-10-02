@@ -20,13 +20,6 @@ import {
     LaunchpadButtonTypeEnumToJSON,
     LaunchpadButtonTypeEnumToJSONTyped,
 } from './LaunchpadButtonTypeEnum';
-import type { LaunchpadImageContentData } from './LaunchpadImageContentData';
-import {
-    LaunchpadImageContentDataFromJSON,
-    LaunchpadImageContentDataFromJSONTyped,
-    LaunchpadImageContentDataToJSON,
-    LaunchpadImageContentDataToJSONTyped,
-} from './LaunchpadImageContentData';
 
 /**
  * @deprecated LL-2507
@@ -108,10 +101,10 @@ export interface LaunchpadContentImage {
     title?: string;
     /**
      * 
-     * @type {LaunchpadImageContentData}
+     * @type {object}
      * @memberof LaunchpadContentImage
      */
-    content?: LaunchpadImageContentData;
+    content?: object;
 }
 
 
@@ -145,7 +138,7 @@ export function LaunchpadContentImageFromJSONTyped(json: any, ignoreDiscriminato
         'parent': json['parent'] == null ? undefined : json['parent'],
         'is_sample': json['is_sample'] == null ? undefined : json['is_sample'],
         'title': json['title'] == null ? undefined : json['title'],
-        'content': json['content'] == null ? undefined : LaunchpadImageContentDataFromJSON(json['content']),
+        'content': json['content'] == null ? undefined : json['content'],
     };
 }
 
@@ -172,7 +165,7 @@ export function LaunchpadContentImageToJSONTyped(value?: LaunchpadContentImage |
         'parent': value['parent'],
         'is_sample': value['is_sample'],
         'title': value['title'],
-        'content': LaunchpadImageContentDataToJSON(value['content']),
+        'content': value['content'],
     };
 }
 

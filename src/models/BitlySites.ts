@@ -75,7 +75,7 @@ export function BitlySitesFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         
         'group_guid': json['group_guid'],
         'sites': ((json['sites'] as Array<any>).map(BitlySiteFromJSON)),
-        'pagination': json['pagination'] == null ? undefined : MicrositePaginationFromJSON(json['pagination']),
+        'pagination': json['pagination'] == null ? undefined : json['pagination'],
     };
 }
 
@@ -92,7 +92,7 @@ export function BitlySitesToJSONTyped(value?: BitlySites | null, ignoreDiscrimin
         
         'group_guid': value['group_guid'],
         'sites': ((value['sites'] as Array<any>).map(BitlySiteToJSON)),
-        'pagination': MicrositePaginationToJSON(value['pagination']),
+        'pagination': value['pagination'],
     };
 }
 

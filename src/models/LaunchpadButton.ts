@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { LaunchpadButtonContent } from './LaunchpadButtonContent';
-import {
-    LaunchpadButtonContentFromJSON,
-    LaunchpadButtonContentFromJSONTyped,
-    LaunchpadButtonContentToJSON,
-    LaunchpadButtonContentToJSONTyped,
-} from './LaunchpadButtonContent';
 import type { LaunchpadButtonTypeEnum } from './LaunchpadButtonTypeEnum';
 import {
     LaunchpadButtonTypeEnumFromJSON,
@@ -27,13 +20,6 @@ import {
     LaunchpadButtonTypeEnumToJSON,
     LaunchpadButtonTypeEnumToJSONTyped,
 } from './LaunchpadButtonTypeEnum';
-import type { TextBlockAppearanceResponse } from './TextBlockAppearanceResponse';
-import {
-    TextBlockAppearanceResponseFromJSON,
-    TextBlockAppearanceResponseFromJSONTyped,
-    TextBlockAppearanceResponseToJSON,
-    TextBlockAppearanceResponseToJSONTyped,
-} from './TextBlockAppearanceResponse';
 
 /**
  * @deprecated LL-2507 use SiteBlock instead
@@ -151,16 +137,16 @@ export interface LaunchpadButton {
     description?: string;
     /**
      * 
-     * @type {LaunchpadButtonContent}
+     * @type {object}
      * @memberof LaunchpadButton
      */
-    content?: LaunchpadButtonContent;
+    content?: object;
     /**
      * 
-     * @type {TextBlockAppearanceResponse}
+     * @type {object}
      * @memberof LaunchpadButton
      */
-    appearance?: TextBlockAppearanceResponse;
+    appearance?: object;
 }
 
 
@@ -201,8 +187,8 @@ export function LaunchpadButtonFromJSONTyped(json: any, ignoreDiscriminator: boo
         'domain': json['domain'] == null ? undefined : json['domain'],
         'keyword': json['keyword'] == null ? undefined : json['keyword'],
         'description': json['description'] == null ? undefined : json['description'],
-        'content': json['content'] == null ? undefined : LaunchpadButtonContentFromJSON(json['content']),
-        'appearance': json['appearance'] == null ? undefined : TextBlockAppearanceResponseFromJSON(json['appearance']),
+        'content': json['content'] == null ? undefined : json['content'],
+        'appearance': json['appearance'] == null ? undefined : json['appearance'],
     };
 }
 
@@ -235,8 +221,8 @@ export function LaunchpadButtonToJSONTyped(value?: LaunchpadButton | null, ignor
         'domain': value['domain'],
         'keyword': value['keyword'],
         'description': value['description'],
-        'content': LaunchpadButtonContentToJSON(value['content']),
-        'appearance': TextBlockAppearanceResponseToJSON(value['appearance']),
+        'content': value['content'],
+        'appearance': value['appearance'],
     };
 }
 
