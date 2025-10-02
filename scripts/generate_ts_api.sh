@@ -1,7 +1,8 @@
 #!/bin/sh
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
-VENDOR_DIR=$SCRIPT_DIR/../vendor
+cd $SCRIPT_DIR
+VENDOR_DIR=../vendor
 
 set -e
 
@@ -16,4 +17,4 @@ fi
     --input-spec $VENDOR_DIR/v4.json \
     --generator-name typescript-fetch \
     --config ../conf/openapi_config.json \
-    --output ../src 
+    --output ../src
