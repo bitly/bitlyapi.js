@@ -1,6 +1,6 @@
 # Bitly API TypeScript Client
 
-This package exposes an auto-generated TypeScript client for the Bitly API. 
+This package exposes a generated TypeScript client for the Bitly API. 
 
 ## Installation
 
