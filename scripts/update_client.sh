@@ -25,7 +25,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-set -euo pipefail
+set -eu
 
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI (gh) is required but not installed." >&2

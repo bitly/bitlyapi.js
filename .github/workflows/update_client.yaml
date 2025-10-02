@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
       - name: setup java
         run: |
-          sudo apt-get install -y openjdk-17-jdk
+          sudo apt-get install -y openjdk-21-jdk
           java -version
       - name: Update client
         env:
