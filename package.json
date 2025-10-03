@@ -17,7 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/bitly/bitlyapi.js.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "author": "",
   "type": "module",
   "main": "dist/index.js",
@@ -26,7 +26,9 @@
     "build": "tsc",
     "prepare": "tsc"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "typescript": "^5.9.3"
   }
