@@ -64,9 +64,9 @@ export function QRCodeTextFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     }
     return {
         
-        'center': json['center'] == null ? undefined : TextFromJSON(json['center']),
-        'top': json['top'] == null ? undefined : TextFromJSON(json['top']),
-        'bottom': json['bottom'] == null ? undefined : TextFromJSON(json['bottom']),
+        'center': json['center'] == null ? undefined : json['center'],
+        'top': json['top'] == null ? undefined : json['top'],
+        'bottom': json['bottom'] == null ? undefined : json['bottom'],
     };
 }
 
@@ -81,9 +81,9 @@ export function QRCodeTextToJSONTyped(value?: QRCodeText | null, ignoreDiscrimin
 
     return {
         
-        'center': TextToJSON(value['center']),
-        'top': TextToJSON(value['top']),
-        'bottom': TextToJSON(value['bottom']),
+        'center': value['center'],
+        'top': value['top'],
+        'bottom': value['bottom'],
     };
 }
 

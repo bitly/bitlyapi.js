@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { OtherMetrics } from './OtherMetrics';
-import {
-    OtherMetricsFromJSON,
-    OtherMetricsFromJSONTyped,
-    OtherMetricsToJSON,
-    OtherMetricsToJSONTyped,
-} from './OtherMetrics';
 import type { CityMetric } from './CityMetric';
 import {
     CityMetricFromJSON,
@@ -66,10 +59,10 @@ export interface CityMetrics {
     metrics?: Array<CityMetric>;
     /**
      * 
-     * @type {OtherMetrics}
+     * @type {object}
      * @memberof CityMetrics
      */
-    other_metrics?: OtherMetrics;
+    other_metrics?: object;
 }
 
 /**
@@ -110,7 +103,7 @@ export function CityMetricsFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'facet': json['facet'] == null ? undefined : json['facet'],
         'unit_reference': json['unit_reference'] == null ? undefined : json['unit_reference'],
         'metrics': json['metrics'] == null ? undefined : ((json['metrics'] as Array<any>).map(CityMetricFromJSON)),
-        'other_metrics': json['other_metrics'] == null ? undefined : OtherMetricsFromJSON(json['other_metrics']),
+        'other_metrics': json['other_metrics'] == null ? undefined : json['other_metrics'],
     };
 }
 
@@ -130,7 +123,7 @@ export function CityMetricsToJSONTyped(value?: CityMetrics | null, ignoreDiscrim
         'facet': value['facet'],
         'unit_reference': value['unit_reference'],
         'metrics': value['metrics'] == null ? undefined : ((value['metrics'] as Array<any>).map(CityMetricToJSON)),
-        'other_metrics': OtherMetricsToJSON(value['other_metrics']),
+        'other_metrics': value['other_metrics'],
     };
 }
 
