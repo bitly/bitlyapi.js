@@ -45,6 +45,12 @@ export interface PublicUpdateQRCodeRequest {
      * @memberof PublicUpdateQRCodeRequest
      */
     archived?: boolean;
+    /**
+     * Coming soon
+     * @type {string}
+     * @memberof PublicUpdateQRCodeRequest
+     */
+    expiration_at?: string;
 }
 
 /**
@@ -67,6 +73,7 @@ export function PublicUpdateQRCodeRequestFromJSONTyped(json: any, ignoreDiscrimi
         'title': json['title'] == null ? undefined : json['title'],
         'render_customizations': json['render_customizations'] == null ? undefined : QRCodeCustomizationsPublicFromJSON(json['render_customizations']),
         'archived': json['archived'] == null ? undefined : json['archived'],
+        'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
     };
 }
 
@@ -84,6 +91,7 @@ export function PublicUpdateQRCodeRequestToJSONTyped(value?: PublicUpdateQRCodeR
         'title': value['title'],
         'render_customizations': QRCodeCustomizationsPublicToJSON(value['render_customizations']),
         'archived': value['archived'],
+        'expiration_at': value['expiration_at'],
     };
 }
 

@@ -20,6 +20,7 @@ import type {
   ClickMetrics,
   DeviceMetrics,
   Forbidden,
+  GetGroupLinkClicksByDevice200Response,
   Group,
   GroupClicks,
   GroupFeatureUsage,
@@ -31,6 +32,7 @@ import type {
   Metrics,
   MonthlyLimitExceeded,
   NotFound,
+  SortedLinks,
   Tags,
   TemporarilyUnavailable,
   TimeUnit,
@@ -49,6 +51,8 @@ import {
     DeviceMetricsToJSON,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+    GetGroupLinkClicksByDevice200ResponseFromJSON,
+    GetGroupLinkClicksByDevice200ResponseToJSON,
     GroupFromJSON,
     GroupToJSON,
     GroupClicksFromJSON,
@@ -71,6 +75,8 @@ import {
     MonthlyLimitExceededToJSON,
     NotFoundFromJSON,
     NotFoundToJSON,
+    SortedLinksFromJSON,
+    SortedLinksToJSON,
     TagsFromJSON,
     TagsToJSON,
     TemporarilyUnavailableFromJSON,
@@ -96,6 +102,27 @@ export interface GetGroupClicksRequest {
     unit_reference?: string;
 }
 
+export interface GetGroupCodeScansByCityRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
+}
+
+export interface GetGroupCodeScansByCountryRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
+}
+
+export interface GetGroupCodeScansOverTimeRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
+}
+
 export interface GetGroupFeatureUsageRequest {
     group_guid: string;
     name?: Array<string>;
@@ -107,6 +134,45 @@ export interface GetGroupHistoricalUsageRequest {
     start_date?: string;
     end_date?: string;
     unit?: TimeUnitDWM;
+}
+
+export interface GetGroupLinkClicksByCityRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    size?: number;
+    unit_reference?: string;
+}
+
+export interface GetGroupLinkClicksByCountryRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    size?: number;
+    unit_reference?: string;
+}
+
+export interface GetGroupLinkClicksByDeviceRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    size?: number;
+    unit_reference?: string;
+}
+
+export interface GetGroupLinkClicksByReferrerRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    size?: number;
+    unit_reference?: string;
+}
+
+export interface GetGroupLinkClicksOverTimeRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
 }
 
 export interface GetGroupMetricsByCitiesRequest {
@@ -149,6 +215,13 @@ export interface GetGroupMetricsByReferringNetworksRequest {
     unit_reference?: string;
 }
 
+export interface GetGroupMetricsOverTimeRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
+}
+
 export interface GetGroupPreferencesRequest {
     group_guid: string;
 }
@@ -162,6 +235,29 @@ export interface GetGroupShortenCountsRequest {
 
 export interface GetGroupTagsRequest {
     group_guid: string;
+}
+
+export interface GetGroupTopCodeScansRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
+}
+
+export interface GetGroupTopLinkClicksRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    size?: number;
+    unit_reference?: string;
+}
+
+export interface GetGroupTopMetricsRequest {
+    group_guid: string;
+    unit: TimeUnit;
+    units: number;
+    size?: number;
+    unit_reference?: string;
 }
 
 export interface GetGroupsRequest {
@@ -304,6 +400,225 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get QR code scan metrics for a group broken down by city.
+     * Get Scan Metrics for a Group by City
+     */
+    async getGroupCodeScansByCityRaw(requestParameters: GetGroupCodeScansByCityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupCodeScansByCity().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupCodeScansByCity().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupCodeScansByCity().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/codes/scans/cities`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CityMetricsFromJSON(jsonValue));
+    }
+
+    /**
+     * Get QR code scan metrics for a group broken down by city.
+     * Get Scan Metrics for a Group by City
+     */
+    async getGroupCodeScansByCity(requestParameters: GetGroupCodeScansByCityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CityMetrics> {
+        const response = await this.getGroupCodeScansByCityRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get QR code scan metrics for a group broken down by country.
+     * Get Scan Metrics for a Group by Country
+     */
+    async getGroupCodeScansByCountryRaw(requestParameters: GetGroupCodeScansByCountryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupCodeScansByCountry().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupCodeScansByCountry().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupCodeScansByCountry().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/codes/scans/countries`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
+    }
+
+    /**
+     * Get QR code scan metrics for a group broken down by country.
+     * Get Scan Metrics for a Group by Country
+     */
+    async getGroupCodeScansByCountry(requestParameters: GetGroupCodeScansByCountryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ClickMetrics> {
+        const response = await this.getGroupCodeScansByCountryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get QR code scan metrics over time for a group.
+     * Get Scan Metrics for a Group Over Time
+     */
+    async getGroupCodeScansOverTimeRaw(requestParameters: GetGroupCodeScansOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupCodeScansOverTime().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupCodeScansOverTime().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupCodeScansOverTime().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/codes/scans/over_time`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GroupClicksFromJSON(jsonValue));
+    }
+
+    /**
+     * Get QR code scan metrics over time for a group.
+     * Get Scan Metrics for a Group Over Time
+     */
+    async getGroupCodeScansOverTime(requestParameters: GetGroupCodeScansOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupClicks> {
+        const response = await this.getGroupCodeScansOverTimeRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Get a group\'s current feature limit usage, optionally provide limit name(s) for usage on specific limit(s)
      * Get limit usage for a group
      */
@@ -414,6 +729,387 @@ export class GroupsApi extends runtime.BaseAPI {
      */
     async getGroupHistoricalUsage(requestParameters: GetGroupHistoricalUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupHistoricalUsage> {
         const response = await this.getGroupHistoricalUsageRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get link clicks by city for all links in a group.
+     * Get Group Link Clicks by City
+     */
+    async getGroupLinkClicksByCityRaw(requestParameters: GetGroupLinkClicksByCityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupLinkClicksByCity().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupLinkClicksByCity().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupLinkClicksByCity().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/links/clicks/cities`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CityMetricsFromJSON(jsonValue));
+    }
+
+    /**
+     * Get link clicks by city for all links in a group.
+     * Get Group Link Clicks by City
+     */
+    async getGroupLinkClicksByCity(requestParameters: GetGroupLinkClicksByCityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CityMetrics> {
+        const response = await this.getGroupLinkClicksByCityRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get link clicks by country for all links in a group.
+     * Get Group Link Clicks by Country
+     */
+    async getGroupLinkClicksByCountryRaw(requestParameters: GetGroupLinkClicksByCountryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupLinkClicksByCountry().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupLinkClicksByCountry().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupLinkClicksByCountry().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/links/clicks/countries`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
+    }
+
+    /**
+     * Get link clicks by country for all links in a group.
+     * Get Group Link Clicks by Country
+     */
+    async getGroupLinkClicksByCountry(requestParameters: GetGroupLinkClicksByCountryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ClickMetrics> {
+        const response = await this.getGroupLinkClicksByCountryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get link clicks by device for all links in a group.
+     * Get Group Link Clicks by Device
+     */
+    async getGroupLinkClicksByDeviceRaw(requestParameters: GetGroupLinkClicksByDeviceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetGroupLinkClicksByDevice200Response>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupLinkClicksByDevice().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupLinkClicksByDevice().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupLinkClicksByDevice().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/links/clicks/devices`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetGroupLinkClicksByDevice200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get link clicks by device for all links in a group.
+     * Get Group Link Clicks by Device
+     */
+    async getGroupLinkClicksByDevice(requestParameters: GetGroupLinkClicksByDeviceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetGroupLinkClicksByDevice200Response> {
+        const response = await this.getGroupLinkClicksByDeviceRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get link clicks by referrer for all links in a group.
+     * Get Group Link Clicks by Referrer
+     */
+    async getGroupLinkClicksByReferrerRaw(requestParameters: GetGroupLinkClicksByReferrerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupLinkClicksByReferrer().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupLinkClicksByReferrer().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupLinkClicksByReferrer().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/links/clicks/referrers`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
+    }
+
+    /**
+     * Get link clicks by referrer for all links in a group.
+     * Get Group Link Clicks by Referrer
+     */
+    async getGroupLinkClicksByReferrer(requestParameters: GetGroupLinkClicksByReferrerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ClickMetrics> {
+        const response = await this.getGroupLinkClicksByReferrerRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get link clicks over time for all links in a group.
+     * Get Group Link Clicks Over Time
+     */
+    async getGroupLinkClicksOverTimeRaw(requestParameters: GetGroupLinkClicksOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupLinkClicksOverTime().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupLinkClicksOverTime().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupLinkClicksOverTime().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/links/clicks/over_time`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GroupClicksFromJSON(jsonValue));
+    }
+
+    /**
+     * Get link clicks over time for all links in a group.
+     * Get Group Link Clicks Over Time
+     */
+    async getGroupLinkClicksOverTime(requestParameters: GetGroupLinkClicksOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupClicks> {
+        const response = await this.getGroupLinkClicksOverTimeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -803,6 +1499,79 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get group engagement metrics over time for all links in a group.
+     * Get Group Metrics Over Time
+     */
+    async getGroupMetricsOverTimeRaw(requestParameters: GetGroupMetricsOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupMetricsOverTime().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupMetricsOverTime().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupMetricsOverTime().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/engagements/over_time`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GroupClicksFromJSON(jsonValue));
+    }
+
+    /**
+     * Get group engagement metrics over time for all links in a group.
+     * Get Group Metrics Over Time
+     */
+    async getGroupMetricsOverTime(requestParameters: GetGroupMetricsOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupClicks> {
+        const response = await this.getGroupMetricsOverTimeRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Returns preferences for the specified group.
      * Retrieve Group Preferences
      */
@@ -966,6 +1735,233 @@ export class GroupsApi extends runtime.BaseAPI {
      */
     async getGroupTags(requestParameters: GetGroupTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Tags> {
         const response = await this.getGroupTagsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get top performing QR codes by scan count for all codes in a group.
+     * Get Top Performing QR Codes for a Group
+     */
+    async getGroupTopCodeScansRaw(requestParameters: GetGroupTopCodeScansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupTopCodeScans().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupTopCodeScans().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupTopCodeScans().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/codes/scans/top`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SortedLinksFromJSON(jsonValue));
+    }
+
+    /**
+     * Get top performing QR codes by scan count for all codes in a group.
+     * Get Top Performing QR Codes for a Group
+     */
+    async getGroupTopCodeScans(requestParameters: GetGroupTopCodeScansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SortedLinks> {
+        const response = await this.getGroupTopCodeScansRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get top performing links by click for all links in a group.
+     * Get Group Top Performing Links by Click
+     */
+    async getGroupTopLinkClicksRaw(requestParameters: GetGroupTopLinkClicksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupTopLinkClicks().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupTopLinkClicks().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupTopLinkClicks().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/links/clicks/top`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SortedLinksFromJSON(jsonValue));
+    }
+
+    /**
+     * Get top performing links by click for all links in a group.
+     * Get Group Top Performing Links by Click
+     */
+    async getGroupTopLinkClicks(requestParameters: GetGroupTopLinkClicksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SortedLinks> {
+        const response = await this.getGroupTopLinkClicksRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get top performing links by engagement for all links in a group.
+     * Get Group Top Performing Links by Engagement
+     */
+    async getGroupTopMetricsRaw(requestParameters: GetGroupTopMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupTopMetrics().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getGroupTopMetrics().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getGroupTopMetrics().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/engagements/top`;
+        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SortedLinksFromJSON(jsonValue));
+    }
+
+    /**
+     * Get top performing links by engagement for all links in a group.
+     * Get Group Top Performing Links by Engagement
+     */
+    async getGroupTopMetrics(requestParameters: GetGroupTopMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SortedLinks> {
+        const response = await this.getGroupTopMetricsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

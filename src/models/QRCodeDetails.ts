@@ -113,6 +113,12 @@ export interface QRCodeDetails {
      * @memberof QRCodeDetails
      */
     modified?: string;
+    /**
+     * Coming soon
+     * @type {string}
+     * @memberof QRCodeDetails
+     */
+    expiration_at?: string;
 }
 
 
@@ -146,6 +152,7 @@ export function QRCodeDetailsFromJSONTyped(json: any, ignoreDiscriminator: boole
         'archived': json['archived'] == null ? undefined : json['archived'],
         'created': json['created'] == null ? undefined : json['created'],
         'modified': json['modified'] == null ? undefined : json['modified'],
+        'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
     };
 }
 
@@ -172,6 +179,7 @@ export function QRCodeDetailsToJSONTyped(value?: QRCodeDetails | null, ignoreDis
         'archived': value['archived'],
         'created': value['created'],
         'modified': value['modified'],
+        'expiration_at': value['expiration_at'],
     };
 }
 

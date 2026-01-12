@@ -117,6 +117,12 @@ export interface BitlinkUpdate {
      * @memberof BitlinkUpdate
      */
     campaign_ids?: Array<string>;
+    /**
+     * Coming soon
+     * @type {string}
+     * @memberof BitlinkUpdate
+     */
+    expiration_at?: string;
 }
 
 /**
@@ -151,6 +157,7 @@ export function BitlinkUpdateFromJSONTyped(json: any, ignoreDiscriminator: boole
         'deeplinks': json['deeplinks'] == null ? undefined : ((json['deeplinks'] as Array<any>).map(DeeplinkRuleFromJSON)),
         'is_deleted': json['is_deleted'] == null ? undefined : json['is_deleted'],
         'campaign_ids': json['campaign_ids'] == null ? undefined : json['campaign_ids'],
+        'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
     };
 }
 
@@ -180,6 +187,7 @@ export function BitlinkUpdateToJSONTyped(value?: BitlinkUpdate | null, ignoreDis
         'deeplinks': value['deeplinks'] == null ? undefined : ((value['deeplinks'] as Array<any>).map(DeeplinkRuleToJSON)),
         'is_deleted': value['is_deleted'],
         'campaign_ids': value['campaign_ids'],
+        'expiration_at': value['expiration_at'],
     };
 }
 

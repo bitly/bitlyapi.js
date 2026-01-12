@@ -51,6 +51,8 @@ export * from './Forbidden';
 export * from './FullShorten';
 export * from './GS1Metadata';
 export * from './GS1Value';
+export * from './GetGroupLinkClicksByDevice200Response';
+export * from './GetGroupLinkClicksByDevice200ResponseMetricsInner';
 export * from './Gone';
 export * from './GradientColor';
 export * from './Group';

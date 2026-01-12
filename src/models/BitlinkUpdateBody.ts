@@ -57,6 +57,12 @@ export interface BitlinkUpdateBody {
      * @memberof BitlinkUpdateBody
      */
     long_url?: string;
+    /**
+     * Coming soon
+     * @type {string}
+     * @memberof BitlinkUpdateBody
+     */
+    expiration_at?: string;
 }
 
 /**
@@ -81,6 +87,7 @@ export function BitlinkUpdateBodyFromJSONTyped(json: any, ignoreDiscriminator: b
         'tags': json['tags'] == null ? undefined : json['tags'],
         'deeplinks': json['deeplinks'] == null ? undefined : ((json['deeplinks'] as Array<any>).map(DeeplinkRuleFromJSON)),
         'long_url': json['long_url'] == null ? undefined : json['long_url'],
+        'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
     };
 }
 
@@ -100,6 +107,7 @@ export function BitlinkUpdateBodyToJSONTyped(value?: BitlinkUpdateBody | null, i
         'tags': value['tags'],
         'deeplinks': value['deeplinks'] == null ? undefined : ((value['deeplinks'] as Array<any>).map(DeeplinkRuleToJSON)),
         'long_url': value['long_url'],
+        'expiration_at': value['expiration_at'],
     };
 }
 

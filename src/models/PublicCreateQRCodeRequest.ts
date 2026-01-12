@@ -77,6 +77,12 @@ export interface PublicCreateQRCodeRequest {
      * @memberof PublicCreateQRCodeRequest
      */
     gs1?: GS1Metadata;
+    /**
+     * Coming soon
+     * @type {string}
+     * @memberof PublicCreateQRCodeRequest
+     */
+    expiration_at?: string;
 }
 
 /**
@@ -104,6 +110,7 @@ export function PublicCreateQRCodeRequestFromJSONTyped(json: any, ignoreDiscrimi
         'archived': json['archived'] == null ? undefined : json['archived'],
         'destination': QRCodeDestinationFromJSON(json['destination']),
         'gs1': json['gs1'] == null ? undefined : GS1MetadataFromJSON(json['gs1']),
+        'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
     };
 }
 
@@ -124,6 +131,7 @@ export function PublicCreateQRCodeRequestToJSONTyped(value?: PublicCreateQRCodeR
         'archived': value['archived'],
         'destination': QRCodeDestinationToJSON(value['destination']),
         'gs1': GS1MetadataToJSON(value['gs1']),
+        'expiration_at': value['expiration_at'],
     };
 }
 
