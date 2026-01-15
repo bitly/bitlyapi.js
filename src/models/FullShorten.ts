@@ -70,17 +70,23 @@ export interface FullShorten {
      */
     force_new_link?: boolean;
     /**
-     * Custom keyword for creating keyword overrides. If provided, creates an override at domain/keyword. Cannot use bit.ly domain.
+     * Custom keyword for creating keyword overrides. If provided, creates an override at domain/keyword
      * @type {string}
      * @memberof FullShorten
      */
     keyword?: string;
     /**
-     * Existing bitlink ID to add a keyword override to. Format: domain/hash. Cannot be used with long_url. Cannot use bit.ly domain.
+     * Existing bitlink ID to add a keyword override to. Format: domain/hash. Cannot be used with long_url
      * @type {string}
      * @memberof FullShorten
      */
     bitlink_id?: string;
+    /**
+     * Coming soon
+     * @type {string}
+     * @memberof FullShorten
+     */
+    expiration_at?: string;
 }
 
 /**
@@ -109,6 +115,7 @@ export function FullShortenFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'force_new_link': json['force_new_link'] == null ? undefined : json['force_new_link'],
         'keyword': json['keyword'] == null ? undefined : json['keyword'],
         'bitlink_id': json['bitlink_id'] == null ? undefined : json['bitlink_id'],
+        'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
     };
 }
 
@@ -132,6 +139,7 @@ export function FullShortenToJSONTyped(value?: FullShorten | null, ignoreDiscrim
         'force_new_link': value['force_new_link'],
         'keyword': value['keyword'],
         'bitlink_id': value['bitlink_id'],
+        'expiration_at': value['expiration_at'],
     };
 }
 

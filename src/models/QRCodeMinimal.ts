@@ -94,6 +94,12 @@ export interface QRCodeMinimal {
      */
     archived?: boolean;
     /**
+     * Coming soon
+     * @type {string}
+     * @memberof QRCodeMinimal
+     */
+    expiration_at?: string;
+    /**
      * 
      * @type {string}
      * @memberof QRCodeMinimal
@@ -137,6 +143,7 @@ export function QRCodeMinimalFromJSONTyped(json: any, ignoreDiscriminator: boole
         'is_gs1': json['is_gs1'] == null ? undefined : json['is_gs1'],
         'created_by': json['created_by'] == null ? undefined : json['created_by'],
         'archived': json['archived'] == null ? undefined : json['archived'],
+        'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
         'created': json['created'] == null ? undefined : json['created'],
         'modified': json['modified'] == null ? undefined : json['modified'],
     };
@@ -164,6 +171,7 @@ export function QRCodeMinimalToJSONTyped(value?: QRCodeMinimal | null, ignoreDis
         'is_gs1': value['is_gs1'],
         'created_by': value['created_by'],
         'archived': value['archived'],
+        'expiration_at': value['expiration_at'],
         'created': value['created'],
         'modified': value['modified'],
     };
