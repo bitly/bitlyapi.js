@@ -4,7 +4,7 @@ SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 VENDOR_DIR=$SCRIPT_DIR/../vendor
 
 # https://github.com/OpenAPITools/openapi-generator/releases
-VERSION=7.16.0
+VERSION=7.21.0
 SOURCE=https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/${VERSION}/openapi-generator-cli-${VERSION}.jar
 FILENAME=$(basename $SOURCE)
 mkdir -p $VENDOR_DIR
