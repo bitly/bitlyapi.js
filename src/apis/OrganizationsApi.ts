@@ -12,39 +12,52 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Forbidden,
-  InternalError,
-  Metrics,
-  NotFound,
-  Organization,
-  Organizations,
-  PlanLimits,
-  TemporarilyUnavailable,
-  TimeUnit,
-} from '../models/index';
 import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type Metrics,
     MetricsFromJSON,
     MetricsToJSON,
+} from '../models/Metrics';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type Organization,
     OrganizationFromJSON,
     OrganizationToJSON,
+} from '../models/Organization';
+import {
+    type Organizations,
     OrganizationsFromJSON,
     OrganizationsToJSON,
+} from '../models/Organizations';
+import {
+    type PlanLimits,
     PlanLimitsFromJSON,
     PlanLimitsToJSON,
+} from '../models/PlanLimits';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
+} from '../models/TemporarilyUnavailable';
+import {
+    type TimeUnit,
     TimeUnitFromJSON,
     TimeUnitToJSON,
-} from '../models/index';
+} from '../models/TimeUnit';
 
 export interface GetOrganizationRequest {
     organization_guid: string;
@@ -61,6 +74,10 @@ export interface GetOrganizationShortenCountsByGroupRequest {
     organization_guid: string;
 }
 
+export interface GetOrganizationsRequest {
+    include_all?: boolean;
+}
+
 export interface GetPlanLimitsRequest {
     organization_guid: string;
 }
@@ -71,10 +88,9 @@ export interface GetPlanLimitsRequest {
 export class OrganizationsApi extends runtime.BaseAPI {
 
     /**
-     * Retrive details for the specified organization.
-     * Retrieve an Organization
+     * Creates request options for getOrganization without sending the request
      */
-    async getOrganizationRaw(requestParameters: GetOrganizationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Organization>> {
+    async getOrganizationRequestOpts(requestParameters: GetOrganizationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['organization_guid'] == null) {
             throw new runtime.RequiredError(
                 'organization_guid',
@@ -96,14 +112,23 @@ export class OrganizationsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/organizations/{organization_guid}`;
-        urlPath = urlPath.replace(`{${"organization_guid"}}`, encodeURIComponent(String(requestParameters['organization_guid'])));
+        urlPath = urlPath.replace('{organization_guid}', encodeURIComponent(String(requestParameters['organization_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Retrive details for the specified organization.
+     * Retrieve an Organization
+     */
+    async getOrganizationRaw(requestParameters: GetOrganizationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Organization>> {
+        const requestOptions = await this.getOrganizationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrganizationFromJSON(jsonValue));
     }
@@ -118,10 +143,9 @@ export class OrganizationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the shorten counts for a specific organization over a specified time period.
-     * Get Shorten Counts for an Organization
+     * Creates request options for getOrganizationShortenCounts without sending the request
      */
-    async getOrganizationShortenCountsRaw(requestParameters: GetOrganizationShortenCountsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Metrics>> {
+    async getOrganizationShortenCountsRequestOpts(requestParameters: GetOrganizationShortenCountsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['organization_guid'] == null) {
             throw new runtime.RequiredError(
                 'organization_guid',
@@ -169,14 +193,23 @@ export class OrganizationsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/organizations/{organization_guid}/shorten_counts`;
-        urlPath = urlPath.replace(`{${"organization_guid"}}`, encodeURIComponent(String(requestParameters['organization_guid'])));
+        urlPath = urlPath.replace('{organization_guid}', encodeURIComponent(String(requestParameters['organization_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the shorten counts for a specific organization over a specified time period.
+     * Get Shorten Counts for an Organization
+     */
+    async getOrganizationShortenCountsRaw(requestParameters: GetOrganizationShortenCountsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Metrics>> {
+        const requestOptions = await this.getOrganizationShortenCountsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => MetricsFromJSON(jsonValue));
     }
@@ -191,10 +224,9 @@ export class OrganizationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the shorten counts for a specific organization by group for the current month.
-     * Get Shorten Counts for an Organization by Group
+     * Creates request options for getOrganizationShortenCountsByGroup without sending the request
      */
-    async getOrganizationShortenCountsByGroupRaw(requestParameters: GetOrganizationShortenCountsByGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Metrics>> {
+    async getOrganizationShortenCountsByGroupRequestOpts(requestParameters: GetOrganizationShortenCountsByGroupRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['organization_guid'] == null) {
             throw new runtime.RequiredError(
                 'organization_guid',
@@ -216,14 +248,23 @@ export class OrganizationsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/organizations/{organization_guid}/shorten_counts_by_group`;
-        urlPath = urlPath.replace(`{${"organization_guid"}}`, encodeURIComponent(String(requestParameters['organization_guid'])));
+        urlPath = urlPath.replace('{organization_guid}', encodeURIComponent(String(requestParameters['organization_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the shorten counts for a specific organization by group for the current month.
+     * Get Shorten Counts for an Organization by Group
+     */
+    async getOrganizationShortenCountsByGroupRaw(requestParameters: GetOrganizationShortenCountsByGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Metrics>> {
+        const requestOptions = await this.getOrganizationShortenCountsByGroupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => MetricsFromJSON(jsonValue));
     }
@@ -238,11 +279,14 @@ export class OrganizationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve a list of organizations.
-     * Retrieve Organizations
+     * Creates request options for getOrganizations without sending the request
      */
-    async getOrganizationsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Organizations>> {
+    async getOrganizationsRequestOpts(requestParameters: GetOrganizationsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
+
+        if (requestParameters['include_all'] != null) {
+            queryParameters['include_all'] = requestParameters['include_all'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -257,30 +301,38 @@ export class OrganizationsApi extends runtime.BaseAPI {
 
         let urlPath = `/organizations`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Retrieve a list of organizations for the authenticated user. By default, only organizations permitted by the token\'s allowed_orgs are returned. Use include_all=true to return all organizations regardless of token restrictions. Each organization is annotated with its authentication requirements (require_sso, require_2fa) when configured. 
+     * Retrieve Organizations
+     */
+    async getOrganizationsRaw(requestParameters: GetOrganizationsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Organizations>> {
+        const requestOptions = await this.getOrganizationsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrganizationsFromJSON(jsonValue));
     }
 
     /**
-     * Retrieve a list of organizations.
+     * Retrieve a list of organizations for the authenticated user. By default, only organizations permitted by the token\'s allowed_orgs are returned. Use include_all=true to return all organizations regardless of token restrictions. Each organization is annotated with its authentication requirements (require_sso, require_2fa) when configured. 
      * Retrieve Organizations
      */
-    async getOrganizations(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Organizations> {
-        const response = await this.getOrganizationsRaw(initOverrides);
+    async getOrganizations(requestParameters: GetOrganizationsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Organizations> {
+        const response = await this.getOrganizationsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Returns all plan limits and counts available for an organization.
-     * Get Plan Limits
+     * Creates request options for getPlanLimits without sending the request
      */
-    async getPlanLimitsRaw(requestParameters: GetPlanLimitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlanLimits>> {
+    async getPlanLimitsRequestOpts(requestParameters: GetPlanLimitsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['organization_guid'] == null) {
             throw new runtime.RequiredError(
                 'organization_guid',
@@ -302,14 +354,23 @@ export class OrganizationsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/organizations/{organization_guid}/plan_limits`;
-        urlPath = urlPath.replace(`{${"organization_guid"}}`, encodeURIComponent(String(requestParameters['organization_guid'])));
+        urlPath = urlPath.replace('{organization_guid}', encodeURIComponent(String(requestParameters['organization_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns all plan limits and counts available for an organization.
+     * Get Plan Limits
+     */
+    async getPlanLimitsRaw(requestParameters: GetPlanLimitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlanLimits>> {
+        const requestOptions = await this.getPlanLimitsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PlanLimitsFromJSON(jsonValue));
     }

@@ -12,75 +12,131 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  BadRequest,
-  BitlinkScans,
-  BitlinkScansSummary,
-  CityScanMetrics,
-  Forbidden,
-  Gone,
-  InternalError,
-  MonthlyLimitExceeded,
-  NotFound,
-  PublicCreateQRCodeRequest,
-  PublicDeleteQRCodeResponse,
-  PublicQRCodeImageResponse,
-  PublicUpdateQRCodeRequest,
-  QRCodeDetails,
-  QRCodeMinimal,
-  QRCodesMinimal,
-  ScanMetrics,
-  TemporarilyUnavailable,
-  TimeUnit,
-  UpgradeRequired,
-} from '../models/index';
 import {
+    type BadRequest,
     BadRequestFromJSON,
     BadRequestToJSON,
+} from '../models/BadRequest';
+import {
+    type BitlinkScans,
     BitlinkScansFromJSON,
     BitlinkScansToJSON,
+} from '../models/BitlinkScans';
+import {
+    type BitlinkScansSummary,
     BitlinkScansSummaryFromJSON,
     BitlinkScansSummaryToJSON,
+} from '../models/BitlinkScansSummary';
+import {
+    type CityScanMetrics,
     CityScanMetricsFromJSON,
     CityScanMetricsToJSON,
+} from '../models/CityScanMetrics';
+import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type Gone,
     GoneFromJSON,
     GoneToJSON,
+} from '../models/Gone';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type MonthlyLimitExceeded,
     MonthlyLimitExceededFromJSON,
     MonthlyLimitExceededToJSON,
+} from '../models/MonthlyLimitExceeded';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type PublicCreateQRCodeRequest,
     PublicCreateQRCodeRequestFromJSON,
     PublicCreateQRCodeRequestToJSON,
+} from '../models/PublicCreateQRCodeRequest';
+import {
+    type PublicCreateStaticQRCodeRequest,
+    PublicCreateStaticQRCodeRequestFromJSON,
+    PublicCreateStaticQRCodeRequestToJSON,
+} from '../models/PublicCreateStaticQRCodeRequest';
+import {
+    type PublicDeleteQRCodeResponse,
     PublicDeleteQRCodeResponseFromJSON,
     PublicDeleteQRCodeResponseToJSON,
+} from '../models/PublicDeleteQRCodeResponse';
+import {
+    type PublicQRCodeImageResponse,
     PublicQRCodeImageResponseFromJSON,
     PublicQRCodeImageResponseToJSON,
+} from '../models/PublicQRCodeImageResponse';
+import {
+    type PublicStaticQRCodeResponse,
+    PublicStaticQRCodeResponseFromJSON,
+    PublicStaticQRCodeResponseToJSON,
+} from '../models/PublicStaticQRCodeResponse';
+import {
+    type PublicUpdateQRCodeRequest,
     PublicUpdateQRCodeRequestFromJSON,
     PublicUpdateQRCodeRequestToJSON,
+} from '../models/PublicUpdateQRCodeRequest';
+import {
+    type QRCodeDetails,
     QRCodeDetailsFromJSON,
     QRCodeDetailsToJSON,
+} from '../models/QRCodeDetails';
+import {
+    type QRCodeMinimal,
     QRCodeMinimalFromJSON,
     QRCodeMinimalToJSON,
+} from '../models/QRCodeMinimal';
+import {
+    type QRCodesMinimal,
     QRCodesMinimalFromJSON,
     QRCodesMinimalToJSON,
+} from '../models/QRCodesMinimal';
+import {
+    type ScanMetrics,
     ScanMetricsFromJSON,
     ScanMetricsToJSON,
+} from '../models/ScanMetrics';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
+} from '../models/TemporarilyUnavailable';
+import {
+    type TimeUnit,
     TimeUnitFromJSON,
     TimeUnitToJSON,
+} from '../models/TimeUnit';
+import {
+    type UnprocessableEntity,
+    UnprocessableEntityFromJSON,
+    UnprocessableEntityToJSON,
+} from '../models/UnprocessableEntity';
+import {
+    type UpgradeRequired,
     UpgradeRequiredFromJSON,
     UpgradeRequiredToJSON,
-} from '../models/index';
+} from '../models/UpgradeRequired';
 
 export interface CreateQRCodePublicRequest {
     public_create_qr_code_request: PublicCreateQRCodeRequest;
+}
+
+export interface CreateStaticQRCodePublicRequest {
+    public_create_static_qr_code_request: PublicCreateStaticQRCodeRequest;
+    accept?: CreateStaticQRCodePublicAcceptEnum;
+    format?: CreateStaticQRCodePublicFormatEnum;
 }
 
 export interface DeleteQRCodeRequest {
@@ -156,6 +212,9 @@ export interface ListQRMinimalRequest {
     creating_login?: Array<string>;
     qrc_type?: Array<ListQRMinimalQrcTypeEnum>;
     is_gs1?: ListQRMinimalIsGs1Enum;
+    is_expired?: ListQRMinimalIsExpiredEnum;
+    has_expiration?: ListQRMinimalHasExpirationEnum;
+    tags?: Array<string>;
 }
 
 export interface UpdateQRCodePublicRequest {
@@ -169,10 +228,9 @@ export interface UpdateQRCodePublicRequest {
 export class QRCodesApi extends runtime.BaseAPI {
 
     /**
-     * Create a new QR Code and return its metadata
-     * Create a QR Code
+     * Creates request options for createQRCodePublic without sending the request
      */
-    async createQRCodePublicRaw(requestParameters: CreateQRCodePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodeMinimal>> {
+    async createQRCodePublicRequestOpts(requestParameters: CreateQRCodePublicRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['public_create_qr_code_request'] == null) {
             throw new runtime.RequiredError(
                 'public_create_qr_code_request',
@@ -197,13 +255,22 @@ export class QRCodesApi extends runtime.BaseAPI {
 
         let urlPath = `/qr-codes`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: PublicCreateQRCodeRequestToJSON(requestParameters['public_create_qr_code_request']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Create a new QR Code and return its metadata
+     * Create a QR Code
+     */
+    async createQRCodePublicRaw(requestParameters: CreateQRCodePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodeMinimal>> {
+        const requestOptions = await this.createQRCodePublicRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => QRCodeMinimalFromJSON(jsonValue));
     }
@@ -218,10 +285,74 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete a QR Code that has not been redirected and is not for a custom link. Also deletes the associated link (if applicable).
-     * Delete a QR Code
+     * Creates request options for createStaticQRCodePublic without sending the request
      */
-    async deleteQRCodeRaw(requestParameters: DeleteQRCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicDeleteQRCodeResponse>> {
+    async createStaticQRCodePublicRequestOpts(requestParameters: CreateStaticQRCodePublicRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['public_create_static_qr_code_request'] == null) {
+            throw new runtime.RequiredError(
+                'public_create_static_qr_code_request',
+                'Required parameter "public_create_static_qr_code_request" was null or undefined when calling createStaticQRCodePublic().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['format'] != null) {
+            queryParameters['format'] = requestParameters['format'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['accept'] != null) {
+            headerParameters['Accept'] = String(requestParameters['accept']);
+        }
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/qr-codes/static`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PublicCreateStaticQRCodeRequestToJSON(requestParameters['public_create_static_qr_code_request']),
+        };
+    }
+
+    /**
+     * Generate a static QR code image without creating or saving a QR code resource. SVG and PNG output are supported via the Accept header Contact your Account Manager to discuss enabling this feature for your account.  The `render_customizations` field supports basic appearance options. Customizations that require the rasterize API are not supported: `gradient`, `background_gradient`, `frame`, `text`, and `logo`.  The Accept header controls the response format: - `application/json` (default): Returns a JSON object with the image as a base64-encoded byte string. - `image/svg+xml`: Returns the raw SVG image. - `image/png`: Returns the raw PNG image. 
+     * Generate a static QR Code image
+     */
+    async createStaticQRCodePublicRaw(requestParameters: CreateStaticQRCodePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicStaticQRCodeResponse>> {
+        const requestOptions = await this.createStaticQRCodePublicRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PublicStaticQRCodeResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Generate a static QR code image without creating or saving a QR code resource. SVG and PNG output are supported via the Accept header Contact your Account Manager to discuss enabling this feature for your account.  The `render_customizations` field supports basic appearance options. Customizations that require the rasterize API are not supported: `gradient`, `background_gradient`, `frame`, `text`, and `logo`.  The Accept header controls the response format: - `application/json` (default): Returns a JSON object with the image as a base64-encoded byte string. - `image/svg+xml`: Returns the raw SVG image. - `image/png`: Returns the raw PNG image. 
+     * Generate a static QR Code image
+     */
+    async createStaticQRCodePublic(requestParameters: CreateStaticQRCodePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PublicStaticQRCodeResponse> {
+        const response = await this.createStaticQRCodePublicRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for deleteQRCode without sending the request
+     */
+    async deleteQRCodeRequestOpts(requestParameters: DeleteQRCodeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -243,14 +374,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete a QR Code that has not been redirected and is not for a custom link. Also deletes the associated link (if applicable).
+     * Delete a QR Code
+     */
+    async deleteQRCodeRaw(requestParameters: DeleteQRCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicDeleteQRCodeResponse>> {
+        const requestOptions = await this.deleteQRCodeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublicDeleteQRCodeResponseFromJSON(jsonValue));
     }
@@ -265,10 +405,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Gets the QR code with a matching id.
-     * Retrieve a QR Code
+     * Creates request options for getQRCodeByIdPublic without sending the request
      */
-    async getQRCodeByIdPublicRaw(requestParameters: GetQRCodeByIdPublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodeDetails>> {
+    async getQRCodeByIdPublicRequestOpts(requestParameters: GetQRCodeByIdPublicRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -290,14 +429,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Gets the QR code with a matching id.
+     * Retrieve a QR Code
+     */
+    async getQRCodeByIdPublicRaw(requestParameters: GetQRCodeByIdPublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodeDetails>> {
+        const requestOptions = await this.getQRCodeByIdPublicRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => QRCodeDetailsFromJSON(jsonValue));
     }
@@ -312,10 +460,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get the image of a given QR Code. The Accept header controls how this is returned (options are \"application/json\", \"image/svg+xml\", and \"image/png\"). If the Accept header is \"application/json\" the format query parameter will determine the image format inside of the json (which will be base64 encoded and prefixed with its mime type as would be suitable for a HTML image src tag). To Return the QR Code image itself, set the Accept header to \"image/svg+xml\" or \"image/png\", or remove the Accept header and set the format query parameter to “svg” or “png” (if no format is specified the default will be “svg”). 
-     * Retrieve a QR Code image
+     * Creates request options for getQRCodeImagePublic without sending the request
      */
-    async getQRCodeImagePublicRaw(requestParameters: GetQRCodeImagePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicQRCodeImageResponse>> {
+    async getQRCodeImagePublicRequestOpts(requestParameters: GetQRCodeImagePublicRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -345,14 +492,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}/image`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get the image of a given QR Code. The Accept header controls how this is returned (options are \"application/json\", \"image/svg+xml\", and \"image/png\"). If the Accept header is \"application/json\" the format query parameter will determine the image format inside of the json (which will be base64 encoded and prefixed with its mime type as would be suitable for a HTML image src tag). To Return the QR Code image itself, set the Accept header to \"image/svg+xml\" or \"image/png\", or remove the Accept header and set the format query parameter to “svg” or “png” (if no format is specified the default will be “svg”). 
+     * Retrieve a QR Code image
+     */
+    async getQRCodeImagePublicRaw(requestParameters: GetQRCodeImagePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PublicQRCodeImageResponse>> {
+        const requestOptions = await this.getQRCodeImagePublicRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PublicQRCodeImageResponseFromJSON(jsonValue));
     }
@@ -367,10 +523,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns an array of scan counts for the specified QR code. The array is comprised of scan counts for each time window, where the window is based on the provided unit.
-     * Get Scans for a QR Code
+     * Creates request options for getScanMetricsForQRCode without sending the request
      */
-    async getScanMetricsForQRCodeRaw(requestParameters: GetScanMetricsForQRCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkScans>> {
+    async getScanMetricsForQRCodeRequestOpts(requestParameters: GetScanMetricsForQRCodeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -418,14 +573,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}/scans`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns an array of scan counts for the specified QR code. The array is comprised of scan counts for each time window, where the window is based on the provided unit.
+     * Get Scans for a QR Code
+     */
+    async getScanMetricsForQRCodeRaw(requestParameters: GetScanMetricsForQRCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkScans>> {
+        const requestOptions = await this.getScanMetricsForQRCodeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BitlinkScansFromJSON(jsonValue));
     }
@@ -440,10 +604,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the browsers generating scan traffic to the specified QR Code.
-     * Get Scans for a QR Code by Browser
+     * Creates request options for getScanMetricsForQRCodeByBrowser without sending the request
      */
-    async getScanMetricsForQRCodeByBrowserRaw(requestParameters: GetScanMetricsForQRCodeByBrowserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanMetrics>> {
+    async getScanMetricsForQRCodeByBrowserRequestOpts(requestParameters: GetScanMetricsForQRCodeByBrowserRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -495,14 +658,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}/scans/browsers`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the browsers generating scan traffic to the specified QR Code.
+     * Get Scans for a QR Code by Browser
+     */
+    async getScanMetricsForQRCodeByBrowserRaw(requestParameters: GetScanMetricsForQRCodeByBrowserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanMetrics>> {
+        const requestOptions = await this.getScanMetricsForQRCodeByBrowserRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ScanMetricsFromJSON(jsonValue));
     }
@@ -517,10 +689,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the city origins of scan traffic for the specified QR Code.
-     * Get Metrics for a QR Code by City
+     * Creates request options for getScanMetricsForQRCodeByCities without sending the request
      */
-    async getScanMetricsForQRCodeByCitiesRaw(requestParameters: GetScanMetricsForQRCodeByCitiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityScanMetrics>> {
+    async getScanMetricsForQRCodeByCitiesRequestOpts(requestParameters: GetScanMetricsForQRCodeByCitiesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -572,14 +743,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}/scans/cities`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the city origins of scan traffic for the specified QR Code.
+     * Get Metrics for a QR Code by City
+     */
+    async getScanMetricsForQRCodeByCitiesRaw(requestParameters: GetScanMetricsForQRCodeByCitiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityScanMetrics>> {
+        const requestOptions = await this.getScanMetricsForQRCodeByCitiesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CityScanMetricsFromJSON(jsonValue));
     }
@@ -594,10 +774,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the country origins of scan traffic for the specified QR Code.
-     * Get Scans for a QR Code by Country
+     * Creates request options for getScanMetricsForQRCodeByCountries without sending the request
      */
-    async getScanMetricsForQRCodeByCountriesRaw(requestParameters: GetScanMetricsForQRCodeByCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanMetrics>> {
+    async getScanMetricsForQRCodeByCountriesRequestOpts(requestParameters: GetScanMetricsForQRCodeByCountriesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -649,14 +828,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}/scans/countries`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the country origins of scan traffic for the specified QR Code.
+     * Get Scans for a QR Code by Country
+     */
+    async getScanMetricsForQRCodeByCountriesRaw(requestParameters: GetScanMetricsForQRCodeByCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanMetrics>> {
+        const requestOptions = await this.getScanMetricsForQRCodeByCountriesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ScanMetricsFromJSON(jsonValue));
     }
@@ -671,10 +859,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the device os generating scan traffic for the specified QR Code.
-     * Get Scans for a QR Code by Device OS
+     * Creates request options for getScanMetricsForQRCodeByDevicesOS without sending the request
      */
-    async getScanMetricsForQRCodeByDevicesOSRaw(requestParameters: GetScanMetricsForQRCodeByDevicesOSRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanMetrics>> {
+    async getScanMetricsForQRCodeByDevicesOSRequestOpts(requestParameters: GetScanMetricsForQRCodeByDevicesOSRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -726,14 +913,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}/scans/device_os`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the device os generating scan traffic for the specified QR Code.
+     * Get Scans for a QR Code by Device OS
+     */
+    async getScanMetricsForQRCodeByDevicesOSRaw(requestParameters: GetScanMetricsForQRCodeByDevicesOSRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ScanMetrics>> {
+        const requestOptions = await this.getScanMetricsForQRCodeByDevicesOSRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ScanMetricsFromJSON(jsonValue));
     }
@@ -748,10 +944,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the scan counts for a QR Code rolled up into a single field for a specified time window, where the window is based on the provided unit.
-     * Get Scans Summary for a QR Code
+     * Creates request options for getScanMetricsSummaryForQRCode without sending the request
      */
-    async getScanMetricsSummaryForQRCodeRaw(requestParameters: GetScanMetricsSummaryForQRCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkScansSummary>> {
+    async getScanMetricsSummaryForQRCodeRequestOpts(requestParameters: GetScanMetricsSummaryForQRCodeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -799,14 +994,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}/scans/summary`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the scan counts for a QR Code rolled up into a single field for a specified time window, where the window is based on the provided unit.
+     * Get Scans Summary for a QR Code
+     */
+    async getScanMetricsSummaryForQRCodeRaw(requestParameters: GetScanMetricsSummaryForQRCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkScansSummary>> {
+        const requestOptions = await this.getScanMetricsSummaryForQRCodeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BitlinkScansSummaryFromJSON(jsonValue));
     }
@@ -821,10 +1025,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieves a list of QR codes matching the filter settings. Values are in reverse chronological order. The pagination occurs by calling the next link in the pagination response object. 
-     * Retrieve QR Codes by Group
+     * Creates request options for listQRMinimal without sending the request
      */
-    async listQRMinimalRaw(requestParameters: ListQRMinimalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodesMinimal>> {
+    async listQRMinimalRequestOpts(requestParameters: ListQRMinimalRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -878,6 +1081,18 @@ export class QRCodesApi extends runtime.BaseAPI {
             queryParameters['is_gs1'] = requestParameters['is_gs1'];
         }
 
+        if (requestParameters['is_expired'] != null) {
+            queryParameters['is_expired'] = requestParameters['is_expired'];
+        }
+
+        if (requestParameters['has_expiration'] != null) {
+            queryParameters['has_expiration'] = requestParameters['has_expiration'];
+        }
+
+        if (requestParameters['tags'] != null) {
+            queryParameters['tags'] = requestParameters['tags'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.accessToken) {
@@ -890,14 +1105,23 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/qr-codes`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Retrieves a list of QR codes matching the filter settings. Values are in reverse chronological order. The pagination occurs by calling the next link in the pagination response object. 
+     * Retrieve QR Codes by Group
+     */
+    async listQRMinimalRaw(requestParameters: ListQRMinimalRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodesMinimal>> {
+        const requestOptions = await this.listQRMinimalRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => QRCodesMinimalFromJSON(jsonValue));
     }
@@ -912,10 +1136,9 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates the QR code with a matching id and returns it.
-     * Update a QR Code
+     * Creates request options for updateQRCodePublic without sending the request
      */
-    async updateQRCodePublicRaw(requestParameters: UpdateQRCodePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodeMinimal>> {
+    async updateQRCodePublicRequestOpts(requestParameters: UpdateQRCodePublicRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['qrcode_id'] == null) {
             throw new runtime.RequiredError(
                 'qrcode_id',
@@ -946,15 +1169,24 @@ export class QRCodesApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/qr-codes/{qrcode_id}`;
-        urlPath = urlPath.replace(`{${"qrcode_id"}}`, encodeURIComponent(String(requestParameters['qrcode_id'])));
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: PublicUpdateQRCodeRequestToJSON(requestParameters['public_update_qr_code_request']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates the QR code with a matching id and returns it.
+     * Update a QR Code
+     */
+    async updateQRCodePublicRaw(requestParameters: UpdateQRCodePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodeMinimal>> {
+        const requestOptions = await this.updateQRCodePublicRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => QRCodeMinimalFromJSON(jsonValue));
     }
@@ -970,6 +1202,23 @@ export class QRCodesApi extends runtime.BaseAPI {
 
 }
 
+/**
+  * @export
+  * @enum {string}
+  */
+export enum CreateStaticQRCodePublicAcceptEnum {
+    application_json = 'application/json',
+    image_svgxml = 'image/svg+xml',
+    image_png = 'image/png'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum CreateStaticQRCodePublicFormatEnum {
+    svg = 'svg',
+    png = 'png'
+}
 /**
   * @export
   * @enum {string}
@@ -1009,6 +1258,24 @@ export enum ListQRMinimalQrcTypeEnum {
   * @enum {string}
   */
 export enum ListQRMinimalIsGs1Enum {
+    on = 'on',
+    off = 'off',
+    both = 'both'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum ListQRMinimalIsExpiredEnum {
+    on = 'on',
+    off = 'off',
+    both = 'both'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum ListQRMinimalHasExpirationEnum {
     on = 'on',
     off = 'off',
     both = 'both'

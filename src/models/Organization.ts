@@ -85,7 +85,39 @@ export interface Organization {
      * @memberof Organization
      */
     bsds: Array<string>;
+    /**
+     * SSO authentication requirement for this organization. Possible values: "none", "any". Omitted when no auth requirements are configured.
+     * 
+     * @type {OrganizationRequireSsoEnum}
+     * @memberof Organization
+     */
+    require_sso?: OrganizationRequireSsoEnum;
+    /**
+     * Two-factor authentication requirement for this organization. Possible values: "none", "sms". Omitted when no auth requirements are configured.
+     * 
+     * @type {OrganizationRequire2faEnum}
+     * @memberof Organization
+     */
+    require_2fa?: OrganizationRequire2faEnum;
 }
+
+/**
+* @export
+* @enum {string}
+*/
+export enum OrganizationRequireSsoEnum {
+    none = 'none',
+    any = 'any'
+}
+/**
+* @export
+* @enum {string}
+*/
+export enum OrganizationRequire2faEnum {
+    none = 'none',
+    sms = 'sms'
+}
+
 
 /**
  * Check if a given object implements the Organization interface.
@@ -125,6 +157,8 @@ export function OrganizationFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'created': json['created'],
         'modified': json['modified'],
         'bsds': json['bsds'],
+        'require_sso': json['require_sso'] == null ? undefined : json['require_sso'],
+        'require_2fa': json['require_2fa'] == null ? undefined : json['require_2fa'],
     };
 }
 
@@ -150,6 +184,8 @@ export function OrganizationToJSONTyped(value?: Organization | null, ignoreDiscr
         'created': value['created'],
         'modified': value['modified'],
         'bsds': value['bsds'],
+        'require_sso': value['require_sso'],
+        'require_2fa': value['require_2fa'],
     };
 }
 

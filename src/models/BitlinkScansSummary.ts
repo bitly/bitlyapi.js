@@ -33,7 +33,7 @@ export interface BitlinkScansSummary {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {BitlinkScansSummaryUnitEnum}
      * @memberof BitlinkScansSummary
      */
     unit?: BitlinkScansSummaryUnitEnum;

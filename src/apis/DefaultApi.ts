@@ -12,27 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  Forbidden,
-  InternalError,
-  NotFound,
-  OAuthApp,
-  TemporarilyUnavailable,
-} from '../models/index';
 import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type OAuthApp,
     OAuthAppFromJSON,
     OAuthAppToJSON,
+} from '../models/OAuthApp';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
-} from '../models/index';
+} from '../models/TemporarilyUnavailable';
 
 export interface GetOAuthAppRequest {
     client_id: string;
@@ -44,10 +49,9 @@ export interface GetOAuthAppRequest {
 export class DefaultApi extends runtime.BaseAPI {
 
     /**
-     * Retrieve the details for the provided OAuth App client ID
-     * Retrieve OAuth App
+     * Creates request options for getOAuthApp without sending the request
      */
-    async getOAuthAppRaw(requestParameters: GetOAuthAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OAuthApp>> {
+    async getOAuthAppRequestOpts(requestParameters: GetOAuthAppRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['client_id'] == null) {
             throw new runtime.RequiredError(
                 'client_id',
@@ -69,14 +73,23 @@ export class DefaultApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/apps/{client_id}`;
-        urlPath = urlPath.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters['client_id'])));
+        urlPath = urlPath.replace('{client_id}', encodeURIComponent(String(requestParameters['client_id'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Retrieve the details for the provided OAuth App client ID
+     * Retrieve OAuth App
+     */
+    async getOAuthAppRaw(requestParameters: GetOAuthAppRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OAuthApp>> {
+        const requestOptions = await this.getOAuthAppRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OAuthAppFromJSON(jsonValue));
     }

@@ -12,57 +12,82 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  AddCustomBitlink,
-  BadRequest,
-  ClickMetrics,
-  Clicks,
-  CustomBitlink,
-  Forbidden,
-  Gone,
-  InternalError,
-  MonthlyLimitExceeded,
-  NotFound,
-  TemporarilyUnavailable,
-  TimeUnit,
-  UnprocessableEntity,
-  UpdateCustomBitlink,
-  UpgradeRequired,
-} from '../models/index';
 import {
+    type AddCustomBitlink,
     AddCustomBitlinkFromJSON,
     AddCustomBitlinkToJSON,
+} from '../models/AddCustomBitlink';
+import {
+    type BadRequest,
     BadRequestFromJSON,
     BadRequestToJSON,
+} from '../models/BadRequest';
+import {
+    type ClickMetrics,
     ClickMetricsFromJSON,
     ClickMetricsToJSON,
+} from '../models/ClickMetrics';
+import {
+    type Clicks,
     ClicksFromJSON,
     ClicksToJSON,
+} from '../models/Clicks';
+import {
+    type CustomBitlink,
     CustomBitlinkFromJSON,
     CustomBitlinkToJSON,
+} from '../models/CustomBitlink';
+import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type Gone,
     GoneFromJSON,
     GoneToJSON,
+} from '../models/Gone';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type MonthlyLimitExceeded,
     MonthlyLimitExceededFromJSON,
     MonthlyLimitExceededToJSON,
+} from '../models/MonthlyLimitExceeded';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
+} from '../models/TemporarilyUnavailable';
+import {
+    type TimeUnit,
     TimeUnitFromJSON,
     TimeUnitToJSON,
+} from '../models/TimeUnit';
+import {
+    type UnprocessableEntity,
     UnprocessableEntityFromJSON,
     UnprocessableEntityToJSON,
+} from '../models/UnprocessableEntity';
+import {
+    type UpdateCustomBitlink,
     UpdateCustomBitlinkFromJSON,
     UpdateCustomBitlinkToJSON,
+} from '../models/UpdateCustomBitlink';
+import {
+    type UpgradeRequired,
     UpgradeRequiredFromJSON,
     UpgradeRequiredToJSON,
-} from '../models/index';
+} from '../models/UpgradeRequired';
 
 export interface AddCustomBitlinkRequest {
     add_custom_bitlink: AddCustomBitlink;
@@ -97,10 +122,9 @@ export interface UpdateCustomBitlinkRequest {
 export class CustomBitlinksApi extends runtime.BaseAPI {
 
     /**
-     * Add a keyword (or \"custom back-half\") to a Bitlink with a Custom Domain (domains must match). This endpoint can also be used for initial redirects to a link.
-     * Add Custom Bitlink
+     * Creates request options for addCustomBitlink without sending the request
      */
-    async addCustomBitlinkRaw(requestParameters: AddCustomBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomBitlink>> {
+    async addCustomBitlinkRequestOpts(requestParameters: AddCustomBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['add_custom_bitlink'] == null) {
             throw new runtime.RequiredError(
                 'add_custom_bitlink',
@@ -125,13 +149,22 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
 
         let urlPath = `/custom_bitlinks`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: AddCustomBitlinkToJSON(requestParameters['add_custom_bitlink']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Add a keyword (or \"custom back-half\") to a Bitlink with a Custom Domain (domains must match). This endpoint can also be used for initial redirects to a link.
+     * Add Custom Bitlink
+     */
+    async addCustomBitlinkRaw(requestParameters: AddCustomBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomBitlink>> {
+        const requestOptions = await this.addCustomBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CustomBitlinkFromJSON(jsonValue));
     }
@@ -146,10 +179,9 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the click counts for the specified link. This returns an array with clicks based on a date.
-     * Get Clicks for a Custom Bitlink\'s Entire History
+     * Creates request options for getClicksForCustomBitlink without sending the request
      */
-    async getClicksForCustomBitlinkRaw(requestParameters: GetClicksForCustomBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Clicks>> {
+    async getClicksForCustomBitlinkRequestOpts(requestParameters: GetClicksForCustomBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['custom_bitlink'] == null) {
             throw new runtime.RequiredError(
                 'custom_bitlink',
@@ -197,14 +229,23 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/custom_bitlinks/{custom_bitlink}/clicks`;
-        urlPath = urlPath.replace(`{${"custom_bitlink"}}`, encodeURIComponent(String(requestParameters['custom_bitlink'])));
+        urlPath = urlPath.replace('{custom_bitlink}', encodeURIComponent(String(requestParameters['custom_bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the click counts for the specified link. This returns an array with clicks based on a date.
+     * Get Clicks for a Custom Bitlink\'s Entire History
+     */
+    async getClicksForCustomBitlinkRaw(requestParameters: GetClicksForCustomBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Clicks>> {
+        const requestOptions = await this.getClicksForCustomBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClicksFromJSON(jsonValue));
     }
@@ -219,10 +260,9 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the details and history of the specified link.
-     * Retrieve Custom Bitlink
+     * Creates request options for getCustomBitlink without sending the request
      */
-    async getCustomBitlinkRaw(requestParameters: GetCustomBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomBitlink>> {
+    async getCustomBitlinkRequestOpts(requestParameters: GetCustomBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['custom_bitlink'] == null) {
             throw new runtime.RequiredError(
                 'custom_bitlink',
@@ -244,14 +284,23 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/custom_bitlinks/{custom_bitlink}`;
-        urlPath = urlPath.replace(`{${"custom_bitlink"}}`, encodeURIComponent(String(requestParameters['custom_bitlink'])));
+        urlPath = urlPath.replace('{custom_bitlink}', encodeURIComponent(String(requestParameters['custom_bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the details and history of the specified link.
+     * Retrieve Custom Bitlink
+     */
+    async getCustomBitlinkRaw(requestParameters: GetCustomBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomBitlink>> {
+        const requestOptions = await this.getCustomBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CustomBitlinkFromJSON(jsonValue));
     }
@@ -266,10 +315,9 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns click metrics for the specified link by its historical destinations.
-     * Get Metrics for a Custom Bitlink by Destination
+     * Creates request options for getCustomBitlinkMetricsByDestination without sending the request
      */
-    async getCustomBitlinkMetricsByDestinationRaw(requestParameters: GetCustomBitlinkMetricsByDestinationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getCustomBitlinkMetricsByDestinationRequestOpts(requestParameters: GetCustomBitlinkMetricsByDestinationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['custom_bitlink'] == null) {
             throw new runtime.RequiredError(
                 'custom_bitlink',
@@ -317,14 +365,23 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/custom_bitlinks/{custom_bitlink}/clicks_by_destination`;
-        urlPath = urlPath.replace(`{${"custom_bitlink"}}`, encodeURIComponent(String(requestParameters['custom_bitlink'])));
+        urlPath = urlPath.replace('{custom_bitlink}', encodeURIComponent(String(requestParameters['custom_bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns click metrics for the specified link by its historical destinations.
+     * Get Metrics for a Custom Bitlink by Destination
+     */
+    async getCustomBitlinkMetricsByDestinationRaw(requestParameters: GetCustomBitlinkMetricsByDestinationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getCustomBitlinkMetricsByDestinationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -339,10 +396,9 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Move a keyword (or custom back-half) to a different Bitlink (domains must match).
-     * Update Custom Bitlink
+     * Creates request options for updateCustomBitlink without sending the request
      */
-    async updateCustomBitlinkRaw(requestParameters: UpdateCustomBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomBitlink>> {
+    async updateCustomBitlinkRequestOpts(requestParameters: UpdateCustomBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['custom_bitlink'] == null) {
             throw new runtime.RequiredError(
                 'custom_bitlink',
@@ -373,15 +429,24 @@ export class CustomBitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/custom_bitlinks/{custom_bitlink}`;
-        urlPath = urlPath.replace(`{${"custom_bitlink"}}`, encodeURIComponent(String(requestParameters['custom_bitlink'])));
+        urlPath = urlPath.replace('{custom_bitlink}', encodeURIComponent(String(requestParameters['custom_bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: UpdateCustomBitlinkToJSON(requestParameters['update_custom_bitlink']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Move a keyword (or custom back-half) to a different Bitlink (domains must match).
+     * Update Custom Bitlink
+     */
+    async updateCustomBitlinkRaw(requestParameters: UpdateCustomBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomBitlink>> {
+        const requestOptions = await this.updateCustomBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CustomBitlinkFromJSON(jsonValue));
     }

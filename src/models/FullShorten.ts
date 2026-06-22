@@ -82,7 +82,7 @@ export interface FullShorten {
      */
     bitlink_id?: string;
     /**
-     * Coming soon
+     * Optional expiration timestamp for the bitlink (e.g., 2025-01-28T14:30:00+0000). Minimum expiration time is 5 minutes from now and maximum is 1 year.
      * @type {string}
      * @memberof FullShorten
      */

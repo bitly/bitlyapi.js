@@ -48,7 +48,7 @@ export interface CityScanMetrics {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {CityScanMetricsFacetEnum}
      * @memberof CityScanMetrics
      */
     facet?: CityScanMetricsFacetEnum;
@@ -80,7 +80,8 @@ export enum CityScanMetricsFacetEnum {
     countries = 'countries',
     cities = 'cities',
     device_os = 'device_os',
-    browsers = 'browsers'
+    browsers = 'browsers',
+    destinations = 'destinations'
 }
 
 

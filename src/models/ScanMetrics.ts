@@ -41,7 +41,7 @@ export interface ScanMetrics {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {ScanMetricsFacetEnum}
      * @memberof ScanMetrics
      */
     facet?: ScanMetricsFacetEnum;
@@ -67,7 +67,8 @@ export enum ScanMetricsFacetEnum {
     countries = 'countries',
     cities = 'cities',
     device_os = 'device_os',
-    browsers = 'browsers'
+    browsers = 'browsers',
+    destinations = 'destinations'
 }
 
 

@@ -33,7 +33,7 @@ export interface QRCodeCorner {
     outer_color?: string;
     /**
      * The shape one of the QR code's corners should take
-     * @type {string}
+     * @type {QRCodeCornerShapeEnum}
      * @memberof QRCodeCorner
      */
     shape?: QRCodeCornerShapeEnum;

@@ -33,7 +33,7 @@ export interface BaseMetrics {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {BaseMetricsFacetEnum}
      * @memberof BaseMetrics
      */
     facet?: BaseMetricsFacetEnum;
@@ -57,7 +57,8 @@ export enum BaseMetricsFacetEnum {
     referrers_by_domain = 'referrers_by_domain',
     referring_domains = 'referring_domains',
     referring_networks = 'referring_networks',
-    shorten_counts = 'shorten_counts'
+    shorten_counts = 'shorten_counts',
+    destinations = 'destinations'
 }
 
 

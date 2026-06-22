@@ -12,48 +12,67 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  BadRequest,
-  Forbidden,
-  InternalError,
-  MonthlyLimitExceeded,
-  NotFound,
-  TemporarilyUnavailable,
-  UnprocessableEntity,
-  UpgradeRequired,
-  Webhook,
-  WebhookCreate,
-  WebhookUpdate,
-  Webhooks,
-} from '../models/index';
 import {
+    type BadRequest,
     BadRequestFromJSON,
     BadRequestToJSON,
+} from '../models/BadRequest';
+import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type MonthlyLimitExceeded,
     MonthlyLimitExceededFromJSON,
     MonthlyLimitExceededToJSON,
+} from '../models/MonthlyLimitExceeded';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
+} from '../models/TemporarilyUnavailable';
+import {
+    type UnprocessableEntity,
     UnprocessableEntityFromJSON,
     UnprocessableEntityToJSON,
+} from '../models/UnprocessableEntity';
+import {
+    type UpgradeRequired,
     UpgradeRequiredFromJSON,
     UpgradeRequiredToJSON,
+} from '../models/UpgradeRequired';
+import {
+    type Webhook,
     WebhookFromJSON,
     WebhookToJSON,
+} from '../models/Webhook';
+import {
+    type WebhookCreate,
     WebhookCreateFromJSON,
     WebhookCreateToJSON,
+} from '../models/WebhookCreate';
+import {
+    type WebhookUpdate,
     WebhookUpdateFromJSON,
     WebhookUpdateToJSON,
+} from '../models/WebhookUpdate';
+import {
+    type Webhooks,
     WebhooksFromJSON,
     WebhooksToJSON,
-} from '../models/index';
+} from '../models/Webhooks';
 
 export interface CreateWebhookRequest {
     webhook_create: WebhookCreate;
@@ -86,10 +105,9 @@ export interface VerifyWebhookRequest {
 export class WebhooksApi extends runtime.BaseAPI {
 
     /**
-     * Creates a webhook.
-     * Create Webhook
+     * Creates request options for createWebhook without sending the request
      */
-    async createWebhookRaw(requestParameters: CreateWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhook>> {
+    async createWebhookRequestOpts(requestParameters: CreateWebhookRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['webhook_create'] == null) {
             throw new runtime.RequiredError(
                 'webhook_create',
@@ -114,13 +132,22 @@ export class WebhooksApi extends runtime.BaseAPI {
 
         let urlPath = `/webhooks`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: WebhookCreateToJSON(requestParameters['webhook_create']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a webhook.
+     * Create Webhook
+     */
+    async createWebhookRaw(requestParameters: CreateWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhook>> {
+        const requestOptions = await this.createWebhookRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WebhookFromJSON(jsonValue));
     }
@@ -135,10 +162,9 @@ export class WebhooksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Deletes a webhook.
-     * Delete Webhook
+     * Creates request options for deleteWebhook without sending the request
      */
-    async deleteWebhookRaw(requestParameters: DeleteWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async deleteWebhookRequestOpts(requestParameters: DeleteWebhookRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['webhook_guid'] == null) {
             throw new runtime.RequiredError(
                 'webhook_guid',
@@ -160,14 +186,23 @@ export class WebhooksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/webhooks/{webhook_guid}`;
-        urlPath = urlPath.replace(`{${"webhook_guid"}}`, encodeURIComponent(String(requestParameters['webhook_guid'])));
+        urlPath = urlPath.replace('{webhook_guid}', encodeURIComponent(String(requestParameters['webhook_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Deletes a webhook.
+     * Delete Webhook
+     */
+    async deleteWebhookRaw(requestParameters: DeleteWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const requestOptions = await this.deleteWebhookRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -181,10 +216,9 @@ export class WebhooksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a webhook.
-     * Retrieve Webhook
+     * Creates request options for getWebhook without sending the request
      */
-    async getWebhookRaw(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhook>> {
+    async getWebhookRequestOpts(requestParameters: GetWebhookRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['webhook_guid'] == null) {
             throw new runtime.RequiredError(
                 'webhook_guid',
@@ -206,14 +240,23 @@ export class WebhooksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/webhooks/{webhook_guid}`;
-        urlPath = urlPath.replace(`{${"webhook_guid"}}`, encodeURIComponent(String(requestParameters['webhook_guid'])));
+        urlPath = urlPath.replace('{webhook_guid}', encodeURIComponent(String(requestParameters['webhook_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a webhook.
+     * Retrieve Webhook
+     */
+    async getWebhookRaw(requestParameters: GetWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhook>> {
+        const requestOptions = await this.getWebhookRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WebhookFromJSON(jsonValue));
     }
@@ -228,10 +271,9 @@ export class WebhooksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch all webhooks available for an Organization
-     * Get Webhooks
+     * Creates request options for getWebhooks without sending the request
      */
-    async getWebhooksRaw(requestParameters: GetWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhooks>> {
+    async getWebhooksRequestOpts(requestParameters: GetWebhooksRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['organization_guid'] == null) {
             throw new runtime.RequiredError(
                 'organization_guid',
@@ -253,14 +295,23 @@ export class WebhooksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/organizations/{organization_guid}/webhooks`;
-        urlPath = urlPath.replace(`{${"organization_guid"}}`, encodeURIComponent(String(requestParameters['organization_guid'])));
+        urlPath = urlPath.replace('{organization_guid}', encodeURIComponent(String(requestParameters['organization_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Fetch all webhooks available for an Organization
+     * Get Webhooks
+     */
+    async getWebhooksRaw(requestParameters: GetWebhooksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhooks>> {
+        const requestOptions = await this.getWebhooksRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WebhooksFromJSON(jsonValue));
     }
@@ -275,10 +326,9 @@ export class WebhooksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update a webhook
-     * Update Webhook
+     * Creates request options for updateWebhook without sending the request
      */
-    async updateWebhookRaw(requestParameters: UpdateWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhook>> {
+    async updateWebhookRequestOpts(requestParameters: UpdateWebhookRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['webhook_guid'] == null) {
             throw new runtime.RequiredError(
                 'webhook_guid',
@@ -309,15 +359,24 @@ export class WebhooksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/webhooks/{webhook_guid}`;
-        urlPath = urlPath.replace(`{${"webhook_guid"}}`, encodeURIComponent(String(requestParameters['webhook_guid'])));
+        urlPath = urlPath.replace('{webhook_guid}', encodeURIComponent(String(requestParameters['webhook_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: WebhookUpdateToJSON(requestParameters['webhook_update']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update a webhook
+     * Update Webhook
+     */
+    async updateWebhookRaw(requestParameters: UpdateWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhook>> {
+        const requestOptions = await this.updateWebhookRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WebhookFromJSON(jsonValue));
     }
@@ -332,10 +391,9 @@ export class WebhooksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Sends ping event to test webhook configuration.
-     * Verify Webhook
+     * Creates request options for verifyWebhook without sending the request
      */
-    async verifyWebhookRaw(requestParameters: VerifyWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhook>> {
+    async verifyWebhookRequestOpts(requestParameters: VerifyWebhookRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['webhook_guid'] == null) {
             throw new runtime.RequiredError(
                 'webhook_guid',
@@ -357,14 +415,23 @@ export class WebhooksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/webhooks/{webhook_guid}/verify`;
-        urlPath = urlPath.replace(`{${"webhook_guid"}}`, encodeURIComponent(String(requestParameters['webhook_guid'])));
+        urlPath = urlPath.replace('{webhook_guid}', encodeURIComponent(String(requestParameters['webhook_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Sends ping event to test webhook configuration.
+     * Verify Webhook
+     */
+    async verifyWebhookRaw(requestParameters: VerifyWebhookRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Webhook>> {
+        const requestOptions = await this.verifyWebhookRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => WebhookFromJSON(jsonValue));
     }

@@ -41,7 +41,7 @@ export interface ReferrersByDomains {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {ReferrersByDomainsFacetEnum}
      * @memberof ReferrersByDomains
      */
     facet?: ReferrersByDomainsFacetEnum;

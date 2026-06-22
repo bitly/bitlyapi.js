@@ -12,84 +12,142 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  BadRequest,
-  CityMetrics,
-  ClickMetrics,
-  DeviceMetrics,
-  Forbidden,
-  GetGroupLinkClicksByDevice200Response,
-  Group,
-  GroupClicks,
-  GroupFeatureUsage,
-  GroupHistoricalUsage,
-  GroupPreferences,
-  GroupUpdate,
-  Groups,
-  InternalError,
-  Metrics,
-  MonthlyLimitExceeded,
-  NotFound,
-  SortedLinks,
-  Tags,
-  TemporarilyUnavailable,
-  TimeUnit,
-  TimeUnitDWM,
-  UnprocessableEntity,
-  UpgradeRequired,
-} from '../models/index';
 import {
+    type BadRequest,
     BadRequestFromJSON,
     BadRequestToJSON,
+} from '../models/BadRequest';
+import {
+    type CityMetrics,
     CityMetricsFromJSON,
     CityMetricsToJSON,
+} from '../models/CityMetrics';
+import {
+    type ClickMetrics,
     ClickMetricsFromJSON,
     ClickMetricsToJSON,
+} from '../models/ClickMetrics';
+import {
+    type DeviceMetrics,
     DeviceMetricsFromJSON,
     DeviceMetricsToJSON,
+} from '../models/DeviceMetrics';
+import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type GetGroupLinkClicksByDevice200Response,
     GetGroupLinkClicksByDevice200ResponseFromJSON,
     GetGroupLinkClicksByDevice200ResponseToJSON,
+} from '../models/GetGroupLinkClicksByDevice200Response';
+import {
+    type GetGroupTopCodeScans200Response,
+    GetGroupTopCodeScans200ResponseFromJSON,
+    GetGroupTopCodeScans200ResponseToJSON,
+} from '../models/GetGroupTopCodeScans200Response';
+import {
+    type Group,
     GroupFromJSON,
     GroupToJSON,
+} from '../models/Group';
+import {
+    type GroupClicks,
     GroupClicksFromJSON,
     GroupClicksToJSON,
+} from '../models/GroupClicks';
+import {
+    type GroupExportRequestBody,
+    GroupExportRequestBodyFromJSON,
+    GroupExportRequestBodyToJSON,
+} from '../models/GroupExportRequestBody';
+import {
+    type GroupExportResponse,
+    GroupExportResponseFromJSON,
+    GroupExportResponseToJSON,
+} from '../models/GroupExportResponse';
+import {
+    type GroupFeatureUsage,
     GroupFeatureUsageFromJSON,
     GroupFeatureUsageToJSON,
+} from '../models/GroupFeatureUsage';
+import {
+    type GroupHistoricalUsage,
     GroupHistoricalUsageFromJSON,
     GroupHistoricalUsageToJSON,
+} from '../models/GroupHistoricalUsage';
+import {
+    type GroupPreferences,
     GroupPreferencesFromJSON,
     GroupPreferencesToJSON,
+} from '../models/GroupPreferences';
+import {
+    type GroupUpdate,
     GroupUpdateFromJSON,
     GroupUpdateToJSON,
+} from '../models/GroupUpdate';
+import {
+    type Groups,
     GroupsFromJSON,
     GroupsToJSON,
+} from '../models/Groups';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type Metrics,
     MetricsFromJSON,
     MetricsToJSON,
+} from '../models/Metrics';
+import {
+    type MonthlyLimitExceeded,
     MonthlyLimitExceededFromJSON,
     MonthlyLimitExceededToJSON,
+} from '../models/MonthlyLimitExceeded';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type SortedLinks,
     SortedLinksFromJSON,
     SortedLinksToJSON,
+} from '../models/SortedLinks';
+import {
+    type Tags,
     TagsFromJSON,
     TagsToJSON,
+} from '../models/Tags';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
+} from '../models/TemporarilyUnavailable';
+import {
+    type TimeUnit,
     TimeUnitFromJSON,
     TimeUnitToJSON,
+} from '../models/TimeUnit';
+import {
+    type TimeUnitDWM,
     TimeUnitDWMFromJSON,
     TimeUnitDWMToJSON,
+} from '../models/TimeUnitDWM';
+import {
+    type UnprocessableEntity,
     UnprocessableEntityFromJSON,
     UnprocessableEntityToJSON,
+} from '../models/UnprocessableEntity';
+import {
+    type UpgradeRequired,
     UpgradeRequiredFromJSON,
     UpgradeRequiredToJSON,
-} from '../models/index';
+} from '../models/UpgradeRequired';
 
 export interface GetGroupRequest {
     group_guid: string;
@@ -235,6 +293,7 @@ export interface GetGroupShortenCountsRequest {
 
 export interface GetGroupTagsRequest {
     group_guid: string;
+    type?: GetGroupTagsTypeEnum;
 }
 
 export interface GetGroupTopCodeScansRequest {
@@ -242,6 +301,7 @@ export interface GetGroupTopCodeScansRequest {
     unit: TimeUnit;
     units: number;
     unit_reference?: string;
+    decoupled?: boolean;
 }
 
 export interface GetGroupTopLinkClicksRequest {
@@ -264,6 +324,11 @@ export interface GetGroupsRequest {
     organization_guid?: string;
 }
 
+export interface PostCreateGroupExportRequest {
+    group_guid: string;
+    group_export_request_body: GroupExportRequestBody;
+}
+
 export interface UpdateGroupRequest {
     group_guid: string;
     group_update: GroupUpdate;
@@ -280,10 +345,9 @@ export interface UpdateGroupPreferencesRequest {
 export class GroupsApi extends runtime.BaseAPI {
 
     /**
-     * Returns details for a group.
-     * Retrieve a Group
+     * Creates request options for getGroup without sending the request
      */
-    async getGroupRaw(requestParameters: GetGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Group>> {
+    async getGroupRequestOpts(requestParameters: GetGroupRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -305,14 +369,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns details for a group.
+     * Retrieve a Group
+     */
+    async getGroupRaw(requestParameters: GetGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Group>> {
+        const requestOptions = await this.getGroupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupFromJSON(jsonValue));
     }
@@ -327,10 +400,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * get number of clicks on bitlinks in a group
-     * Get clicks by group
+     * Creates request options for getGroupClicks without sending the request
      */
-    async getGroupClicksRaw(requestParameters: GetGroupClicksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+    async getGroupClicksRequestOpts(requestParameters: GetGroupClicksRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -378,14 +450,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/clicks`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * get number of clicks on bitlinks in a group
+     * Get clicks by group
+     */
+    async getGroupClicksRaw(requestParameters: GetGroupClicksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+        const requestOptions = await this.getGroupClicksRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupClicksFromJSON(jsonValue));
     }
@@ -400,10 +481,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get QR code scan metrics for a group broken down by city.
-     * Get Scan Metrics for a Group by City
+     * Creates request options for getGroupCodeScansByCity without sending the request
      */
-    async getGroupCodeScansByCityRaw(requestParameters: GetGroupCodeScansByCityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+    async getGroupCodeScansByCityRequestOpts(requestParameters: GetGroupCodeScansByCityRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -451,14 +531,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/codes/scans/cities`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get QR code scan metrics for a group broken down by city.
+     * Get Scan Metrics for a Group by City
+     */
+    async getGroupCodeScansByCityRaw(requestParameters: GetGroupCodeScansByCityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+        const requestOptions = await this.getGroupCodeScansByCityRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CityMetricsFromJSON(jsonValue));
     }
@@ -473,10 +562,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get QR code scan metrics for a group broken down by country.
-     * Get Scan Metrics for a Group by Country
+     * Creates request options for getGroupCodeScansByCountry without sending the request
      */
-    async getGroupCodeScansByCountryRaw(requestParameters: GetGroupCodeScansByCountryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getGroupCodeScansByCountryRequestOpts(requestParameters: GetGroupCodeScansByCountryRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -524,14 +612,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/codes/scans/countries`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get QR code scan metrics for a group broken down by country.
+     * Get Scan Metrics for a Group by Country
+     */
+    async getGroupCodeScansByCountryRaw(requestParameters: GetGroupCodeScansByCountryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getGroupCodeScansByCountryRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -546,10 +643,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get QR code scan metrics over time for a group.
-     * Get Scan Metrics for a Group Over Time
+     * Creates request options for getGroupCodeScansOverTime without sending the request
      */
-    async getGroupCodeScansOverTimeRaw(requestParameters: GetGroupCodeScansOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+    async getGroupCodeScansOverTimeRequestOpts(requestParameters: GetGroupCodeScansOverTimeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -597,14 +693,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/codes/scans/over_time`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get QR code scan metrics over time for a group.
+     * Get Scan Metrics for a Group Over Time
+     */
+    async getGroupCodeScansOverTimeRaw(requestParameters: GetGroupCodeScansOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+        const requestOptions = await this.getGroupCodeScansOverTimeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupClicksFromJSON(jsonValue));
     }
@@ -619,10 +724,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a group\'s current feature limit usage, optionally provide limit name(s) for usage on specific limit(s)
-     * Get limit usage for a group
+     * Creates request options for getGroupFeatureUsage without sending the request
      */
-    async getGroupFeatureUsageRaw(requestParameters: GetGroupFeatureUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupFeatureUsage>> {
+    async getGroupFeatureUsageRequestOpts(requestParameters: GetGroupFeatureUsageRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -648,14 +752,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/feature_usage`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a group\'s current feature limit usage, optionally provide limit name(s) for usage on specific limit(s)
+     * Get limit usage for a group
+     */
+    async getGroupFeatureUsageRaw(requestParameters: GetGroupFeatureUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupFeatureUsage>> {
+        const requestOptions = await this.getGroupFeatureUsageRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupFeatureUsageFromJSON(jsonValue));
     }
@@ -670,10 +783,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get a group\'s historical usage for specific limit(s) and date range. Refer to GET /v4/groups/{group_guid}/feature_usage endpoint response for available limit names.
-     * Get historical usage for a group
+     * Creates request options for getGroupHistoricalUsage without sending the request
      */
-    async getGroupHistoricalUsageRaw(requestParameters: GetGroupHistoricalUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupHistoricalUsage>> {
+    async getGroupHistoricalUsageRequestOpts(requestParameters: GetGroupHistoricalUsageRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -711,14 +823,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/historical_usage`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get a group\'s historical usage for specific limit(s) and date range. Refer to GET /v4/groups/{group_guid}/feature_usage endpoint response for available limit names.
+     * Get historical usage for a group
+     */
+    async getGroupHistoricalUsageRaw(requestParameters: GetGroupHistoricalUsageRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupHistoricalUsage>> {
+        const requestOptions = await this.getGroupHistoricalUsageRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupHistoricalUsageFromJSON(jsonValue));
     }
@@ -733,10 +854,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get link clicks by city for all links in a group.
-     * Get Group Link Clicks by City
+     * Creates request options for getGroupLinkClicksByCity without sending the request
      */
-    async getGroupLinkClicksByCityRaw(requestParameters: GetGroupLinkClicksByCityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+    async getGroupLinkClicksByCityRequestOpts(requestParameters: GetGroupLinkClicksByCityRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -788,14 +908,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/links/clicks/cities`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get link clicks by city for all links in a group.
+     * Get Group Link Clicks by City
+     */
+    async getGroupLinkClicksByCityRaw(requestParameters: GetGroupLinkClicksByCityRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+        const requestOptions = await this.getGroupLinkClicksByCityRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CityMetricsFromJSON(jsonValue));
     }
@@ -810,10 +939,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get link clicks by country for all links in a group.
-     * Get Group Link Clicks by Country
+     * Creates request options for getGroupLinkClicksByCountry without sending the request
      */
-    async getGroupLinkClicksByCountryRaw(requestParameters: GetGroupLinkClicksByCountryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getGroupLinkClicksByCountryRequestOpts(requestParameters: GetGroupLinkClicksByCountryRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -865,14 +993,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/links/clicks/countries`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get link clicks by country for all links in a group.
+     * Get Group Link Clicks by Country
+     */
+    async getGroupLinkClicksByCountryRaw(requestParameters: GetGroupLinkClicksByCountryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getGroupLinkClicksByCountryRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -887,10 +1024,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get link clicks by device for all links in a group.
-     * Get Group Link Clicks by Device
+     * Creates request options for getGroupLinkClicksByDevice without sending the request
      */
-    async getGroupLinkClicksByDeviceRaw(requestParameters: GetGroupLinkClicksByDeviceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetGroupLinkClicksByDevice200Response>> {
+    async getGroupLinkClicksByDeviceRequestOpts(requestParameters: GetGroupLinkClicksByDeviceRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -942,14 +1078,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/links/clicks/devices`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get link clicks by device for all links in a group.
+     * Get Group Link Clicks by Device
+     */
+    async getGroupLinkClicksByDeviceRaw(requestParameters: GetGroupLinkClicksByDeviceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetGroupLinkClicksByDevice200Response>> {
+        const requestOptions = await this.getGroupLinkClicksByDeviceRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GetGroupLinkClicksByDevice200ResponseFromJSON(jsonValue));
     }
@@ -964,10 +1109,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get link clicks by referrer for all links in a group.
-     * Get Group Link Clicks by Referrer
+     * Creates request options for getGroupLinkClicksByReferrer without sending the request
      */
-    async getGroupLinkClicksByReferrerRaw(requestParameters: GetGroupLinkClicksByReferrerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getGroupLinkClicksByReferrerRequestOpts(requestParameters: GetGroupLinkClicksByReferrerRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1019,14 +1163,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/links/clicks/referrers`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get link clicks by referrer for all links in a group.
+     * Get Group Link Clicks by Referrer
+     */
+    async getGroupLinkClicksByReferrerRaw(requestParameters: GetGroupLinkClicksByReferrerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getGroupLinkClicksByReferrerRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -1041,10 +1194,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get link clicks over time for all links in a group.
-     * Get Group Link Clicks Over Time
+     * Creates request options for getGroupLinkClicksOverTime without sending the request
      */
-    async getGroupLinkClicksOverTimeRaw(requestParameters: GetGroupLinkClicksOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+    async getGroupLinkClicksOverTimeRequestOpts(requestParameters: GetGroupLinkClicksOverTimeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1092,14 +1244,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/links/clicks/over_time`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get link clicks over time for all links in a group.
+     * Get Group Link Clicks Over Time
+     */
+    async getGroupLinkClicksOverTimeRaw(requestParameters: GetGroupLinkClicksOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+        const requestOptions = await this.getGroupLinkClicksOverTimeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupClicksFromJSON(jsonValue));
     }
@@ -1114,10 +1275,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the geographic origins of click traffic by city for the specified group.
-     * Get Click Metrics for a Group by City
+     * Creates request options for getGroupMetricsByCities without sending the request
      */
-    async getGroupMetricsByCitiesRaw(requestParameters: GetGroupMetricsByCitiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+    async getGroupMetricsByCitiesRequestOpts(requestParameters: GetGroupMetricsByCitiesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1169,14 +1329,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/cities`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the geographic origins of click traffic by city for the specified group.
+     * Get Click Metrics for a Group by City
+     */
+    async getGroupMetricsByCitiesRaw(requestParameters: GetGroupMetricsByCitiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+        const requestOptions = await this.getGroupMetricsByCitiesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CityMetricsFromJSON(jsonValue));
     }
@@ -1191,10 +1360,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the geographic origins of click traffic by country for the specified group.
-     * Get Click Metrics for a Group by Country
+     * Creates request options for getGroupMetricsByCountries without sending the request
      */
-    async getGroupMetricsByCountriesRaw(requestParameters: GetGroupMetricsByCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getGroupMetricsByCountriesRequestOpts(requestParameters: GetGroupMetricsByCountriesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1246,14 +1414,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/countries`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the geographic origins of click traffic by country for the specified group.
+     * Get Click Metrics for a Group by Country
+     */
+    async getGroupMetricsByCountriesRaw(requestParameters: GetGroupMetricsByCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getGroupMetricsByCountriesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -1268,10 +1445,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the device types generating click traffic to the specified group\'s links.
-     * Get Click Metrics for a Group by Device Type
+     * Creates request options for getGroupMetricsByDevices without sending the request
      */
-    async getGroupMetricsByDevicesRaw(requestParameters: GetGroupMetricsByDevicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeviceMetrics>> {
+    async getGroupMetricsByDevicesRequestOpts(requestParameters: GetGroupMetricsByDevicesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1323,14 +1499,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/devices`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the device types generating click traffic to the specified group\'s links.
+     * Get Click Metrics for a Group by Device Type
+     */
+    async getGroupMetricsByDevicesRaw(requestParameters: GetGroupMetricsByDevicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeviceMetrics>> {
+        const requestOptions = await this.getGroupMetricsByDevicesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DeviceMetricsFromJSON(jsonValue));
     }
@@ -1345,10 +1530,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns metrics by referrer for the specified group\'s links.
-     * Get Click Metrics for a Group by Referrer
+     * Creates request options for getGroupMetricsByReferrer without sending the request
      */
-    async getGroupMetricsByReferrerRaw(requestParameters: GetGroupMetricsByReferrerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getGroupMetricsByReferrerRequestOpts(requestParameters: GetGroupMetricsByReferrerRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1400,14 +1584,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/referrers`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns metrics by referrer for the specified group\'s links.
+     * Get Click Metrics for a Group by Referrer
+     */
+    async getGroupMetricsByReferrerRaw(requestParameters: GetGroupMetricsByReferrerRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getGroupMetricsByReferrerRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -1422,10 +1615,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns metrics by referring networks for the specified group\'s links.
-     * Get Click Metrics for a Group by Referring Networks
+     * Creates request options for getGroupMetricsByReferringNetworks without sending the request
      */
-    async getGroupMetricsByReferringNetworksRaw(requestParameters: GetGroupMetricsByReferringNetworksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getGroupMetricsByReferringNetworksRequestOpts(requestParameters: GetGroupMetricsByReferringNetworksRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1477,14 +1669,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/referring_networks`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns metrics by referring networks for the specified group\'s links.
+     * Get Click Metrics for a Group by Referring Networks
+     */
+    async getGroupMetricsByReferringNetworksRaw(requestParameters: GetGroupMetricsByReferringNetworksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getGroupMetricsByReferringNetworksRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -1499,10 +1700,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get group engagement metrics over time for all links in a group.
-     * Get Group Metrics Over Time
+     * Creates request options for getGroupMetricsOverTime without sending the request
      */
-    async getGroupMetricsOverTimeRaw(requestParameters: GetGroupMetricsOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+    async getGroupMetricsOverTimeRequestOpts(requestParameters: GetGroupMetricsOverTimeRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1550,14 +1750,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/engagements/over_time`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get group engagement metrics over time for all links in a group.
+     * Get Group Metrics Over Time
+     */
+    async getGroupMetricsOverTimeRaw(requestParameters: GetGroupMetricsOverTimeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupClicks>> {
+        const requestOptions = await this.getGroupMetricsOverTimeRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupClicksFromJSON(jsonValue));
     }
@@ -1572,10 +1781,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns preferences for the specified group.
-     * Retrieve Group Preferences
+     * Creates request options for getGroupPreferences without sending the request
      */
-    async getGroupPreferencesRaw(requestParameters: GetGroupPreferencesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupPreferences>> {
+    async getGroupPreferencesRequestOpts(requestParameters: GetGroupPreferencesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1597,14 +1805,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/preferences`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns preferences for the specified group.
+     * Retrieve Group Preferences
+     */
+    async getGroupPreferencesRaw(requestParameters: GetGroupPreferencesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupPreferences>> {
+        const requestOptions = await this.getGroupPreferencesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupPreferencesFromJSON(jsonValue));
     }
@@ -1619,10 +1836,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns all the shorten counts for a group.
-     * Retrieve Group Shorten Counts
+     * Creates request options for getGroupShortenCounts without sending the request
      */
-    async getGroupShortenCountsRaw(requestParameters: GetGroupShortenCountsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Metrics>> {
+    async getGroupShortenCountsRequestOpts(requestParameters: GetGroupShortenCountsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1670,14 +1886,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/shorten_counts`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns all the shorten counts for a group.
+     * Retrieve Group Shorten Counts
+     */
+    async getGroupShortenCountsRaw(requestParameters: GetGroupShortenCountsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Metrics>> {
+        const requestOptions = await this.getGroupShortenCountsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => MetricsFromJSON(jsonValue));
     }
@@ -1692,10 +1917,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the tags currently used in the specified group. Maximum 1000.
-     * Retrieve Tags by Group
+     * Creates request options for getGroupTags without sending the request
      */
-    async getGroupTagsRaw(requestParameters: GetGroupTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Tags>> {
+    async getGroupTagsRequestOpts(requestParameters: GetGroupTagsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1704,6 +1928,10 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters['type'] != null) {
+            queryParameters['type'] = requestParameters['type'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -1717,14 +1945,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/tags`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the tags currently used in the specified group. Maximum 1000.
+     * Retrieve Tags by Group
+     */
+    async getGroupTagsRaw(requestParameters: GetGroupTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Tags>> {
+        const requestOptions = await this.getGroupTagsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TagsFromJSON(jsonValue));
     }
@@ -1739,10 +1976,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get top performing QR codes by scan count for all codes in a group.
-     * Get Top Performing QR Codes for a Group
+     * Creates request options for getGroupTopCodeScans without sending the request
      */
-    async getGroupTopCodeScansRaw(requestParameters: GetGroupTopCodeScansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+    async getGroupTopCodeScansRequestOpts(requestParameters: GetGroupTopCodeScansRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1778,6 +2014,10 @@ export class GroupsApi extends runtime.BaseAPI {
             queryParameters['unit_reference'] = requestParameters['unit_reference'];
         }
 
+        if (requestParameters['decoupled'] != null) {
+            queryParameters['decoupled'] = requestParameters['decoupled'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.accessToken) {
@@ -1790,32 +2030,40 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/codes/scans/top`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => SortedLinksFromJSON(jsonValue));
+        };
     }
 
     /**
      * Get top performing QR codes by scan count for all codes in a group.
      * Get Top Performing QR Codes for a Group
      */
-    async getGroupTopCodeScans(requestParameters: GetGroupTopCodeScansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<SortedLinks> {
+    async getGroupTopCodeScansRaw(requestParameters: GetGroupTopCodeScansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetGroupTopCodeScans200Response>> {
+        const requestOptions = await this.getGroupTopCodeScansRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetGroupTopCodeScans200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get top performing QR codes by scan count for all codes in a group.
+     * Get Top Performing QR Codes for a Group
+     */
+    async getGroupTopCodeScans(requestParameters: GetGroupTopCodeScansRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetGroupTopCodeScans200Response> {
         const response = await this.getGroupTopCodeScansRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Get top performing links by click for all links in a group.
-     * Get Group Top Performing Links by Click
+     * Creates request options for getGroupTopLinkClicks without sending the request
      */
-    async getGroupTopLinkClicksRaw(requestParameters: GetGroupTopLinkClicksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+    async getGroupTopLinkClicksRequestOpts(requestParameters: GetGroupTopLinkClicksRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1867,14 +2115,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/links/clicks/top`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get top performing links by click for all links in a group.
+     * Get Group Top Performing Links by Click
+     */
+    async getGroupTopLinkClicksRaw(requestParameters: GetGroupTopLinkClicksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+        const requestOptions = await this.getGroupTopLinkClicksRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SortedLinksFromJSON(jsonValue));
     }
@@ -1889,10 +2146,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get top performing links by engagement for all links in a group.
-     * Get Group Top Performing Links by Engagement
+     * Creates request options for getGroupTopMetrics without sending the request
      */
-    async getGroupTopMetricsRaw(requestParameters: GetGroupTopMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+    async getGroupTopMetricsRequestOpts(requestParameters: GetGroupTopMetricsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1944,14 +2200,23 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/engagements/top`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Get top performing links by engagement for all links in a group.
+     * Get Group Top Performing Links by Engagement
+     */
+    async getGroupTopMetricsRaw(requestParameters: GetGroupTopMetricsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+        const requestOptions = await this.getGroupTopMetricsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SortedLinksFromJSON(jsonValue));
     }
@@ -1966,10 +2231,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a list of groups in the organization.
-     * Retrieve Groups
+     * Creates request options for getGroups without sending the request
      */
-    async getGroupsRaw(requestParameters: GetGroupsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Groups>> {
+    async getGroupsRequestOpts(requestParameters: GetGroupsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['organization_guid'] != null) {
@@ -1989,12 +2253,21 @@ export class GroupsApi extends runtime.BaseAPI {
 
         let urlPath = `/groups`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a list of groups in the organization.
+     * Retrieve Groups
+     */
+    async getGroupsRaw(requestParameters: GetGroupsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Groups>> {
+        const requestOptions = await this.getGroupsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupsFromJSON(jsonValue));
     }
@@ -2009,10 +2282,74 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates the details of a group.
-     * Update a Group
+     * Creates request options for postCreateGroupExport without sending the request
      */
-    async updateGroupRaw(requestParameters: UpdateGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Group>> {
+    async postCreateGroupExportRequestOpts(requestParameters: PostCreateGroupExportRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling postCreateGroupExport().'
+            );
+        }
+
+        if (requestParameters['group_export_request_body'] == null) {
+            throw new runtime.RequiredError(
+                'group_export_request_body',
+                'Required parameter "group_export_request_body" was null or undefined when calling postCreateGroupExport().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/exports`;
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: GroupExportRequestBodyToJSON(requestParameters['group_export_request_body']),
+        };
+    }
+
+    /**
+     * Build a CSV export synchronously and return it inline as a base64 data URI plus metadata. The export_type field selects the CSV shape: link_engagements_batch (engagement metrics for explicit bitlinks or a filter), links_list (link metadata roster), or qr_codes_list (QR code metadata roster). Row caps apply per request: 200 rows when metrics are included (link_engagements_batch, or include_metrics on a list export); 1000 rows for metadata-only list exports. When the match set exceeds the cap, truncated is true and only the first cap rows are returned; row_count reports how many data rows are in the CSV. 
+     * Create an inline CSV export for a group
+     */
+    async postCreateGroupExportRaw(requestParameters: PostCreateGroupExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupExportResponse>> {
+        const requestOptions = await this.postCreateGroupExportRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GroupExportResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Build a CSV export synchronously and return it inline as a base64 data URI plus metadata. The export_type field selects the CSV shape: link_engagements_batch (engagement metrics for explicit bitlinks or a filter), links_list (link metadata roster), or qr_codes_list (QR code metadata roster). Row caps apply per request: 200 rows when metrics are included (link_engagements_batch, or include_metrics on a list export); 1000 rows for metadata-only list exports. When the match set exceeds the cap, truncated is true and only the first cap rows are returned; row_count reports how many data rows are in the CSV. 
+     * Create an inline CSV export for a group
+     */
+    async postCreateGroupExport(requestParameters: PostCreateGroupExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupExportResponse> {
+        const response = await this.postCreateGroupExportRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for updateGroup without sending the request
+     */
+    async updateGroupRequestOpts(requestParameters: UpdateGroupRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -2043,15 +2380,24 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: GroupUpdateToJSON(requestParameters['group_update']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates the details of a group.
+     * Update a Group
+     */
+    async updateGroupRaw(requestParameters: UpdateGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Group>> {
+        const requestOptions = await this.updateGroupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupFromJSON(jsonValue));
     }
@@ -2066,10 +2412,9 @@ export class GroupsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates preferences for a group.
-     * Update Group Preferences
+     * Creates request options for updateGroupPreferences without sending the request
      */
-    async updateGroupPreferencesRaw(requestParameters: UpdateGroupPreferencesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupPreferences>> {
+    async updateGroupPreferencesRequestOpts(requestParameters: UpdateGroupPreferencesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -2100,15 +2445,24 @@ export class GroupsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/preferences`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: GroupPreferencesToJSON(requestParameters['group_preferences']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates preferences for a group.
+     * Update Group Preferences
+     */
+    async updateGroupPreferencesRaw(requestParameters: UpdateGroupPreferencesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupPreferences>> {
+        const requestOptions = await this.updateGroupPreferencesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => GroupPreferencesFromJSON(jsonValue));
     }
@@ -2122,4 +2476,13 @@ export class GroupsApi extends runtime.BaseAPI {
         return await response.value();
     }
 
+}
+
+/**
+  * @export
+  * @enum {string}
+  */
+export enum GetGroupTagsTypeEnum {
+    bitlink = 'bitlink',
+    qr_code = 'qr_code'
 }

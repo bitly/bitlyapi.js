@@ -88,13 +88,19 @@ export interface QRCodeMinimal {
      */
     created_by?: string;
     /**
+     * A list of tags associated with QR code
+     * @type {Array<string>}
+     * @memberof QRCodeMinimal
+     */
+    tags?: Array<string>;
+    /**
      * 
      * @type {boolean}
      * @memberof QRCodeMinimal
      */
     archived?: boolean;
     /**
-     * Coming soon
+     * Optional expiration timestamp for the QR code's bitlink (e.g., 2025-01-28T14:30:00+0000)
      * @type {string}
      * @memberof QRCodeMinimal
      */
@@ -142,6 +148,7 @@ export function QRCodeMinimalFromJSONTyped(json: any, ignoreDiscriminator: boole
         'bitlink_id': json['bitlink_id'] == null ? undefined : json['bitlink_id'],
         'is_gs1': json['is_gs1'] == null ? undefined : json['is_gs1'],
         'created_by': json['created_by'] == null ? undefined : json['created_by'],
+        'tags': json['tags'] == null ? undefined : json['tags'],
         'archived': json['archived'] == null ? undefined : json['archived'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
         'created': json['created'] == null ? undefined : json['created'],
@@ -170,6 +177,7 @@ export function QRCodeMinimalToJSONTyped(value?: QRCodeMinimal | null, ignoreDis
         'bitlink_id': value['bitlink_id'],
         'is_gs1': value['is_gs1'],
         'created_by': value['created_by'],
+        'tags': value['tags'],
         'archived': value['archived'],
         'expiration_at': value['expiration_at'],
         'created': value['created'],
