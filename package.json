@@ -1,6 +1,6 @@
 {
   "name": "@bitly/api-client",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Bitly API Client",
   "keywords": [
     "Bitly",
@@ -20,16 +20,31 @@
   "license": "MIT",
   "author": "",
   "type": "module",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc",
-    "prepare": "tsc"
+    "build": "tsdown",
+    "prepare": "tsdown"
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
+    "tsdown": "^0.22.3",
     "typescript": "^5.9.3"
   }
 }
