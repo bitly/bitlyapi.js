@@ -78,11 +78,17 @@ export interface PublicCreateQRCodeRequest {
      */
     gs1?: GS1Metadata;
     /**
-     * Coming soon
+     * Optional expiration timestamp for the QR code's bitlink (e.g., 2025-01-28T14:30:00+0000). Minimum expiration time is 5 minutes from now and maximum is 1 year.
      * @type {string}
      * @memberof PublicCreateQRCodeRequest
      */
     expiration_at?: string;
+    /**
+     * A list of tags to add to the QR code
+     * @type {Array<string>}
+     * @memberof PublicCreateQRCodeRequest
+     */
+    tags?: Array<string>;
 }
 
 /**
@@ -111,6 +117,7 @@ export function PublicCreateQRCodeRequestFromJSONTyped(json: any, ignoreDiscrimi
         'destination': QRCodeDestinationFromJSON(json['destination']),
         'gs1': json['gs1'] == null ? undefined : GS1MetadataFromJSON(json['gs1']),
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
+        'tags': json['tags'] == null ? undefined : json['tags'],
     };
 }
 
@@ -132,6 +139,7 @@ export function PublicCreateQRCodeRequestToJSONTyped(value?: PublicCreateQRCodeR
         'destination': QRCodeDestinationToJSON(value['destination']),
         'gs1': GS1MetadataToJSON(value['gs1']),
         'expiration_at': value['expiration_at'],
+        'tags': value['tags'],
     };
 }
 

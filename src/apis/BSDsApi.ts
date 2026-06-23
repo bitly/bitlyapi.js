@@ -12,27 +12,32 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  BSDsResponse,
-  BadRequest,
-  Forbidden,
-  InternalError,
-  TemporarilyUnavailable,
-} from '../models/index';
 import {
+    type BSDsResponse,
     BSDsResponseFromJSON,
     BSDsResponseToJSON,
+} from '../models/BSDsResponse';
+import {
+    type BadRequest,
     BadRequestFromJSON,
     BadRequestToJSON,
+} from '../models/BadRequest';
+import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
-} from '../models/index';
+} from '../models/TemporarilyUnavailable';
 
 /**
  * 
@@ -40,10 +45,9 @@ import {
 export class BSDsApi extends runtime.BaseAPI {
 
     /**
-     * Fetch all Branded Short Domains
-     * Get BSDs
+     * Creates request options for getBSDs without sending the request
      */
-    async getBSDsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BSDsResponse>> {
+    async getBSDsRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -59,12 +63,21 @@ export class BSDsApi extends runtime.BaseAPI {
 
         let urlPath = `/bsds`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Fetch all Branded Short Domains
+     * Get BSDs
+     */
+    async getBSDsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BSDsResponse>> {
+        const requestOptions = await this.getBSDsRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BSDsResponseFromJSON(jsonValue));
     }

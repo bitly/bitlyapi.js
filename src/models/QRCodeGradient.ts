@@ -29,7 +29,7 @@ import {
 export interface QRCodeGradient {
     /**
      * The style of the gradient. Can be either linear or radial.
-     * @type {string}
+     * @type {QRCodeGradientStyleEnum}
      * @memberof QRCodeGradient
      */
     style?: QRCodeGradientStyleEnum;

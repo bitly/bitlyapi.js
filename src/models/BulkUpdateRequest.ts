@@ -21,7 +21,7 @@ import { mapValues } from '../runtime';
 export interface BulkUpdateRequest {
     /**
      * archive or edit_tags
-     * @type {string}
+     * @type {BulkUpdateRequestActionEnum}
      * @memberof BulkUpdateRequest
      */
     action: BulkUpdateRequestActionEnum;

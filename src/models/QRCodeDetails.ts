@@ -114,11 +114,17 @@ export interface QRCodeDetails {
      */
     modified?: string;
     /**
-     * Coming soon
+     * Optional expiration timestamp for the QR code's bitlink (e.g., 2025-01-28T14:30:00+0000)
      * @type {string}
      * @memberof QRCodeDetails
      */
     expiration_at?: string;
+    /**
+     * A list of tags associated with QR code
+     * @type {Array<string>}
+     * @memberof QRCodeDetails
+     */
+    tags?: Array<string>;
 }
 
 
@@ -153,6 +159,7 @@ export function QRCodeDetailsFromJSONTyped(json: any, ignoreDiscriminator: boole
         'created': json['created'] == null ? undefined : json['created'],
         'modified': json['modified'] == null ? undefined : json['modified'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
+        'tags': json['tags'] == null ? undefined : json['tags'],
     };
 }
 
@@ -180,6 +187,7 @@ export function QRCodeDetailsToJSONTyped(value?: QRCodeDetails | null, ignoreDis
         'created': value['created'],
         'modified': value['modified'],
         'expiration_at': value['expiration_at'],
+        'tags': value['tags'],
     };
 }
 

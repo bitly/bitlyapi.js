@@ -41,7 +41,7 @@ export interface DeviceMetrics {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {DeviceMetricsFacetEnum}
      * @memberof DeviceMetrics
      */
     facet?: DeviceMetricsFacetEnum;
@@ -71,7 +71,8 @@ export enum DeviceMetricsFacetEnum {
     referrers_by_domain = 'referrers_by_domain',
     referring_domains = 'referring_domains',
     referring_networks = 'referring_networks',
-    shorten_counts = 'shorten_counts'
+    shorten_counts = 'shorten_counts',
+    destinations = 'destinations'
 }
 
 

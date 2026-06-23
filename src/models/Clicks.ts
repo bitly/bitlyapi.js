@@ -41,7 +41,7 @@ export interface Clicks {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {ClicksUnitEnum}
      * @memberof Clicks
      */
     unit?: ClicksUnitEnum;

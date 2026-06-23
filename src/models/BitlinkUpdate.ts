@@ -118,7 +118,7 @@ export interface BitlinkUpdate {
      */
     campaign_ids?: Array<string>;
     /**
-     * Coming soon
+     * Optional expiration timestamp for the bitlink (e.g., 2025-01-28T14:30:00+0000)
      * @type {string}
      * @memberof BitlinkUpdate
      */

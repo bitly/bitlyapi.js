@@ -12,102 +12,172 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  BadRequest,
-  BitlinkBody,
-  BitlinkUpdateBody,
-  Bitlinks,
-  BulkUpdate,
-  BulkUpdateRequest,
-  CityMetrics,
-  ClickMetrics,
-  Clicks,
-  ClicksSummary,
-  Conflict,
-  DeviceMetrics,
-  ExpandBitlink,
-  ExpandedBitlink,
-  ExpectationFailed,
-  Forbidden,
-  FullShorten,
-  Gone,
-  InternalError,
-  LinkDeletionResponse,
-  MonthlyLimitExceeded,
-  NotFound,
-  ReferrersByDomains,
-  Shorten,
-  ShortenBitlinkBody,
-  SortedLinks,
-  TemporarilyUnavailable,
-  TimeUnit,
-  UnprocessableEntity,
-  UpgradeRequired,
-} from '../models/index';
 import {
+    type BadRequest,
     BadRequestFromJSON,
     BadRequestToJSON,
+} from '../models/BadRequest';
+import {
+    type BitlinkBody,
     BitlinkBodyFromJSON,
     BitlinkBodyToJSON,
+} from '../models/BitlinkBody';
+import {
+    type BitlinkUpdateBody,
     BitlinkUpdateBodyFromJSON,
     BitlinkUpdateBodyToJSON,
+} from '../models/BitlinkUpdateBody';
+import {
+    type Bitlinks,
     BitlinksFromJSON,
     BitlinksToJSON,
+} from '../models/Bitlinks';
+import {
+    type BulkUpdate,
     BulkUpdateFromJSON,
     BulkUpdateToJSON,
+} from '../models/BulkUpdate';
+import {
+    type BulkUpdateRequest,
     BulkUpdateRequestFromJSON,
     BulkUpdateRequestToJSON,
+} from '../models/BulkUpdateRequest';
+import {
+    type CityMetrics,
     CityMetricsFromJSON,
     CityMetricsToJSON,
+} from '../models/CityMetrics';
+import {
+    type ClickMetrics,
     ClickMetricsFromJSON,
     ClickMetricsToJSON,
+} from '../models/ClickMetrics';
+import {
+    type Clicks,
     ClicksFromJSON,
     ClicksToJSON,
+} from '../models/Clicks';
+import {
+    type ClicksSummary,
     ClicksSummaryFromJSON,
     ClicksSummaryToJSON,
+} from '../models/ClicksSummary';
+import {
+    type Conflict,
     ConflictFromJSON,
     ConflictToJSON,
+} from '../models/Conflict';
+import {
+    type DeviceMetrics,
     DeviceMetricsFromJSON,
     DeviceMetricsToJSON,
+} from '../models/DeviceMetrics';
+import {
+    type ExpandBitlink,
     ExpandBitlinkFromJSON,
     ExpandBitlinkToJSON,
+} from '../models/ExpandBitlink';
+import {
+    type ExpandedBitlink,
     ExpandedBitlinkFromJSON,
     ExpandedBitlinkToJSON,
+} from '../models/ExpandedBitlink';
+import {
+    type ExpectationFailed,
     ExpectationFailedFromJSON,
     ExpectationFailedToJSON,
+} from '../models/ExpectationFailed';
+import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type FullShorten,
     FullShortenFromJSON,
     FullShortenToJSON,
+} from '../models/FullShorten';
+import {
+    type Gone,
     GoneFromJSON,
     GoneToJSON,
+} from '../models/Gone';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type LinkDeletionResponse,
     LinkDeletionResponseFromJSON,
     LinkDeletionResponseToJSON,
+} from '../models/LinkDeletionResponse';
+import {
+    type MonthlyLimitExceeded,
     MonthlyLimitExceededFromJSON,
     MonthlyLimitExceededToJSON,
+} from '../models/MonthlyLimitExceeded';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type ReferrersByDomains,
     ReferrersByDomainsFromJSON,
     ReferrersByDomainsToJSON,
+} from '../models/ReferrersByDomains';
+import {
+    type Shorten,
     ShortenFromJSON,
     ShortenToJSON,
+} from '../models/Shorten';
+import {
+    type ShortenBitlinkBody,
     ShortenBitlinkBodyFromJSON,
     ShortenBitlinkBodyToJSON,
+} from '../models/ShortenBitlinkBody';
+import {
+    type SortedLinks,
     SortedLinksFromJSON,
     SortedLinksToJSON,
+} from '../models/SortedLinks';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
+} from '../models/TemporarilyUnavailable';
+import {
+    type TimeUnit,
     TimeUnitFromJSON,
     TimeUnitToJSON,
+} from '../models/TimeUnit';
+import {
+    type TopLinksAndQRCodes,
+    TopLinksAndQRCodesFromJSON,
+    TopLinksAndQRCodesToJSON,
+} from '../models/TopLinksAndQRCodes';
+import {
+    type TotalEngagements,
+    TotalEngagementsFromJSON,
+    TotalEngagementsToJSON,
+} from '../models/TotalEngagements';
+import {
+    type TotalEngagementsSummary,
+    TotalEngagementsSummaryFromJSON,
+    TotalEngagementsSummaryToJSON,
+} from '../models/TotalEngagementsSummary';
+import {
+    type UnprocessableEntity,
     UnprocessableEntityFromJSON,
     UnprocessableEntityToJSON,
+} from '../models/UnprocessableEntity';
+import {
+    type UpgradeRequired,
     UpgradeRequiredFromJSON,
     UpgradeRequiredToJSON,
-} from '../models/index';
+} from '../models/UpgradeRequired';
 
 export interface CreateBitlinkRequest {
     shorten: Shorten;
@@ -144,6 +214,8 @@ export interface GetBitlinksByGroupRequest {
     channel_guid?: string;
     custom_bitlink?: GetBitlinksByGroupCustomBitlinkEnum;
     has_qr_codes?: GetBitlinksByGroupHasQrCodesEnum;
+    is_expired?: GetBitlinksByGroupIsExpiredEnum;
+    has_expiration?: GetBitlinksByGroupHasExpirationEnum;
     tags?: Array<string>;
     launchpad_ids?: Array<string>;
     encoding_login?: Array<string>;
@@ -157,6 +229,20 @@ export interface GetClicksForBitlinkRequest {
 }
 
 export interface GetClicksSummaryForBitlinkRequest {
+    bitlink: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
+}
+
+export interface GetEngagementsRequest {
+    bitlink: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
+}
+
+export interface GetEngagementsSummaryRequest {
     bitlink: string;
     unit: TimeUnit;
     units: number;
@@ -228,6 +314,14 @@ export interface GetSortedBitlinksRequest {
     size?: number;
 }
 
+export interface GetTopLinksAndQRCodesByEngagementsRequest {
+    group_guid: string;
+    unit?: TimeUnit;
+    units?: number;
+    unit_reference?: string;
+    size?: number;
+}
+
 export interface UpdateBitlinkRequest {
     bitlink: string;
     bitlink_update_body: BitlinkUpdateBody;
@@ -244,10 +338,9 @@ export interface UpdateBitlinksByGroupRequest {
 export class BitlinksApi extends runtime.BaseAPI {
 
     /**
-     * Converts a long url to a Bitlink. You may see errors returned from this endpoint - \"BRANDED_LINK_MONTHLY_LIMIT_EXCEEDED\" occurs if you have shortened more links than your account is configured for for the month, and \"DNS_CONFIGURATION_ERROR\" occurs if you are attempting to shorten links against a custom domain which doesn\'t have DNS properly configured.
-     * Shorten a Link
+     * Creates request options for createBitlink without sending the request
      */
-    async createBitlinkRaw(requestParameters: CreateBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ShortenBitlinkBody>> {
+    async createBitlinkRequestOpts(requestParameters: CreateBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['shorten'] == null) {
             throw new runtime.RequiredError(
                 'shorten',
@@ -272,13 +365,22 @@ export class BitlinksApi extends runtime.BaseAPI {
 
         let urlPath = `/shorten`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ShortenToJSON(requestParameters['shorten']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Converts a long url to a Bitlink. You may see errors returned from this endpoint - \"BRANDED_LINK_MONTHLY_LIMIT_EXCEEDED\" occurs if you have shortened more links than your account is configured for for the month, and \"DNS_CONFIGURATION_ERROR\" occurs if you are attempting to shorten links against a custom domain which doesn\'t have DNS properly configured.
+     * Shorten a Link
+     */
+    async createBitlinkRaw(requestParameters: CreateBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ShortenBitlinkBody>> {
+        const requestOptions = await this.createBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ShortenBitlinkBodyFromJSON(jsonValue));
     }
@@ -293,10 +395,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Converts a long url to a Bitlink and sets additional parameters. You may see errors returned from this endpoint - \"BRANDED_LINK_MONTHLY_LIMIT_EXCEEDED\" occurs if you have shortened more links than your account is configured for for the month, and \"DNS_CONFIGURATION_ERROR\" occurs if you are attempting to shorten links against a custom domain which doesn\'t have DNS properly configured.
-     * Create a Bitlink
+     * Creates request options for createFullBitlink without sending the request
      */
-    async createFullBitlinkRaw(requestParameters: CreateFullBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkBody>> {
+    async createFullBitlinkRequestOpts(requestParameters: CreateFullBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['full_shorten'] == null) {
             throw new runtime.RequiredError(
                 'full_shorten',
@@ -321,13 +422,22 @@ export class BitlinksApi extends runtime.BaseAPI {
 
         let urlPath = `/bitlinks`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: FullShortenToJSON(requestParameters['full_shorten']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Converts a long url to a Bitlink and sets additional parameters. You may see errors returned from this endpoint - \"BRANDED_LINK_MONTHLY_LIMIT_EXCEEDED\" occurs if you have shortened more links than your account is configured for for the month, and \"DNS_CONFIGURATION_ERROR\" occurs if you are attempting to shorten links against a custom domain which doesn\'t have DNS properly configured.
+     * Create a Bitlink
+     */
+    async createFullBitlinkRaw(requestParameters: CreateFullBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkBody>> {
+        const requestOptions = await this.createFullBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BitlinkBodyFromJSON(jsonValue));
     }
@@ -342,10 +452,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Delete an unedited hash Bitlink.
-     * Delete a Bitlink
+     * Creates request options for deleteBitlink without sending the request
      */
-    async deleteBitlinkRaw(requestParameters: DeleteBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LinkDeletionResponse>> {
+    async deleteBitlinkRequestOpts(requestParameters: DeleteBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -367,14 +476,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Delete an unedited hash Bitlink.
+     * Delete a Bitlink
+     */
+    async deleteBitlinkRaw(requestParameters: DeleteBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<LinkDeletionResponse>> {
+        const requestOptions = await this.deleteBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => LinkDeletionResponseFromJSON(jsonValue));
     }
@@ -389,10 +507,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the short link and long URL for the specified link.
-     * Expand a Bitlink
+     * Creates request options for expandBitlink without sending the request
      */
-    async expandBitlinkRaw(requestParameters: ExpandBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExpandedBitlink>> {
+    async expandBitlinkRequestOpts(requestParameters: ExpandBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['expand_bitlink'] == null) {
             throw new runtime.RequiredError(
                 'expand_bitlink',
@@ -417,13 +534,22 @@ export class BitlinksApi extends runtime.BaseAPI {
 
         let urlPath = `/expand`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ExpandBitlinkToJSON(requestParameters['expand_bitlink']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the short link and long URL for the specified link.
+     * Expand a Bitlink
+     */
+    async expandBitlinkRaw(requestParameters: ExpandBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ExpandedBitlink>> {
+        const requestOptions = await this.expandBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ExpandedBitlinkFromJSON(jsonValue));
     }
@@ -438,10 +564,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns information for the specified link.
-     * Retrieve a Bitlink
+     * Creates request options for getBitlink without sending the request
      */
-    async getBitlinkRaw(requestParameters: GetBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkBody>> {
+    async getBitlinkRequestOpts(requestParameters: GetBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -463,14 +588,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns information for the specified link.
+     * Retrieve a Bitlink
+     */
+    async getBitlinkRaw(requestParameters: GetBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkBody>> {
+        const requestOptions = await this.getBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BitlinkBodyFromJSON(jsonValue));
     }
@@ -485,10 +619,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a paginated collection of Bitlinks for a group. The list of custom bitlinks has newest entries first.
-     * Retrieve Bitlinks by Group
+     * Creates request options for getBitlinksByGroup without sending the request
      */
-    async getBitlinksByGroupRaw(requestParameters: GetBitlinksByGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Bitlinks>> {
+    async getBitlinksByGroupRequestOpts(requestParameters: GetBitlinksByGroupRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -550,6 +683,14 @@ export class BitlinksApi extends runtime.BaseAPI {
             queryParameters['has_qr_codes'] = requestParameters['has_qr_codes'];
         }
 
+        if (requestParameters['is_expired'] != null) {
+            queryParameters['is_expired'] = requestParameters['is_expired'];
+        }
+
+        if (requestParameters['has_expiration'] != null) {
+            queryParameters['has_expiration'] = requestParameters['has_expiration'];
+        }
+
         if (requestParameters['tags'] != null) {
             queryParameters['tags'] = requestParameters['tags'];
         }
@@ -574,14 +715,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/bitlinks`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a paginated collection of Bitlinks for a group. The list of custom bitlinks has newest entries first.
+     * Retrieve Bitlinks by Group
+     */
+    async getBitlinksByGroupRaw(requestParameters: GetBitlinksByGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Bitlinks>> {
+        const requestOptions = await this.getBitlinksByGroupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BitlinksFromJSON(jsonValue));
     }
@@ -596,10 +746,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the click counts for the specified link in an array based on a date.
-     * Get Clicks for a Bitlink
+     * Creates request options for getClicksForBitlink without sending the request
      */
-    async getClicksForBitlinkRaw(requestParameters: GetClicksForBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Clicks>> {
+    async getClicksForBitlinkRequestOpts(requestParameters: GetClicksForBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -647,14 +796,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/clicks`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the click counts for the specified link in an array based on a date.
+     * Get Clicks for a Bitlink
+     */
+    async getClicksForBitlinkRaw(requestParameters: GetClicksForBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Clicks>> {
+        const requestOptions = await this.getClicksForBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClicksFromJSON(jsonValue));
     }
@@ -669,10 +827,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the click counts for the specified link rolled up into a single field.
-     * Get a Clicks Summary for a Bitlink
+     * Creates request options for getClicksSummaryForBitlink without sending the request
      */
-    async getClicksSummaryForBitlinkRaw(requestParameters: GetClicksSummaryForBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClicksSummary>> {
+    async getClicksSummaryForBitlinkRequestOpts(requestParameters: GetClicksSummaryForBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -720,14 +877,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/clicks/summary`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the click counts for the specified link rolled up into a single field.
+     * Get a Clicks Summary for a Bitlink
+     */
+    async getClicksSummaryForBitlinkRaw(requestParameters: GetClicksSummaryForBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClicksSummary>> {
+        const requestOptions = await this.getClicksSummaryForBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClicksSummaryFromJSON(jsonValue));
     }
@@ -742,10 +908,171 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the city origins of click traffic for the specified link.
-     * Get Metrics for a Bitlink by City
+     * Creates request options for getEngagements without sending the request
      */
-    async getMetricsForBitlinkByCitiesRaw(requestParameters: GetMetricsForBitlinkByCitiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+    async getEngagementsRequestOpts(requestParameters: GetEngagementsRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['bitlink'] == null) {
+            throw new runtime.RequiredError(
+                'bitlink',
+                'Required parameter "bitlink" was null or undefined when calling getEngagements().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getEngagements().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getEngagements().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/bitlinks/{bitlink}/engagements`;
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Returns an array of engagement counts for the specified link. The array is comprised of button click, click and scan counts for each time window, where the window is based on the provided unit.
+     * Get Engagement Counts for a Bitlink
+     */
+    async getEngagementsRaw(requestParameters: GetEngagementsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TotalEngagements>> {
+        const requestOptions = await this.getEngagementsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TotalEngagementsFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns an array of engagement counts for the specified link. The array is comprised of button click, click and scan counts for each time window, where the window is based on the provided unit.
+     * Get Engagement Counts for a Bitlink
+     */
+    async getEngagements(requestParameters: GetEngagementsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TotalEngagements> {
+        const response = await this.getEngagementsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getEngagementsSummary without sending the request
+     */
+    async getEngagementsSummaryRequestOpts(requestParameters: GetEngagementsSummaryRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['bitlink'] == null) {
+            throw new runtime.RequiredError(
+                'bitlink',
+                'Required parameter "bitlink" was null or undefined when calling getEngagementsSummary().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getEngagementsSummary().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getEngagementsSummary().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/bitlinks/{bitlink}/engagements/summary`;
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Returns the engagement counts for the specified link rolled up into a single field.
+     * Get an Engagement Count Summary for a Bitlink
+     */
+    async getEngagementsSummaryRaw(requestParameters: GetEngagementsSummaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TotalEngagementsSummary>> {
+        const requestOptions = await this.getEngagementsSummaryRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TotalEngagementsSummaryFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns the engagement counts for the specified link rolled up into a single field.
+     * Get an Engagement Count Summary for a Bitlink
+     */
+    async getEngagementsSummary(requestParameters: GetEngagementsSummaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TotalEngagementsSummary> {
+        const response = await this.getEngagementsSummaryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getMetricsForBitlinkByCities without sending the request
+     */
+    async getMetricsForBitlinkByCitiesRequestOpts(requestParameters: GetMetricsForBitlinkByCitiesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -797,14 +1124,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/cities`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the city origins of click traffic for the specified link.
+     * Get Metrics for a Bitlink by City
+     */
+    async getMetricsForBitlinkByCitiesRaw(requestParameters: GetMetricsForBitlinkByCitiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CityMetrics>> {
+        const requestOptions = await this.getMetricsForBitlinkByCitiesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CityMetricsFromJSON(jsonValue));
     }
@@ -819,10 +1155,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the country origins of click traffic for the specified link.
-     * Get Metrics for a Bitlink by Country
+     * Creates request options for getMetricsForBitlinkByCountries without sending the request
      */
-    async getMetricsForBitlinkByCountriesRaw(requestParameters: GetMetricsForBitlinkByCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getMetricsForBitlinkByCountriesRequestOpts(requestParameters: GetMetricsForBitlinkByCountriesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -874,14 +1209,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/countries`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the country origins of click traffic for the specified link.
+     * Get Metrics for a Bitlink by Country
+     */
+    async getMetricsForBitlinkByCountriesRaw(requestParameters: GetMetricsForBitlinkByCountriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getMetricsForBitlinkByCountriesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -896,10 +1240,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the device types generating click traffic to the specified link.
-     * Get Metrics for a Bitlink by Device Type
+     * Creates request options for getMetricsForBitlinkByDevices without sending the request
      */
-    async getMetricsForBitlinkByDevicesRaw(requestParameters: GetMetricsForBitlinkByDevicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeviceMetrics>> {
+    async getMetricsForBitlinkByDevicesRequestOpts(requestParameters: GetMetricsForBitlinkByDevicesRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -951,14 +1294,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/devices`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the device types generating click traffic to the specified link.
+     * Get Metrics for a Bitlink by Device Type
+     */
+    async getMetricsForBitlinkByDevicesRaw(requestParameters: GetMetricsForBitlinkByDevicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DeviceMetrics>> {
+        const requestOptions = await this.getMetricsForBitlinkByDevicesRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => DeviceMetricsFromJSON(jsonValue));
     }
@@ -973,10 +1325,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns referrer click counts for the specified link.
-     * Get Metrics for a Bitlink by Referrer Name
+     * Creates request options for getMetricsForBitlinkByReferrerName without sending the request
      */
-    async getMetricsForBitlinkByReferrerNameRaw(requestParameters: GetMetricsForBitlinkByReferrerNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getMetricsForBitlinkByReferrerNameRequestOpts(requestParameters: GetMetricsForBitlinkByReferrerNameRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -1028,14 +1379,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/referrer_name`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns referrer click counts for the specified link.
+     * Get Metrics for a Bitlink by Referrer Name
+     */
+    async getMetricsForBitlinkByReferrerNameRaw(requestParameters: GetMetricsForBitlinkByReferrerNameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getMetricsForBitlinkByReferrerNameRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -1050,10 +1410,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns referrer click counts for the specified link.
-     * Get Metrics for a Bitlink by Referrers
+     * Creates request options for getMetricsForBitlinkByReferrers without sending the request
      */
-    async getMetricsForBitlinkByReferrersRaw(requestParameters: GetMetricsForBitlinkByReferrersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getMetricsForBitlinkByReferrersRequestOpts(requestParameters: GetMetricsForBitlinkByReferrersRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -1105,14 +1464,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/referrers`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns referrer click counts for the specified link.
+     * Get Metrics for a Bitlink by Referrers
+     */
+    async getMetricsForBitlinkByReferrersRaw(requestParameters: GetMetricsForBitlinkByReferrersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getMetricsForBitlinkByReferrersRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -1127,10 +1495,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns click metrics grouped by referrers for the specified link.
-     * Get Metrics for a Bitlink by Referrers by Domain
+     * Creates request options for getMetricsForBitlinkByReferrersByDomains without sending the request
      */
-    async getMetricsForBitlinkByReferrersByDomainsRaw(requestParameters: GetMetricsForBitlinkByReferrersByDomainsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReferrersByDomains>> {
+    async getMetricsForBitlinkByReferrersByDomainsRequestOpts(requestParameters: GetMetricsForBitlinkByReferrersByDomainsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -1182,14 +1549,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/referrers_by_domains`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns click metrics grouped by referrers for the specified link.
+     * Get Metrics for a Bitlink by Referrers by Domain
+     */
+    async getMetricsForBitlinkByReferrersByDomainsRaw(requestParameters: GetMetricsForBitlinkByReferrersByDomainsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ReferrersByDomains>> {
+        const requestOptions = await this.getMetricsForBitlinkByReferrersByDomainsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ReferrersByDomainsFromJSON(jsonValue));
     }
@@ -1204,10 +1580,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the referring domain click counts for the specified link.
-     * Get Metrics for a Bitlink by Referring Domains
+     * Creates request options for getMetricsForBitlinkByReferringDomains without sending the request
      */
-    async getMetricsForBitlinkByReferringDomainsRaw(requestParameters: GetMetricsForBitlinkByReferringDomainsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+    async getMetricsForBitlinkByReferringDomainsRequestOpts(requestParameters: GetMetricsForBitlinkByReferringDomainsRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -1259,14 +1634,23 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}/referring_domains`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the referring domain click counts for the specified link.
+     * Get Metrics for a Bitlink by Referring Domains
+     */
+    async getMetricsForBitlinkByReferringDomainsRaw(requestParameters: GetMetricsForBitlinkByReferringDomainsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getMetricsForBitlinkByReferringDomainsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
     }
@@ -1281,10 +1665,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a list of Bitlinks sorted by group. The list of custom bitlinks has newest entries first.
-     * Retrieve Sorted Bitlinks for Group
+     * Creates request options for getSortedBitlinks without sending the request
      */
-    async getSortedBitlinksRaw(requestParameters: GetSortedBitlinksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+    async getSortedBitlinksRequestOpts(requestParameters: GetSortedBitlinksRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1329,15 +1712,24 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/bitlinks/{sort}`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
-        urlPath = urlPath.replace(`{${"sort"}}`, encodeURIComponent(String(requestParameters['sort'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{sort}', encodeURIComponent(String(requestParameters['sort'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a list of Bitlinks sorted by group. The list of custom bitlinks has newest entries first.
+     * Retrieve Sorted Bitlinks for Group
+     */
+    async getSortedBitlinksRaw(requestParameters: GetSortedBitlinksRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<SortedLinks>> {
+        const requestOptions = await this.getSortedBitlinksRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SortedLinksFromJSON(jsonValue));
     }
@@ -1352,10 +1744,80 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates fields in the specified link. To redirect the link (i.e. to update the Long URL), use the long_url parameter. This will always charge an encode limit.
-     * Update a Bitlink
+     * Creates request options for getTopLinksAndQRCodesByEngagements without sending the request
      */
-    async updateBitlinkRaw(requestParameters: UpdateBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkBody>> {
+    async getTopLinksAndQRCodesByEngagementsRequestOpts(requestParameters: GetTopLinksAndQRCodesByEngagementsRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getTopLinksAndQRCodesByEngagements().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        if (requestParameters['size'] != null) {
+            queryParameters['size'] = requestParameters['size'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/engagements/sorted/top`;
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Returns the bitlinks and decoupled QR codes in a group with the most engagements over the requested time window, ranked together in descending order by engagement count. Bitlinks and decoupled QR codes are returned in separate lists; `sorted_links` preserves the unified descending-by-count ordering across both, with each entry\'s id referencing either a bitlink or a QR code guid. 
+     * Retrieve Top Links and Decoupled QR Codes by Engagements
+     */
+    async getTopLinksAndQRCodesByEngagementsRaw(requestParameters: GetTopLinksAndQRCodesByEngagementsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TopLinksAndQRCodes>> {
+        const requestOptions = await this.getTopLinksAndQRCodesByEngagementsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TopLinksAndQRCodesFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns the bitlinks and decoupled QR codes in a group with the most engagements over the requested time window, ranked together in descending order by engagement count. Bitlinks and decoupled QR codes are returned in separate lists; `sorted_links` preserves the unified descending-by-count ordering across both, with each entry\'s id referencing either a bitlink or a QR code guid. 
+     * Retrieve Top Links and Decoupled QR Codes by Engagements
+     */
+    async getTopLinksAndQRCodesByEngagements(requestParameters: GetTopLinksAndQRCodesByEngagementsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TopLinksAndQRCodes> {
+        const response = await this.getTopLinksAndQRCodesByEngagementsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for updateBitlink without sending the request
+     */
+    async updateBitlinkRequestOpts(requestParameters: UpdateBitlinkRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['bitlink'] == null) {
             throw new runtime.RequiredError(
                 'bitlink',
@@ -1386,15 +1848,24 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/bitlinks/{bitlink}`;
-        urlPath = urlPath.replace(`{${"bitlink"}}`, encodeURIComponent(String(requestParameters['bitlink'])));
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: BitlinkUpdateBodyToJSON(requestParameters['bitlink_update_body']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates fields in the specified link. To redirect the link (i.e. to update the Long URL), use the long_url parameter. This will always charge an encode limit.
+     * Update a Bitlink
+     */
+    async updateBitlinkRaw(requestParameters: UpdateBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkBody>> {
+        const requestOptions = await this.updateBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BitlinkBodyFromJSON(jsonValue));
     }
@@ -1409,10 +1880,9 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
-     * Bulk update can add or remove tags or archive up to 100 links at a time; The response includes a list of bitlink ids that were updated.
-     * Bulk update bitlinks
+     * Creates request options for updateBitlinksByGroup without sending the request
      */
-    async updateBitlinksByGroupRaw(requestParameters: UpdateBitlinksByGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BulkUpdate>> {
+    async updateBitlinksByGroupRequestOpts(requestParameters: UpdateBitlinksByGroupRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['group_guid'] == null) {
             throw new runtime.RequiredError(
                 'group_guid',
@@ -1443,15 +1913,24 @@ export class BitlinksApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/groups/{group_guid}/bitlinks`;
-        urlPath = urlPath.replace(`{${"group_guid"}}`, encodeURIComponent(String(requestParameters['group_guid'])));
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: BulkUpdateRequestToJSON(requestParameters['bulk_update_request']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Bulk update can add or remove tags or archive up to 100 links at a time; The response includes a list of bitlink ids that were updated.
+     * Bulk update bitlinks
+     */
+    async updateBitlinksByGroupRaw(requestParameters: UpdateBitlinksByGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BulkUpdate>> {
+        const requestOptions = await this.updateBitlinksByGroupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BulkUpdateFromJSON(jsonValue));
     }
@@ -1508,6 +1987,24 @@ export enum GetBitlinksByGroupCustomBitlinkEnum {
   * @enum {string}
   */
 export enum GetBitlinksByGroupHasQrCodesEnum {
+    on = 'on',
+    off = 'off',
+    both = 'both'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum GetBitlinksByGroupIsExpiredEnum {
+    on = 'on',
+    off = 'off',
+    both = 'both'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum GetBitlinksByGroupHasExpirationEnum {
     on = 'on',
     off = 'off',
     both = 'both'

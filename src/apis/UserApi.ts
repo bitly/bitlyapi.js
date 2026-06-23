@@ -12,39 +12,52 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  BadRequest,
-  Forbidden,
-  InternalError,
-  NotFound,
-  PlatformLimits,
-  TemporarilyUnavailable,
-  UnprocessableEntity,
-  User,
-  UserUpdate,
-} from '../models/index';
 import {
+    type BadRequest,
     BadRequestFromJSON,
     BadRequestToJSON,
+} from '../models/BadRequest';
+import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type PlatformLimits,
     PlatformLimitsFromJSON,
     PlatformLimitsToJSON,
+} from '../models/PlatformLimits';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
+} from '../models/TemporarilyUnavailable';
+import {
+    type UnprocessableEntity,
     UnprocessableEntityFromJSON,
     UnprocessableEntityToJSON,
+} from '../models/UnprocessableEntity';
+import {
+    type User,
     UserFromJSON,
     UserToJSON,
+} from '../models/User';
+import {
+    type UserUpdate,
     UserUpdateFromJSON,
     UserUpdateToJSON,
-} from '../models/index';
+} from '../models/UserUpdate';
 
 export interface GetPlatformLimitsRequest {
     path?: string;
@@ -60,10 +73,9 @@ export interface UpdateUserRequest {
 export class UserApi extends runtime.BaseAPI {
 
     /**
-     * Fetch all platform limits and counts available for an organization
-     * Get Platform Limits
+     * Creates request options for getPlatformLimits without sending the request
      */
-    async getPlatformLimitsRaw(requestParameters: GetPlatformLimitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlatformLimits>> {
+    async getPlatformLimitsRequestOpts(requestParameters: GetPlatformLimitsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['path'] != null) {
@@ -83,12 +95,21 @@ export class UserApi extends runtime.BaseAPI {
 
         let urlPath = `/user/platform_limits`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Fetch all platform limits and counts available for an organization
+     * Get Platform Limits
+     */
+    async getPlatformLimitsRaw(requestParameters: GetPlatformLimitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlatformLimits>> {
+        const requestOptions = await this.getPlatformLimitsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PlatformLimitsFromJSON(jsonValue));
     }
@@ -103,10 +124,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns information for the current authenticated user.
-     * Retrieve a User
+     * Creates request options for getUser without sending the request
      */
-    async getUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
+    async getUserRequestOpts(): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -122,12 +142,21 @@ export class UserApi extends runtime.BaseAPI {
 
         let urlPath = `/user`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns information for the current authenticated user.
+     * Retrieve a User
+     */
+    async getUserRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
+        const requestOptions = await this.getUserRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
     }
@@ -142,10 +171,9 @@ export class UserApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update fields in the user
-     * Update a User
+     * Creates request options for updateUser without sending the request
      */
-    async updateUserRaw(requestParameters: UpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
+    async updateUserRequestOpts(requestParameters: UpdateUserRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['user_update'] == null) {
             throw new runtime.RequiredError(
                 'user_update',
@@ -170,13 +198,22 @@ export class UserApi extends runtime.BaseAPI {
 
         let urlPath = `/user`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: UserUpdateToJSON(requestParameters['user_update']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Update fields in the user
+     * Update a User
+     */
+    async updateUserRaw(requestParameters: UpdateUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
+        const requestOptions = await this.updateUserRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
     }

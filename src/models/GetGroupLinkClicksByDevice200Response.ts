@@ -41,7 +41,7 @@ export interface GetGroupLinkClicksByDevice200Response {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {GetGroupLinkClicksByDevice200ResponseFacetEnum}
      * @memberof GetGroupLinkClicksByDevice200Response
      */
     facet?: GetGroupLinkClicksByDevice200ResponseFacetEnum;

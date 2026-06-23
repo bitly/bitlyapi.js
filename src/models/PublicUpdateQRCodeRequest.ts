@@ -46,11 +46,17 @@ export interface PublicUpdateQRCodeRequest {
      */
     archived?: boolean;
     /**
-     * Coming soon
+     * Optional expiration timestamp for the QR code's bitlink (e.g., 2025-01-28T14:30:00+0000). Minimum expiration time is 5 minutes from now and maximum is 1 year.
      * @type {string}
      * @memberof PublicUpdateQRCodeRequest
      */
     expiration_at?: string;
+    /**
+     * A list of tags to add to the QR code
+     * @type {Array<string>}
+     * @memberof PublicUpdateQRCodeRequest
+     */
+    tags?: Array<string>;
 }
 
 /**
@@ -74,6 +80,7 @@ export function PublicUpdateQRCodeRequestFromJSONTyped(json: any, ignoreDiscrimi
         'render_customizations': json['render_customizations'] == null ? undefined : QRCodeCustomizationsPublicFromJSON(json['render_customizations']),
         'archived': json['archived'] == null ? undefined : json['archived'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
+        'tags': json['tags'] == null ? undefined : json['tags'],
     };
 }
 
@@ -92,6 +99,7 @@ export function PublicUpdateQRCodeRequestToJSONTyped(value?: PublicUpdateQRCodeR
         'render_customizations': QRCodeCustomizationsPublicToJSON(value['render_customizations']),
         'archived': value['archived'],
         'expiration_at': value['expiration_at'],
+        'tags': value['tags'],
     };
 }
 

@@ -33,7 +33,7 @@ export interface ClicksSummary {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {ClicksSummaryUnitEnum}
      * @memberof ClicksSummary
      */
     unit?: ClicksSummaryUnitEnum;

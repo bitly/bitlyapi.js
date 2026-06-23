@@ -12,57 +12,82 @@
  * Do not edit the class manually.
  */
 
-
 import * as runtime from '../runtime';
-import type {
-  BadGateway,
-  BadRequest,
-  Campaign,
-  CampaignModify,
-  Campaigns,
-  Channel,
-  ChannelModify,
-  Channels,
-  Forbidden,
-  InternalError,
-  MonthlyLimitExceeded,
-  NotFound,
-  TemporarilyUnavailable,
-  UnprocessableEntity,
-  UpgradeRequired,
-} from '../models/index';
 import {
+    type BadGateway,
     BadGatewayFromJSON,
     BadGatewayToJSON,
+} from '../models/BadGateway';
+import {
+    type BadRequest,
     BadRequestFromJSON,
     BadRequestToJSON,
+} from '../models/BadRequest';
+import {
+    type Campaign,
     CampaignFromJSON,
     CampaignToJSON,
+} from '../models/Campaign';
+import {
+    type CampaignModify,
     CampaignModifyFromJSON,
     CampaignModifyToJSON,
+} from '../models/CampaignModify';
+import {
+    type Campaigns,
     CampaignsFromJSON,
     CampaignsToJSON,
+} from '../models/Campaigns';
+import {
+    type Channel,
     ChannelFromJSON,
     ChannelToJSON,
+} from '../models/Channel';
+import {
+    type ChannelModify,
     ChannelModifyFromJSON,
     ChannelModifyToJSON,
+} from '../models/ChannelModify';
+import {
+    type Channels,
     ChannelsFromJSON,
     ChannelsToJSON,
+} from '../models/Channels';
+import {
+    type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
+} from '../models/Forbidden';
+import {
+    type InternalError,
     InternalErrorFromJSON,
     InternalErrorToJSON,
+} from '../models/InternalError';
+import {
+    type MonthlyLimitExceeded,
     MonthlyLimitExceededFromJSON,
     MonthlyLimitExceededToJSON,
+} from '../models/MonthlyLimitExceeded';
+import {
+    type NotFound,
     NotFoundFromJSON,
     NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
+} from '../models/TemporarilyUnavailable';
+import {
+    type UnprocessableEntity,
     UnprocessableEntityFromJSON,
     UnprocessableEntityToJSON,
+} from '../models/UnprocessableEntity';
+import {
+    type UpgradeRequired,
     UpgradeRequiredFromJSON,
     UpgradeRequiredToJSON,
-} from '../models/index';
+} from '../models/UpgradeRequired';
 
 export interface CreateCampaignRequest {
     campaign_modify: CampaignModify;
@@ -105,10 +130,9 @@ export interface UpdateChannelRequest {
 export class CampaignsApi extends runtime.BaseAPI {
 
     /**
-     * Creates a new campaign.
-     * Create Campaign
+     * Creates request options for createCampaign without sending the request
      */
-    async createCampaignRaw(requestParameters: CreateCampaignRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Campaign>> {
+    async createCampaignRequestOpts(requestParameters: CreateCampaignRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['campaign_modify'] == null) {
             throw new runtime.RequiredError(
                 'campaign_modify',
@@ -133,13 +157,22 @@ export class CampaignsApi extends runtime.BaseAPI {
 
         let urlPath = `/campaigns`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: CampaignModifyToJSON(requestParameters['campaign_modify']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new campaign.
+     * Create Campaign
+     */
+    async createCampaignRaw(requestParameters: CreateCampaignRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Campaign>> {
+        const requestOptions = await this.createCampaignRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CampaignFromJSON(jsonValue));
     }
@@ -154,10 +187,9 @@ export class CampaignsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Creates a new channel.
-     * Create Channel
+     * Creates request options for createChannel without sending the request
      */
-    async createChannelRaw(requestParameters: CreateChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async createChannelRequestOpts(requestParameters: CreateChannelRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['channel_modify'] == null) {
             throw new runtime.RequiredError(
                 'channel_modify',
@@ -182,13 +214,22 @@ export class CampaignsApi extends runtime.BaseAPI {
 
         let urlPath = `/channels`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ChannelModifyToJSON(requestParameters['channel_modify']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Creates a new channel.
+     * Create Channel
+     */
+    async createChannelRaw(requestParameters: CreateChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.createChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -203,10 +244,9 @@ export class CampaignsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns details for a campaign.
-     * Retrieve a Campaign
+     * Creates request options for getCampaign without sending the request
      */
-    async getCampaignRaw(requestParameters: GetCampaignRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Campaign>> {
+    async getCampaignRequestOpts(requestParameters: GetCampaignRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['campaign_guid'] == null) {
             throw new runtime.RequiredError(
                 'campaign_guid',
@@ -228,14 +268,23 @@ export class CampaignsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/campaigns/{campaign_guid}`;
-        urlPath = urlPath.replace(`{${"campaign_guid"}}`, encodeURIComponent(String(requestParameters['campaign_guid'])));
+        urlPath = urlPath.replace('{campaign_guid}', encodeURIComponent(String(requestParameters['campaign_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns details for a campaign.
+     * Retrieve a Campaign
+     */
+    async getCampaignRaw(requestParameters: GetCampaignRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Campaign>> {
+        const requestOptions = await this.getCampaignRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CampaignFromJSON(jsonValue));
     }
@@ -250,10 +299,9 @@ export class CampaignsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the campaigns for the current authenticated user.
-     * Retrieve Campaigns
+     * Creates request options for getCampaigns without sending the request
      */
-    async getCampaignsRaw(requestParameters: GetCampaignsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Campaigns>> {
+    async getCampaignsRequestOpts(requestParameters: GetCampaignsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['group_guid'] != null) {
@@ -273,12 +321,21 @@ export class CampaignsApi extends runtime.BaseAPI {
 
         let urlPath = `/campaigns`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the campaigns for the current authenticated user.
+     * Retrieve Campaigns
+     */
+    async getCampaignsRaw(requestParameters: GetCampaignsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Campaigns>> {
+        const requestOptions = await this.getCampaignsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CampaignsFromJSON(jsonValue));
     }
@@ -293,10 +350,9 @@ export class CampaignsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns a channel\'s details.
-     * Get a Channel
+     * Creates request options for getChannel without sending the request
      */
-    async getChannelRaw(requestParameters: GetChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async getChannelRequestOpts(requestParameters: GetChannelRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['channel_guid'] == null) {
             throw new runtime.RequiredError(
                 'channel_guid',
@@ -318,14 +374,23 @@ export class CampaignsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/channels/{channel_guid}`;
-        urlPath = urlPath.replace(`{${"channel_guid"}}`, encodeURIComponent(String(requestParameters['channel_guid'])));
+        urlPath = urlPath.replace('{channel_guid}', encodeURIComponent(String(requestParameters['channel_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns a channel\'s details.
+     * Get a Channel
+     */
+    async getChannelRaw(requestParameters: GetChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.getChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }
@@ -340,10 +405,9 @@ export class CampaignsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Returns the channels available to a user.
-     * Retrieve Channels
+     * Creates request options for getChannels without sending the request
      */
-    async getChannelsRaw(requestParameters: GetChannelsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channels>> {
+    async getChannelsRequestOpts(requestParameters: GetChannelsRequest): Promise<runtime.RequestOpts> {
         const queryParameters: any = {};
 
         if (requestParameters['group_guid'] != null) {
@@ -367,12 +431,21 @@ export class CampaignsApi extends runtime.BaseAPI {
 
         let urlPath = `/channels`;
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Returns the channels available to a user.
+     * Retrieve Channels
+     */
+    async getChannelsRaw(requestParameters: GetChannelsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channels>> {
+        const requestOptions = await this.getChannelsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelsFromJSON(jsonValue));
     }
@@ -387,10 +460,9 @@ export class CampaignsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates a campaign\'s details.
-     * Update Campaign
+     * Creates request options for updateCampaign without sending the request
      */
-    async updateCampaignRaw(requestParameters: UpdateCampaignRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Campaign>> {
+    async updateCampaignRequestOpts(requestParameters: UpdateCampaignRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['campaign_guid'] == null) {
             throw new runtime.RequiredError(
                 'campaign_guid',
@@ -421,15 +493,24 @@ export class CampaignsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/campaigns/{campaign_guid}`;
-        urlPath = urlPath.replace(`{${"campaign_guid"}}`, encodeURIComponent(String(requestParameters['campaign_guid'])));
+        urlPath = urlPath.replace('{campaign_guid}', encodeURIComponent(String(requestParameters['campaign_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: CampaignModifyToJSON(requestParameters['campaign_modify']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates a campaign\'s details.
+     * Update Campaign
+     */
+    async updateCampaignRaw(requestParameters: UpdateCampaignRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Campaign>> {
+        const requestOptions = await this.updateCampaignRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => CampaignFromJSON(jsonValue));
     }
@@ -444,10 +525,9 @@ export class CampaignsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Updates an existing channel.
-     * Update a Channel
+     * Creates request options for updateChannel without sending the request
      */
-    async updateChannelRaw(requestParameters: UpdateChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+    async updateChannelRequestOpts(requestParameters: UpdateChannelRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['channel_guid'] == null) {
             throw new runtime.RequiredError(
                 'channel_guid',
@@ -478,15 +558,24 @@ export class CampaignsApi extends runtime.BaseAPI {
         }
 
         let urlPath = `/channels/{channel_guid}`;
-        urlPath = urlPath.replace(`{${"channel_guid"}}`, encodeURIComponent(String(requestParameters['channel_guid'])));
+        urlPath = urlPath.replace('{channel_guid}', encodeURIComponent(String(requestParameters['channel_guid'])));
 
-        const response = await this.request({
+        return {
             path: urlPath,
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
             body: ChannelModifyToJSON(requestParameters['channel_modify']),
-        }, initOverrides);
+        };
+    }
+
+    /**
+     * Updates an existing channel.
+     * Update a Channel
+     */
+    async updateChannelRaw(requestParameters: UpdateChannelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Channel>> {
+        const requestOptions = await this.updateChannelRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ChannelFromJSON(jsonValue));
     }

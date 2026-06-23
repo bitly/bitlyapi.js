@@ -33,7 +33,7 @@ export interface BaseScanMetrics {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {BaseScanMetricsFacetEnum}
      * @memberof BaseScanMetrics
      */
     facet?: BaseScanMetricsFacetEnum;
@@ -53,7 +53,8 @@ export enum BaseScanMetricsFacetEnum {
     countries = 'countries',
     cities = 'cities',
     device_os = 'device_os',
-    browsers = 'browsers'
+    browsers = 'browsers',
+    destinations = 'destinations'
 }
 
 

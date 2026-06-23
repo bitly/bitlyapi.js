@@ -41,7 +41,7 @@ export interface BitlinkScans {
     units?: number;
     /**
      * 
-     * @type {string}
+     * @type {BitlinkScansUnitEnum}
      * @memberof BitlinkScans
      */
     unit?: BitlinkScansUnitEnum;
