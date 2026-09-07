@@ -22,6 +22,7 @@ Name | Type
 `is_deleted` | boolean
 `campaign_ids` | Array&lt;string&gt;
 `expiration_at` | string
+`dynamic_routing` | [Array&lt;DynamicRoutingRule&gt;](DynamicRoutingRule.md)
 
 ## Example
 
@@ -46,6 +47,7 @@ const example = {
   "is_deleted": null,
   "campaign_ids": null,
   "expiration_at": null,
+  "dynamic_routing": null,
 } satisfies BitlinkUpdate
 
 console.log(example)

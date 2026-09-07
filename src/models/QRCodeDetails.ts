@@ -34,6 +34,13 @@ import {
     GS1MetadataToJSON,
     GS1MetadataToJSONTyped,
 } from './GS1Metadata';
+import type { DynamicRoutingRule } from './DynamicRoutingRule';
+import {
+    DynamicRoutingRuleFromJSON,
+    DynamicRoutingRuleFromJSONTyped,
+    DynamicRoutingRuleToJSON,
+    DynamicRoutingRuleToJSONTyped,
+} from './DynamicRoutingRule';
 
 /**
  * 
@@ -84,6 +91,12 @@ export interface QRCodeDetails {
      */
     bitlink_id?: string;
     /**
+     * The short domain the qr code redirects from. Present for both bitlink and long_url qr codes.
+     * @type {string}
+     * @memberof QRCodeDetails
+     */
+    domain?: string;
+    /**
      * A list of destination URLs that the qr code leads to.
      * @type {Array<string>}
      * @memberof QRCodeDetails
@@ -125,6 +138,12 @@ export interface QRCodeDetails {
      * @memberof QRCodeDetails
      */
     tags?: Array<string>;
+    /**
+     * Dynamic routing rules for this QR code. Only present when at least one rule is configured.
+     * @type {Array<DynamicRoutingRule>}
+     * @memberof QRCodeDetails
+     */
+    dynamic_routing?: Array<DynamicRoutingRule>;
 }
 
 
@@ -153,6 +172,7 @@ export function QRCodeDetailsFromJSONTyped(json: any, ignoreDiscriminator: boole
         'render_customizations': json['render_customizations'] == null ? undefined : QRCodeCustomizationsPublicFromJSON(json['render_customizations']),
         'qr_code_type': json['qr_code_type'] == null ? undefined : QRCodeTypeEnumFromJSON(json['qr_code_type']),
         'bitlink_id': json['bitlink_id'] == null ? undefined : json['bitlink_id'],
+        'domain': json['domain'] == null ? undefined : json['domain'],
         'long_urls': json['long_urls'] == null ? undefined : json['long_urls'],
         'serialized_content': json['serialized_content'] == null ? undefined : json['serialized_content'],
         'archived': json['archived'] == null ? undefined : json['archived'],
@@ -160,6 +180,7 @@ export function QRCodeDetailsFromJSONTyped(json: any, ignoreDiscriminator: boole
         'modified': json['modified'] == null ? undefined : json['modified'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
         'tags': json['tags'] == null ? undefined : json['tags'],
+        'dynamic_routing': json['dynamic_routing'] == null ? undefined : ((json['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleFromJSON)),
     };
 }
 
@@ -181,6 +202,7 @@ export function QRCodeDetailsToJSONTyped(value?: QRCodeDetails | null, ignoreDis
         'render_customizations': QRCodeCustomizationsPublicToJSON(value['render_customizations']),
         'qr_code_type': QRCodeTypeEnumToJSON(value['qr_code_type']),
         'bitlink_id': value['bitlink_id'],
+        'domain': value['domain'],
         'long_urls': value['long_urls'],
         'serialized_content': value['serialized_content'],
         'archived': value['archived'],
@@ -188,6 +210,7 @@ export function QRCodeDetailsToJSONTyped(value?: QRCodeDetails | null, ignoreDis
         'modified': value['modified'],
         'expiration_at': value['expiration_at'],
         'tags': value['tags'],
+        'dynamic_routing': value['dynamic_routing'] == null ? undefined : ((value['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleToJSON)),
     };
 }
 

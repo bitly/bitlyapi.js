@@ -12,6 +12,7 @@ Name | Type
 `archived` | boolean
 `expiration_at` | string
 `tags` | Array&lt;string&gt;
+`dynamic_routing` | [Array&lt;DynamicRoutingRule&gt;](DynamicRoutingRule.md)
 
 ## Example
 
@@ -25,6 +26,7 @@ const example = {
   "archived": null,
   "expiration_at": null,
   "tags": null,
+  "dynamic_routing": null,
 } satisfies PublicUpdateQRCodeRequest
 
 console.log(example)
