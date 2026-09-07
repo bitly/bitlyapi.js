@@ -2,6 +2,7 @@
 /* eslint-disable */
 export * from './BSDsApi';
 export * from './BitlinksApi';
+export * from './BitlySitesApi';
 export * from './CampaignsApi';
 export * from './CustomBitlinksApi';
 export * from './DefaultApi';

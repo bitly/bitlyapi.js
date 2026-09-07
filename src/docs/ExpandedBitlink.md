@@ -9,6 +9,7 @@ Name | Type
 `link` | string
 `id` | string
 `long_url` | string
+`long_urls` | Array&lt;string&gt;
 `created_at` | string
 
 ## Example
@@ -21,6 +22,7 @@ const example = {
   "link": null,
   "id": null,
   "long_url": null,
+  "long_urls": null,
   "created_at": null,
 } satisfies ExpandedBitlink
 

@@ -421,7 +421,7 @@ example().catch(console.error);
 
 ## getBitlinksByGroup
 
-> Bitlinks getBitlinksByGroup(group_guid, size, search_after, query, hostname_path_query, created_before, created_after, archived, deeplinks, domain_deeplinks, campaign_guid, channel_guid, custom_bitlink, has_qr_codes, is_expired, has_expiration, tags, launchpad_ids, encoding_login)
+> Bitlinks getBitlinksByGroup(group_guid, size, search_after, query, hostname_path_query, created_before, created_after, archived, deeplinks, domain_deeplinks, campaign_guid, channel_guid, custom_bitlink, has_qr_codes, is_expired, has_expiration, has_dynamic_routing, tags, launchpad_ids, encoding_login)
 
 Retrieve Bitlinks by Group
 
@@ -477,6 +477,8 @@ async function example() {
     is_expired: is_expired_example,
     // 'on' | 'off' | 'both' | filter bitlinks by presence of expiration (optional)
     has_expiration: has_expiration_example,
+    // 'on' | 'off' | 'both' | filter bitlinks by presence of dynamic routing rules (optional)
+    has_dynamic_routing: has_dynamic_routing_example,
     // Array<string> | Filter by given tags (optional)
     tags: ["bitly","api"],
     // Array<string> | Filter by launchpad id (optional)
@@ -518,6 +520,7 @@ example().catch(console.error);
 | **has_qr_codes** | `on`, `off`, `both` | a filter value if the resource has any QR codes | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **is_expired** | `on`, `off`, `both` | filter bitlinks by expiration status | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **has_expiration** | `on`, `off`, `both` | filter bitlinks by presence of expiration | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
+| **has_dynamic_routing** | `on`, `off`, `both` | filter bitlinks by presence of dynamic routing rules | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **tags** | `Array<string>` | Filter by given tags | [Optional] |
 | **launchpad_ids** | `Array<string>` | Filter by launchpad id | [Optional] |
 | **encoding_login** | `Array<string>` | Filter by the login of the authenticated user that created the Bitlink | [Optional] |

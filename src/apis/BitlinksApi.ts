@@ -216,6 +216,7 @@ export interface GetBitlinksByGroupRequest {
     has_qr_codes?: GetBitlinksByGroupHasQrCodesEnum;
     is_expired?: GetBitlinksByGroupIsExpiredEnum;
     has_expiration?: GetBitlinksByGroupHasExpirationEnum;
+    has_dynamic_routing?: GetBitlinksByGroupHasDynamicRoutingEnum;
     tags?: Array<string>;
     launchpad_ids?: Array<string>;
     encoding_login?: Array<string>;
@@ -689,6 +690,10 @@ export class BitlinksApi extends runtime.BaseAPI {
 
         if (requestParameters['has_expiration'] != null) {
             queryParameters['has_expiration'] = requestParameters['has_expiration'];
+        }
+
+        if (requestParameters['has_dynamic_routing'] != null) {
+            queryParameters['has_dynamic_routing'] = requestParameters['has_dynamic_routing'];
         }
 
         if (requestParameters['tags'] != null) {
@@ -2005,6 +2010,15 @@ export enum GetBitlinksByGroupIsExpiredEnum {
   * @enum {string}
   */
 export enum GetBitlinksByGroupHasExpirationEnum {
+    on = 'on',
+    off = 'off',
+    both = 'both'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum GetBitlinksByGroupHasDynamicRoutingEnum {
     on = 'on',
     off = 'off',
     both = 'both'
