@@ -19,6 +19,11 @@ import {
     BadRequestToJSON,
 } from '../models/BadRequest';
 import {
+    type BitlinkBody,
+    BitlinkBodyFromJSON,
+    BitlinkBodyToJSON,
+} from '../models/BitlinkBody';
+import {
     type BitlinkScans,
     BitlinkScansFromJSON,
     BitlinkScansToJSON,
@@ -89,6 +94,16 @@ import {
     PublicUpdateQRCodeRequestToJSON,
 } from '../models/PublicUpdateQRCodeRequest';
 import {
+    type QRCBulkUpdate,
+    QRCBulkUpdateFromJSON,
+    QRCBulkUpdateToJSON,
+} from '../models/QRCBulkUpdate';
+import {
+    type QRCBulkUpdateRequest,
+    QRCBulkUpdateRequestFromJSON,
+    QRCBulkUpdateRequestToJSON,
+} from '../models/QRCBulkUpdateRequest';
+import {
     type QRCodeDetails,
     QRCodeDetailsFromJSON,
     QRCodeDetailsToJSON,
@@ -103,6 +118,11 @@ import {
     QRCodesMinimalFromJSON,
     QRCodesMinimalToJSON,
 } from '../models/QRCodesMinimal';
+import {
+    type RedirectQRCodeRequest,
+    RedirectQRCodeRequestFromJSON,
+    RedirectQRCodeRequestToJSON,
+} from '../models/RedirectQRCodeRequest';
 import {
     type ScanMetrics,
     ScanMetricsFromJSON,
@@ -214,12 +234,27 @@ export interface ListQRMinimalRequest {
     is_gs1?: ListQRMinimalIsGs1Enum;
     is_expired?: ListQRMinimalIsExpiredEnum;
     has_expiration?: ListQRMinimalHasExpirationEnum;
+    has_dynamic_routing?: ListQRMinimalHasDynamicRoutingEnum;
     tags?: Array<string>;
+}
+
+export interface RedirectQRCodeDestinationRequest {
+    qrcode_id: string;
+    redirect_qr_code_request: RedirectQRCodeRequest;
 }
 
 export interface UpdateQRCodePublicRequest {
     qrcode_id: string;
-    public_update_qr_code_request: PublicUpdateQRCodeRequest;
+    public_update_qr_code_request?: PublicUpdateQRCodeRequest;
+}
+
+export interface UpdateQRCodesByGroupRequest {
+    group_guid: string;
+    qrc_bulk_update_request: QRCBulkUpdateRequest;
+}
+
+export interface UpgradeQRCodeToBitlinkRequest {
+    qrcode_id: string;
 }
 
 /**
@@ -1089,6 +1124,10 @@ export class QRCodesApi extends runtime.BaseAPI {
             queryParameters['has_expiration'] = requestParameters['has_expiration'];
         }
 
+        if (requestParameters['has_dynamic_routing'] != null) {
+            queryParameters['has_dynamic_routing'] = requestParameters['has_dynamic_routing'];
+        }
+
         if (requestParameters['tags'] != null) {
             queryParameters['tags'] = requestParameters['tags'];
         }
@@ -1136,6 +1175,71 @@ export class QRCodesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for redirectQRCodeDestination without sending the request
+     */
+    async redirectQRCodeDestinationRequestOpts(requestParameters: RedirectQRCodeDestinationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['qrcode_id'] == null) {
+            throw new runtime.RequiredError(
+                'qrcode_id',
+                'Required parameter "qrcode_id" was null or undefined when calling redirectQRCodeDestination().'
+            );
+        }
+
+        if (requestParameters['redirect_qr_code_request'] == null) {
+            throw new runtime.RequiredError(
+                'redirect_qr_code_request',
+                'Required parameter "redirect_qr_code_request" was null or undefined when calling redirectQRCodeDestination().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/qr-codes/{qrcode_id}/redirect`;
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
+
+        return {
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: RedirectQRCodeRequestToJSON(requestParameters['redirect_qr_code_request']),
+        };
+    }
+
+    /**
+     * Changes the destination URL that a stand alone QR Code redirects to. This only works for stand alone QR Codes; a QR Code already associated with a bitlink must be updated via the Bitlinks API.
+     * Redirect a QR Code
+     */
+    async redirectQRCodeDestinationRaw(requestParameters: RedirectQRCodeDestinationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCodeMinimal>> {
+        const requestOptions = await this.redirectQRCodeDestinationRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => QRCodeMinimalFromJSON(jsonValue));
+    }
+
+    /**
+     * Changes the destination URL that a stand alone QR Code redirects to. This only works for stand alone QR Codes; a QR Code already associated with a bitlink must be updated via the Bitlinks API.
+     * Redirect a QR Code
+     */
+    async redirectQRCodeDestination(requestParameters: RedirectQRCodeDestinationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<QRCodeMinimal> {
+        const response = await this.redirectQRCodeDestinationRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for updateQRCodePublic without sending the request
      */
     async updateQRCodePublicRequestOpts(requestParameters: UpdateQRCodePublicRequest): Promise<runtime.RequestOpts> {
@@ -1143,13 +1247,6 @@ export class QRCodesApi extends runtime.BaseAPI {
             throw new runtime.RequiredError(
                 'qrcode_id',
                 'Required parameter "qrcode_id" was null or undefined when calling updateQRCodePublic().'
-            );
-        }
-
-        if (requestParameters['public_update_qr_code_request'] == null) {
-            throw new runtime.RequiredError(
-                'public_update_qr_code_request',
-                'Required parameter "public_update_qr_code_request" was null or undefined when calling updateQRCodePublic().'
             );
         }
 
@@ -1197,6 +1294,126 @@ export class QRCodesApi extends runtime.BaseAPI {
      */
     async updateQRCodePublic(requestParameters: UpdateQRCodePublicRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<QRCodeMinimal> {
         const response = await this.updateQRCodePublicRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for updateQRCodesByGroup without sending the request
+     */
+    async updateQRCodesByGroupRequestOpts(requestParameters: UpdateQRCodesByGroupRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling updateQRCodesByGroup().'
+            );
+        }
+
+        if (requestParameters['qrc_bulk_update_request'] == null) {
+            throw new runtime.RequiredError(
+                'qrc_bulk_update_request',
+                'Required parameter "qrc_bulk_update_request" was null or undefined when calling updateQRCodesByGroup().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/qr-codes`;
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
+
+        return {
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: QRCBulkUpdateRequestToJSON(requestParameters['qrc_bulk_update_request']),
+        };
+    }
+
+    /**
+     * Bulk update can add or remove tags, or archive/un-archive, up to 100 QR codes at a time. Pages QR codes cannot be updated with this endpoint. The response includes a list of QR code ids that were updated. 
+     * Bulk update QR codes
+     */
+    async updateQRCodesByGroupRaw(requestParameters: UpdateQRCodesByGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<QRCBulkUpdate>> {
+        const requestOptions = await this.updateQRCodesByGroupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => QRCBulkUpdateFromJSON(jsonValue));
+    }
+
+    /**
+     * Bulk update can add or remove tags, or archive/un-archive, up to 100 QR codes at a time. Pages QR codes cannot be updated with this endpoint. The response includes a list of QR code ids that were updated. 
+     * Bulk update QR codes
+     */
+    async updateQRCodesByGroup(requestParameters: UpdateQRCodesByGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<QRCBulkUpdate> {
+        const response = await this.updateQRCodesByGroupRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for upgradeQRCodeToBitlink without sending the request
+     */
+    async upgradeQRCodeToBitlinkRequestOpts(requestParameters: UpgradeQRCodeToBitlinkRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['qrcode_id'] == null) {
+            throw new runtime.RequiredError(
+                'qrcode_id',
+                'Required parameter "qrcode_id" was null or undefined when calling upgradeQRCodeToBitlink().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/qr-codes/{qrcode_id}/to-bitlink`;
+        urlPath = urlPath.replace('{qrcode_id}', encodeURIComponent(String(requestParameters['qrcode_id'])));
+
+        return {
+            path: urlPath,
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Upgrades a stand alone (decoupled) QR Code to a coupled QR Code by associating it with its underlying Bitly short link. This operation consumes one encode from the organization\'s monthly Link limit. If the QR Code is already coupled, no encode is consumed.
+     * Upgrade a QR Code to a bitlink
+     */
+    async upgradeQRCodeToBitlinkRaw(requestParameters: UpgradeQRCodeToBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BitlinkBody>> {
+        const requestOptions = await this.upgradeQRCodeToBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => BitlinkBodyFromJSON(jsonValue));
+    }
+
+    /**
+     * Upgrades a stand alone (decoupled) QR Code to a coupled QR Code by associating it with its underlying Bitly short link. This operation consumes one encode from the organization\'s monthly Link limit. If the QR Code is already coupled, no encode is consumed.
+     * Upgrade a QR Code to a bitlink
+     */
+    async upgradeQRCodeToBitlink(requestParameters: UpgradeQRCodeToBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BitlinkBody> {
+        const response = await this.upgradeQRCodeToBitlinkRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -1276,6 +1493,15 @@ export enum ListQRMinimalIsExpiredEnum {
   * @enum {string}
   */
 export enum ListQRMinimalHasExpirationEnum {
+    on = 'on',
+    off = 'off',
+    both = 'both'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum ListQRMinimalHasDynamicRoutingEnum {
     on = 'on',
     off = 'off',
     both = 'both'

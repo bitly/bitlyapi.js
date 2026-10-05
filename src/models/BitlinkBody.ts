@@ -20,6 +20,13 @@ import {
     DeeplinkRuleToJSON,
     DeeplinkRuleToJSONTyped,
 } from './DeeplinkRule';
+import type { DynamicRoutingRule } from './DynamicRoutingRule';
+import {
+    DynamicRoutingRuleFromJSON,
+    DynamicRoutingRuleFromJSONTyped,
+    DynamicRoutingRuleToJSON,
+    DynamicRoutingRuleToJSONTyped,
+} from './DynamicRoutingRule';
 
 /**
  * 
@@ -129,6 +136,12 @@ export interface BitlinkBody {
      * @memberof BitlinkBody
      */
     expiration_at?: string;
+    /**
+     * Dynamic routing rules for this bitlink. Only present when at least one rule is configured.
+     * @type {Array<DynamicRoutingRule>}
+     * @memberof BitlinkBody
+     */
+    dynamic_routing?: Array<DynamicRoutingRule>;
 }
 
 /**
@@ -165,6 +178,7 @@ export function BitlinkBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'is_deleted': json['is_deleted'] == null ? undefined : json['is_deleted'],
         'campaign_ids': json['campaign_ids'] == null ? undefined : json['campaign_ids'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
+        'dynamic_routing': json['dynamic_routing'] == null ? undefined : ((json['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleFromJSON)),
     };
 }
 
@@ -196,6 +210,7 @@ export function BitlinkBodyToJSONTyped(value?: BitlinkBody | null, ignoreDiscrim
         'is_deleted': value['is_deleted'],
         'campaign_ids': value['campaign_ids'],
         'expiration_at': value['expiration_at'],
+        'dynamic_routing': value['dynamic_routing'] == null ? undefined : ((value['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleToJSON)),
     };
 }
 

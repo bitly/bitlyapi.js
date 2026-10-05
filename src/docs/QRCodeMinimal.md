@@ -14,11 +14,13 @@ Name | Type
 `qr_code_type` | [QRCodeTypeEnum](QRCodeTypeEnum.md)
 `long_urls` | Array&lt;string&gt;
 `bitlink_id` | string
+`domain` | string
 `is_gs1` | boolean
 `created_by` | string
 `tags` | Array&lt;string&gt;
 `archived` | boolean
 `expiration_at` | string
+`dynamic_routing` | [Array&lt;DynamicRoutingRule&gt;](DynamicRoutingRule.md)
 `created` | string
 `modified` | string
 
@@ -37,11 +39,13 @@ const example = {
   "qr_code_type": null,
   "long_urls": null,
   "bitlink_id": null,
+  "domain": null,
   "is_gs1": null,
   "created_by": null,
   "tags": null,
   "archived": null,
   "expiration_at": null,
+  "dynamic_routing": null,
   "created": null,
   "modified": null,
 } satisfies QRCodeMinimal
