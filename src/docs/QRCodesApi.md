@@ -16,7 +16,10 @@ All URIs are relative to *https://api-ssl.bitly.com/v4*
 | [**getScanMetricsForQRCodeByDevicesOS**](QRCodesApi.md#getscanmetricsforqrcodebydevicesos) | **GET** /qr-codes/{qrcode_id}/scans/device_os | Get Scans for a QR Code by Device OS |
 | [**getScanMetricsSummaryForQRCode**](QRCodesApi.md#getscanmetricssummaryforqrcode) | **GET** /qr-codes/{qrcode_id}/scans/summary | Get Scans Summary for a QR Code |
 | [**listQRMinimal**](QRCodesApi.md#listqrminimal) | **GET** /groups/{group_guid}/qr-codes | Retrieve QR Codes by Group |
+| [**redirectQRCodeDestination**](QRCodesApi.md#redirectqrcodedestination) | **PATCH** /qr-codes/{qrcode_id}/redirect | Redirect a QR Code |
 | [**updateQRCodePublic**](QRCodesApi.md#updateqrcodepublic) | **PATCH** /qr-codes/{qrcode_id} | Update a QR Code |
+| [**updateQRCodesByGroup**](QRCodesApi.md#updateqrcodesbygroup) | **PATCH** /groups/{group_guid}/qr-codes | Bulk update QR codes |
+| [**upgradeQRCodeToBitlink**](QRCodesApi.md#upgradeqrcodetobitlink) | **PUT** /qr-codes/{qrcode_id}/to-bitlink | Upgrade a QR Code to a bitlink |
 
 
 
@@ -949,7 +952,7 @@ example().catch(console.error);
 
 ## listQRMinimal
 
-> QRCodesMinimal listQRMinimal(group_guid, has_render_customizations, size, search_after, query, hostname_path_query, created_before, created_after, archived, creating_login, qrc_type, is_gs1, is_expired, has_expiration, tags)
+> QRCodesMinimal listQRMinimal(group_guid, has_render_customizations, size, search_after, query, hostname_path_query, created_before, created_after, archived, creating_login, qrc_type, is_gs1, is_expired, has_expiration, has_dynamic_routing, tags)
 
 Retrieve QR Codes by Group
 
@@ -1001,6 +1004,8 @@ async function example() {
     is_expired: is_expired_example,
     // 'on' | 'off' | 'both' | filter bitlinks by presence of expiration (optional)
     has_expiration: has_expiration_example,
+    // 'on' | 'off' | 'both' | filter bitlinks by presence of dynamic routing rules (optional)
+    has_dynamic_routing: has_dynamic_routing_example,
     // Array<string> | Filter by given tags (optional)
     tags: ["bitly","api"],
   } satisfies ListQRMinimalRequest;
@@ -1036,6 +1041,7 @@ example().catch(console.error);
 | **is_gs1** | `on`, `off`, `both` | a filter value if the resource is a GS1 QR code | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **is_expired** | `on`, `off`, `both` | filter bitlinks by expiration status | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **has_expiration** | `on`, `off`, `both` | filter bitlinks by presence of expiration | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
+| **has_dynamic_routing** | `on`, `off`, `both` | filter bitlinks by presence of dynamic routing rules | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **tags** | `Array<string>` | Filter by given tags | [Optional] |
 
 ### Return type
@@ -1057,6 +1063,88 @@ example().catch(console.error);
 |-------------|-------------|------------------|
 | **200** | SUCCESS |  -  |
 | **403** | FORBIDDEN |  -  |
+| **429** | MONTHLY_LIMIT_EXCEEDED |  -  |
+| **500** | INTERNAL_ERROR |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## redirectQRCodeDestination
+
+> QRCodeMinimal redirectQRCodeDestination(qrcode_id, redirect_qr_code_request)
+
+Redirect a QR Code
+
+Changes the destination URL that a stand alone QR Code redirects to. This only works for stand alone QR Codes; a QR Code already associated with a bitlink must be updated via the Bitlinks API.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  QRCodesApi,
+} from '';
+import type { RedirectQRCodeDestinationRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new QRCodesApi(config);
+
+  const body = {
+    // string
+    qrcode_id: qrcode_id_example,
+    // RedirectQRCodeRequest
+    redirect_qr_code_request: ...,
+  } satisfies RedirectQRCodeDestinationRequest;
+
+  try {
+    const data = await api.redirectQRCodeDestination(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **qrcode_id** | `string` |  | [Defaults to `undefined`] |
+| **redirect_qr_code_request** | [RedirectQRCodeRequest](RedirectQRCodeRequest.md) |  | |
+
+### Return type
+
+[**QRCodeMinimal**](QRCodeMinimal.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | SUCCESS |  -  |
+| **400** | BAD_REQUEST |  -  |
+| **402** | UPGRADE_REQUIRED |  -  |
+| **403** | FORBIDDEN |  -  |
+| **404** | NOT_FOUND |  -  |
+| **410** | GONE |  -  |
+| **422** | UNPROCESSABLE_ENTITY |  -  |
 | **429** | MONTHLY_LIMIT_EXCEEDED |  -  |
 | **500** | INTERNAL_ERROR |  -  |
 
@@ -1091,7 +1179,7 @@ async function example() {
   const body = {
     // string | The QR code ID
     qrcode_id: Qabc123,
-    // PublicUpdateQRCodeRequest
+    // PublicUpdateQRCodeRequest (optional)
     public_update_qr_code_request: {"title":"Minimal QR Code Updated","tags":["tag1","tag2"]},
   } satisfies UpdateQRCodePublicRequest;
 
@@ -1113,7 +1201,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **qrcode_id** | `string` | The QR code ID | [Defaults to `undefined`] |
-| **public_update_qr_code_request** | [PublicUpdateQRCodeRequest](PublicUpdateQRCodeRequest.md) |  | |
+| **public_update_qr_code_request** | [PublicUpdateQRCodeRequest](PublicUpdateQRCodeRequest.md) |  | [Optional] |
 
 ### Return type
 
@@ -1137,6 +1225,164 @@ example().catch(console.error);
 | **403** | FORBIDDEN |  -  |
 | **404** | NOT_FOUND |  -  |
 | **410** | GONE |  -  |
+| **500** | INTERNAL_ERROR |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## updateQRCodesByGroup
+
+> QRCBulkUpdate updateQRCodesByGroup(group_guid, qrc_bulk_update_request)
+
+Bulk update QR codes
+
+Bulk update can add or remove tags, or archive/un-archive, up to 100 QR codes at a time. Pages QR codes cannot be updated with this endpoint. The response includes a list of QR code ids that were updated. 
+
+### Example
+
+```ts
+import {
+  Configuration,
+  QRCodesApi,
+} from '';
+import type { UpdateQRCodesByGroupRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new QRCodesApi(config);
+
+  const body = {
+    // string | A GUID for a Bitly group
+    group_guid: Ba1bc23dE4F,
+    // QRCBulkUpdateRequest
+    qrc_bulk_update_request: ...,
+  } satisfies UpdateQRCodesByGroupRequest;
+
+  try {
+    const data = await api.updateQRCodesByGroup(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **group_guid** | `string` | A GUID for a Bitly group | [Defaults to `undefined`] |
+| **qrc_bulk_update_request** | [QRCBulkUpdateRequest](QRCBulkUpdateRequest.md) |  | |
+
+### Return type
+
+[**QRCBulkUpdate**](QRCBulkUpdate.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | SUCCESS |  -  |
+| **400** | BAD_REQUEST |  -  |
+| **403** | FORBIDDEN |  -  |
+| **404** | NOT_FOUND |  -  |
+| **410** | GONE |  -  |
+| **422** | UNPROCESSABLE_ENTITY |  -  |
+| **429** | MONTHLY_LIMIT_EXCEEDED |  -  |
+| **500** | INTERNAL_ERROR |  -  |
+| **503** | TEMPORARILY_UNAVAILABLE |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## upgradeQRCodeToBitlink
+
+> BitlinkBody upgradeQRCodeToBitlink(qrcode_id)
+
+Upgrade a QR Code to a bitlink
+
+Upgrades a stand alone (decoupled) QR Code to a coupled QR Code by associating it with its underlying Bitly short link. This operation consumes one encode from the organization\&#39;s monthly Link limit. If the QR Code is already coupled, no encode is consumed.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  QRCodesApi,
+} from '';
+import type { UpgradeQRCodeToBitlinkRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new QRCodesApi(config);
+
+  const body = {
+    // string
+    qrcode_id: qrcode_id_example,
+  } satisfies UpgradeQRCodeToBitlinkRequest;
+
+  try {
+    const data = await api.upgradeQRCodeToBitlink(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **qrcode_id** | `string` |  | [Defaults to `undefined`] |
+
+### Return type
+
+[**BitlinkBody**](BitlinkBody.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | SUCCESS |  -  |
+| **400** | BAD_REQUEST |  -  |
+| **403** | FORBIDDEN |  -  |
+| **404** | NOT_FOUND |  -  |
+| **429** | MONTHLY_LIMIT_EXCEEDED |  -  |
 | **500** | INTERNAL_ERROR |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

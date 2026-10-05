@@ -15,6 +15,8 @@ Name | Type
 `gs1` | [GS1Metadata](GS1Metadata.md)
 `expiration_at` | string
 `tags` | Array&lt;string&gt;
+`dynamic_routing` | [Array&lt;DynamicRoutingRule&gt;](DynamicRoutingRule.md)
+`domain` | string
 
 ## Example
 
@@ -31,6 +33,8 @@ const example = {
   "gs1": null,
   "expiration_at": null,
   "tags": null,
+  "dynamic_routing": null,
+  "domain": null,
 } satisfies PublicCreateQRCodeRequest
 
 console.log(example)

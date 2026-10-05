@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { DynamicRoutingRule } from './DynamicRoutingRule';
+import {
+    DynamicRoutingRuleFromJSON,
+    DynamicRoutingRuleFromJSONTyped,
+    DynamicRoutingRuleToJSON,
+    DynamicRoutingRuleToJSONTyped,
+} from './DynamicRoutingRule';
 import type { Deeplink } from './Deeplink';
 import {
     DeeplinkFromJSON,
@@ -87,6 +94,12 @@ export interface FullShorten {
      * @memberof FullShorten
      */
     expiration_at?: string;
+    /**
+     * dynamic routing rules for this bitlink.
+     * @type {Array<DynamicRoutingRule>}
+     * @memberof FullShorten
+     */
+    dynamic_routing?: Array<DynamicRoutingRule>;
 }
 
 /**
@@ -116,6 +129,7 @@ export function FullShortenFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'keyword': json['keyword'] == null ? undefined : json['keyword'],
         'bitlink_id': json['bitlink_id'] == null ? undefined : json['bitlink_id'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
+        'dynamic_routing': json['dynamic_routing'] == null ? undefined : ((json['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleFromJSON)),
     };
 }
 
@@ -140,6 +154,7 @@ export function FullShortenToJSONTyped(value?: FullShorten | null, ignoreDiscrim
         'keyword': value['keyword'],
         'bitlink_id': value['bitlink_id'],
         'expiration_at': value['expiration_at'],
+        'dynamic_routing': value['dynamic_routing'] == null ? undefined : ((value['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleToJSON)),
     };
 }
 

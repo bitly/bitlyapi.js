@@ -2,8 +2,10 @@
 /* eslint-disable */
 export * from './BSDsApi';
 export * from './BitlinksApi';
+export * from './BitlySitesApi';
 export * from './CampaignsApi';
 export * from './CustomBitlinksApi';
+export * from './CustomDomainsApi';
 export * from './DefaultApi';
 export * from './GroupsApi';
 export * from './OrganizationsApi';

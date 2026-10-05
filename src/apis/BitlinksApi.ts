@@ -195,6 +195,13 @@ export interface ExpandBitlinkRequest {
     expand_bitlink: ExpandBitlink;
 }
 
+export interface GetAgenticTrafficForBitlinkRequest {
+    bitlink: string;
+    unit: TimeUnit;
+    units: number;
+    unit_reference?: string;
+}
+
 export interface GetBitlinkRequest {
     bitlink: string;
 }
@@ -216,6 +223,7 @@ export interface GetBitlinksByGroupRequest {
     has_qr_codes?: GetBitlinksByGroupHasQrCodesEnum;
     is_expired?: GetBitlinksByGroupIsExpiredEnum;
     has_expiration?: GetBitlinksByGroupHasExpirationEnum;
+    has_dynamic_routing?: GetBitlinksByGroupHasDynamicRoutingEnum;
     tags?: Array<string>;
     launchpad_ids?: Array<string>;
     encoding_login?: Array<string>;
@@ -564,6 +572,87 @@ export class BitlinksApi extends runtime.BaseAPI {
     }
 
     /**
+     * Creates request options for getAgenticTrafficForBitlink without sending the request
+     */
+    async getAgenticTrafficForBitlinkRequestOpts(requestParameters: GetAgenticTrafficForBitlinkRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['bitlink'] == null) {
+            throw new runtime.RequiredError(
+                'bitlink',
+                'Required parameter "bitlink" was null or undefined when calling getAgenticTrafficForBitlink().'
+            );
+        }
+
+        if (requestParameters['unit'] == null) {
+            throw new runtime.RequiredError(
+                'unit',
+                'Required parameter "unit" was null or undefined when calling getAgenticTrafficForBitlink().'
+            );
+        }
+
+        if (requestParameters['units'] == null) {
+            throw new runtime.RequiredError(
+                'units',
+                'Required parameter "units" was null or undefined when calling getAgenticTrafficForBitlink().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['unit'] != null) {
+            queryParameters['unit'] = requestParameters['unit'];
+        }
+
+        if (requestParameters['units'] != null) {
+            queryParameters['units'] = requestParameters['units'];
+        }
+
+        if (requestParameters['unit_reference'] != null) {
+            queryParameters['unit_reference'] = requestParameters['unit_reference'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/bitlinks/{bitlink}/agentic_traffic`;
+        urlPath = urlPath.replace('{bitlink}', encodeURIComponent(String(requestParameters['bitlink'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Returns agentic traffic (AI agents and assistants) for the specified link over time, broken down by agent.
+     * Get Agentic Traffic for a Bitlink
+     */
+    async getAgenticTrafficForBitlinkRaw(requestParameters: GetAgenticTrafficForBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ClickMetrics>> {
+        const requestOptions = await this.getAgenticTrafficForBitlinkRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ClickMetricsFromJSON(jsonValue));
+    }
+
+    /**
+     * Returns agentic traffic (AI agents and assistants) for the specified link over time, broken down by agent.
+     * Get Agentic Traffic for a Bitlink
+     */
+    async getAgenticTrafficForBitlink(requestParameters: GetAgenticTrafficForBitlinkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ClickMetrics> {
+        const response = await this.getAgenticTrafficForBitlinkRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Creates request options for getBitlink without sending the request
      */
     async getBitlinkRequestOpts(requestParameters: GetBitlinkRequest): Promise<runtime.RequestOpts> {
@@ -689,6 +778,10 @@ export class BitlinksApi extends runtime.BaseAPI {
 
         if (requestParameters['has_expiration'] != null) {
             queryParameters['has_expiration'] = requestParameters['has_expiration'];
+        }
+
+        if (requestParameters['has_dynamic_routing'] != null) {
+            queryParameters['has_dynamic_routing'] = requestParameters['has_dynamic_routing'];
         }
 
         if (requestParameters['tags'] != null) {
@@ -2005,6 +2098,15 @@ export enum GetBitlinksByGroupIsExpiredEnum {
   * @enum {string}
   */
 export enum GetBitlinksByGroupHasExpirationEnum {
+    on = 'on',
+    off = 'off',
+    both = 'both'
+}
+/**
+  * @export
+  * @enum {string}
+  */
+export enum GetBitlinksByGroupHasDynamicRoutingEnum {
     on = 'on',
     off = 'off',
     both = 'both'
