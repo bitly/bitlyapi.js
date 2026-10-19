@@ -8,6 +8,7 @@ All URIs are relative to *https://api-ssl.bitly.com/v4*
 | [**createFullBitlink**](BitlinksApi.md#createfullbitlink) | **POST** /bitlinks | Create a Bitlink |
 | [**deleteBitlink**](BitlinksApi.md#deletebitlink) | **DELETE** /bitlinks/{bitlink} | Delete a Bitlink |
 | [**expandBitlink**](BitlinksApi.md#expandbitlink) | **POST** /expand | Expand a Bitlink |
+| [**getAgenticTrafficForBitlink**](BitlinksApi.md#getagentictrafficforbitlink) | **GET** /bitlinks/{bitlink}/agentic_traffic | Get Agentic Traffic for a Bitlink |
 | [**getBitlink**](BitlinksApi.md#getbitlink) | **GET** /bitlinks/{bitlink} | Retrieve a Bitlink |
 | [**getBitlinksByGroup**](BitlinksApi.md#getbitlinksbygroup) | **GET** /groups/{group_guid}/bitlinks | Retrieve Bitlinks by Group |
 | [**getClicksForBitlink**](BitlinksApi.md#getclicksforbitlink) | **GET** /bitlinks/{bitlink}/clicks | Get Clicks for a Bitlink |
@@ -342,6 +343,94 @@ example().catch(console.error);
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
+## getAgenticTrafficForBitlink
+
+> ClickMetrics getAgenticTrafficForBitlink(bitlink, unit, units, unit_reference)
+
+Get Agentic Traffic for a Bitlink
+
+Returns agentic traffic (AI agents and assistants) for the specified link over time, broken down by agent.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  BitlinksApi,
+} from '';
+import type { GetAgenticTrafficForBitlinkRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new BitlinksApi(config);
+
+  const body = {
+    // string | A Bitlink made of the domain and hash
+    bitlink: bit.ly/12a4b6c,
+    // TimeUnit | A unit of time
+    unit: month,
+    // number | An integer representing the time units to query data for. pass -1 to return all units of time
+    units: 1,
+    // string | An ISO-8601 timestamp, indicating the most recent time for which to pull metrics. Will default to current time. Timestamp values should be url encoded (i.e. replace \'+\' with \'%2B\' and \':\' with \'%3A\'; 2022-02-02T15:53:02+0000 becomes 2022-02-02T15%3A53%3A02%2B0000) (optional)
+    unit_reference: 2006-01-02T15:04:05-0700,
+  } satisfies GetAgenticTrafficForBitlinkRequest;
+
+  try {
+    const data = await api.getAgenticTrafficForBitlink(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **bitlink** | `string` | A Bitlink made of the domain and hash | [Defaults to `undefined`] |
+| **unit** | `TimeUnit` | A unit of time | [Defaults to `undefined`] [Enum: minute, hour, day, week, month] |
+| **units** | `number` | An integer representing the time units to query data for. pass -1 to return all units of time | [Defaults to `-1`] |
+| **unit_reference** | `string` | An ISO-8601 timestamp, indicating the most recent time for which to pull metrics. Will default to current time. Timestamp values should be url encoded (i.e. replace \&#39;+\&#39; with \&#39;%2B\&#39; and \&#39;:\&#39; with \&#39;%3A\&#39;; 2022-02-02T15:53:02+0000 becomes 2022-02-02T15%3A53%3A02%2B0000) | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**ClickMetrics**](ClickMetrics.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`, `text/csv`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | SUCCESS |  -  |
+| **400** | BAD_REQUEST |  -  |
+| **402** | UPGRADE_REQUIRED |  -  |
+| **403** | FORBIDDEN |  -  |
+| **404** | NOT_FOUND |  -  |
+| **410** | GONE |  -  |
+| **429** | MONTHLY_LIMIT_EXCEEDED |  -  |
+| **500** | INTERNAL_ERROR |  -  |
+| **503** | TEMPORARILY_UNAVAILABLE |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
 ## getBitlink
 
 > BitlinkBody getBitlink(bitlink)
@@ -421,7 +510,7 @@ example().catch(console.error);
 
 ## getBitlinksByGroup
 
-> Bitlinks getBitlinksByGroup(group_guid, size, search_after, query, hostname_path_query, created_before, created_after, archived, deeplinks, domain_deeplinks, campaign_guid, channel_guid, custom_bitlink, has_qr_codes, is_expired, has_expiration, tags, launchpad_ids, encoding_login)
+> Bitlinks getBitlinksByGroup(group_guid, size, search_after, query, hostname_path_query, created_before, created_after, archived, deeplinks, domain_deeplinks, campaign_guid, channel_guid, custom_bitlink, has_qr_codes, is_expired, has_expiration, has_dynamic_routing, tags, launchpad_ids, encoding_login)
 
 Retrieve Bitlinks by Group
 
@@ -477,6 +566,8 @@ async function example() {
     is_expired: is_expired_example,
     // 'on' | 'off' | 'both' | filter bitlinks by presence of expiration (optional)
     has_expiration: has_expiration_example,
+    // 'on' | 'off' | 'both' | filter bitlinks by presence of dynamic routing rules (optional)
+    has_dynamic_routing: has_dynamic_routing_example,
     // Array<string> | Filter by given tags (optional)
     tags: ["bitly","api"],
     // Array<string> | Filter by launchpad id (optional)
@@ -518,6 +609,7 @@ example().catch(console.error);
 | **has_qr_codes** | `on`, `off`, `both` | a filter value if the resource has any QR codes | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **is_expired** | `on`, `off`, `both` | filter bitlinks by expiration status | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **has_expiration** | `on`, `off`, `both` | filter bitlinks by presence of expiration | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
+| **has_dynamic_routing** | `on`, `off`, `both` | filter bitlinks by presence of dynamic routing rules | [Optional] [Defaults to `&#39;both&#39;`] [Enum: on, off, both] |
 | **tags** | `Array<string>` | Filter by given tags | [Optional] |
 | **launchpad_ids** | `Array<string>` | Filter by launchpad id | [Optional] |
 | **encoding_login** | `Array<string>` | Filter by the login of the authenticated user that created the Bitlink | [Optional] |

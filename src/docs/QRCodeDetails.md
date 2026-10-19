@@ -13,6 +13,7 @@ Name | Type
 `render_customizations` | [QRCodeCustomizationsPublic](QRCodeCustomizationsPublic.md)
 `qr_code_type` | [QRCodeTypeEnum](QRCodeTypeEnum.md)
 `bitlink_id` | string
+`domain` | string
 `long_urls` | Array&lt;string&gt;
 `serialized_content` | string
 `archived` | boolean
@@ -20,6 +21,7 @@ Name | Type
 `modified` | string
 `expiration_at` | string
 `tags` | Array&lt;string&gt;
+`dynamic_routing` | [Array&lt;DynamicRoutingRule&gt;](DynamicRoutingRule.md)
 
 ## Example
 
@@ -35,6 +37,7 @@ const example = {
   "render_customizations": null,
   "qr_code_type": null,
   "bitlink_id": null,
+  "domain": null,
   "long_urls": null,
   "serialized_content": null,
   "archived": null,
@@ -42,6 +45,7 @@ const example = {
   "modified": null,
   "expiration_at": null,
   "tags": null,
+  "dynamic_routing": null,
 } satisfies QRCodeDetails
 
 console.log(example)

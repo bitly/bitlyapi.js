@@ -4,6 +4,7 @@ All URIs are relative to *https://api-ssl.bitly.com/v4*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**addChannelBitlinks**](CampaignsApi.md#addchannelbitlinksoperation) | **POST** /channels/{channel_guid}/bitlinks | Add Bitlinks to a Channel |
 | [**createCampaign**](CampaignsApi.md#createcampaign) | **POST** /campaigns | Create Campaign |
 | [**createChannel**](CampaignsApi.md#createchannel) | **POST** /channels | Create Channel |
 | [**getCampaign**](CampaignsApi.md#getcampaign) | **GET** /campaigns/{campaign_guid} | Retrieve a Campaign |
@@ -13,6 +14,89 @@ All URIs are relative to *https://api-ssl.bitly.com/v4*
 | [**updateCampaign**](CampaignsApi.md#updatecampaign) | **PATCH** /campaigns/{campaign_guid} | Update Campaign |
 | [**updateChannel**](CampaignsApi.md#updatechannel) | **PATCH** /channels/{channel_guid} | Update a Channel |
 
+
+
+## addChannelBitlinks
+
+> AddChannelBitlinksResponse addChannelBitlinks(channel_guid, add_channel_bitlinks_request)
+
+Add Bitlinks to a Channel
+
+Adds the given bitlinks to a channel without affecting any bitlinks already associated with it, unlike Update a Channel which replaces the channel\&#39;s entire bitlink membership. All bitlinks in a single request are associated with the same campaign_guid. If the given campaign has not already been associated with this channel, that association is created on first use before the bitlinks are added. The request is all-or-nothing: every bitlink is validated first, and if any are invalid, nothing is added. 
+
+### Example
+
+```ts
+import {
+  Configuration,
+  CampaignsApi,
+} from '';
+import type { AddChannelBitlinksOperationRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new CampaignsApi(config);
+
+  const body = {
+    // string | A GUID for a Bitly Channel
+    channel_guid: Ha1bc2DefGh,
+    // AddChannelBitlinksRequest
+    add_channel_bitlinks_request: ...,
+  } satisfies AddChannelBitlinksOperationRequest;
+
+  try {
+    const data = await api.addChannelBitlinks(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **channel_guid** | `string` | A GUID for a Bitly Channel | [Defaults to `undefined`] |
+| **add_channel_bitlinks_request** | [AddChannelBitlinksRequest](AddChannelBitlinksRequest.md) |  | |
+
+### Return type
+
+[**AddChannelBitlinksResponse**](AddChannelBitlinksResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | SUCCESS |  -  |
+| **400** | BAD_REQUEST |  -  |
+| **402** | UPGRADE_REQUIRED |  -  |
+| **403** | FORBIDDEN |  -  |
+| **404** | NOT_FOUND |  -  |
+| **409** | CONFLICT |  -  |
+| **422** | UNPROCESSABLE_ENTITY |  -  |
+| **429** | MONTHLY_LIMIT_EXCEEDED |  -  |
+| **500** | INTERNAL_ERROR |  -  |
+| **503** | TEMPORARILY_UNAVAILABLE |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## createCampaign
