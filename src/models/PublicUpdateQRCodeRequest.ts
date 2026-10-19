@@ -20,6 +20,13 @@ import {
     QRCodeCustomizationsPublicToJSON,
     QRCodeCustomizationsPublicToJSONTyped,
 } from './QRCodeCustomizationsPublic';
+import type { DynamicRoutingRule } from './DynamicRoutingRule';
+import {
+    DynamicRoutingRuleFromJSON,
+    DynamicRoutingRuleFromJSONTyped,
+    DynamicRoutingRuleToJSON,
+    DynamicRoutingRuleToJSONTyped,
+} from './DynamicRoutingRule';
 
 /**
  * Customization and content values for a QR code created through the public API
@@ -57,6 +64,12 @@ export interface PublicUpdateQRCodeRequest {
      * @memberof PublicUpdateQRCodeRequest
      */
     tags?: Array<string>;
+    /**
+     * Dynamic routing rules for this QR code. Providing this field replaces all existing rules. Send an empty array to clear all rules.
+     * @type {Array<DynamicRoutingRule>}
+     * @memberof PublicUpdateQRCodeRequest
+     */
+    dynamic_routing?: Array<DynamicRoutingRule>;
 }
 
 /**
@@ -81,6 +94,7 @@ export function PublicUpdateQRCodeRequestFromJSONTyped(json: any, ignoreDiscrimi
         'archived': json['archived'] == null ? undefined : json['archived'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
         'tags': json['tags'] == null ? undefined : json['tags'],
+        'dynamic_routing': json['dynamic_routing'] == null ? undefined : ((json['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleFromJSON)),
     };
 }
 
@@ -100,6 +114,7 @@ export function PublicUpdateQRCodeRequestToJSONTyped(value?: PublicUpdateQRCodeR
         'archived': value['archived'],
         'expiration_at': value['expiration_at'],
         'tags': value['tags'],
+        'dynamic_routing': value['dynamic_routing'] == null ? undefined : ((value['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleToJSON)),
     };
 }
 

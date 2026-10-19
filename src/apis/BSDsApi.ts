@@ -24,6 +24,41 @@ import {
     BadRequestToJSON,
 } from '../models/BadRequest';
 import {
+    type Conflict,
+    ConflictFromJSON,
+    ConflictToJSON,
+} from '../models/Conflict';
+import {
+    type CustomDomainBody,
+    CustomDomainBodyFromJSON,
+    CustomDomainBodyToJSON,
+} from '../models/CustomDomainBody';
+import {
+    type CustomDomains,
+    CustomDomainsFromJSON,
+    CustomDomainsToJSON,
+} from '../models/CustomDomains';
+import {
+    type DomainAgreements,
+    DomainAgreementsFromJSON,
+    DomainAgreementsToJSON,
+} from '../models/DomainAgreements';
+import {
+    type DomainUpdate,
+    DomainUpdateFromJSON,
+    DomainUpdateToJSON,
+} from '../models/DomainUpdate';
+import {
+    type DomainValidate,
+    DomainValidateFromJSON,
+    DomainValidateToJSON,
+} from '../models/DomainValidate';
+import {
+    type DomainValidateBody,
+    DomainValidateBodyFromJSON,
+    DomainValidateBodyToJSON,
+} from '../models/DomainValidateBody';
+import {
     type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
@@ -34,15 +69,200 @@ import {
     InternalErrorToJSON,
 } from '../models/InternalError';
 import {
+    type MonthlyLimitExceeded,
+    MonthlyLimitExceededFromJSON,
+    MonthlyLimitExceededToJSON,
+} from '../models/MonthlyLimitExceeded';
+import {
+    type NotFound,
+    NotFoundFromJSON,
+    NotFoundToJSON,
+} from '../models/NotFound';
+import {
+    type PurchaseBSD,
+    PurchaseBSDFromJSON,
+    PurchaseBSDToJSON,
+} from '../models/PurchaseBSD';
+import {
+    type PurchaseBSDResponse,
+    PurchaseBSDResponseFromJSON,
+    PurchaseBSDResponseToJSON,
+} from '../models/PurchaseBSDResponse';
+import {
     type TemporarilyUnavailable,
     TemporarilyUnavailableFromJSON,
     TemporarilyUnavailableToJSON,
 } from '../models/TemporarilyUnavailable';
+import {
+    type Timeout,
+    TimeoutFromJSON,
+    TimeoutToJSON,
+} from '../models/Timeout';
+import {
+    type TooManyRequests,
+    TooManyRequestsFromJSON,
+    TooManyRequestsToJSON,
+} from '../models/TooManyRequests';
+import {
+    type UnprocessableEntity,
+    UnprocessableEntityFromJSON,
+    UnprocessableEntityToJSON,
+} from '../models/UnprocessableEntity';
+
+export interface EditCustomDomainRequest {
+    custom_domain: string;
+    domain_update: DomainUpdate;
+}
+
+export interface FetchDomainAgreementsRequest {
+    domain: string;
+    organization_guid?: string;
+}
+
+export interface GetCustomDomainRequest {
+    custom_domain: string;
+}
+
+export interface GetCustomDomainsRequest {
+    organization_guid?: string;
+}
+
+export interface PurchaseBsdRequest {
+    purchase_bsd: PurchaseBSD;
+}
+
+export interface ValidateCustomDomainRequest {
+    domain_validate_body: DomainValidateBody;
+}
 
 /**
  * 
  */
 export class BSDsApi extends runtime.BaseAPI {
+
+    /**
+     * Creates request options for editCustomDomain without sending the request
+     */
+    async editCustomDomainRequestOpts(requestParameters: EditCustomDomainRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['custom_domain'] == null) {
+            throw new runtime.RequiredError(
+                'custom_domain',
+                'Required parameter "custom_domain" was null or undefined when calling editCustomDomain().'
+            );
+        }
+
+        if (requestParameters['domain_update'] == null) {
+            throw new runtime.RequiredError(
+                'domain_update',
+                'Required parameter "domain_update" was null or undefined when calling editCustomDomain().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/custom_domains/{custom_domain}`;
+        urlPath = urlPath.replace('{custom_domain}', encodeURIComponent(String(requestParameters['custom_domain'])));
+
+        return {
+            path: urlPath,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DomainUpdateToJSON(requestParameters['domain_update']),
+        };
+    }
+
+    /**
+     * Change the settings of a custom domain. Send only the settings to change. An empty root_redirect or wildcard_redirect clears that redirect. The domain must be verified, because a domain that waits on DNS has no settings yet. Organization admins only.
+     * Edit a custom domain
+     */
+    async editCustomDomainRaw(requestParameters: EditCustomDomainRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomDomainBody>> {
+        const requestOptions = await this.editCustomDomainRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CustomDomainBodyFromJSON(jsonValue));
+    }
+
+    /**
+     * Change the settings of a custom domain. Send only the settings to change. An empty root_redirect or wildcard_redirect clears that redirect. The domain must be verified, because a domain that waits on DNS has no settings yet. Organization admins only.
+     * Edit a custom domain
+     */
+    async editCustomDomain(requestParameters: EditCustomDomainRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CustomDomainBody> {
+        const response = await this.editCustomDomainRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for fetchDomainAgreements without sending the request
+     */
+    async fetchDomainAgreementsRequestOpts(requestParameters: FetchDomainAgreementsRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['domain'] == null) {
+            throw new runtime.RequiredError(
+                'domain',
+                'Required parameter "domain" was null or undefined when calling fetchDomainAgreements().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['organization_guid'] != null) {
+            queryParameters['organization_guid'] = requestParameters['organization_guid'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/domains/{domain}/agreements`;
+        urlPath = urlPath.replace('{domain}', encodeURIComponent(String(requestParameters['domain'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get the registrar agreements that a user must accept before Bitly registers a domain. Pass each agreement_key to POST /domains.
+     * Get Purchase Agreements
+     */
+    async fetchDomainAgreementsRaw(requestParameters: FetchDomainAgreementsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DomainAgreements>> {
+        const requestOptions = await this.fetchDomainAgreementsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DomainAgreementsFromJSON(jsonValue));
+    }
+
+    /**
+     * Get the registrar agreements that a user must accept before Bitly registers a domain. Pass each agreement_key to POST /domains.
+     * Get Purchase Agreements
+     */
+    async fetchDomainAgreements(requestParameters: FetchDomainAgreementsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DomainAgreements> {
+        const response = await this.fetchDomainAgreementsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Creates request options for getBSDs without sending the request
@@ -72,8 +292,8 @@ export class BSDsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch all Branded Short Domains
-     * Get BSDs
+     * Fetch the names of the custom domains the authenticated user can shorten links with, across every organization and group they belong to. The list holds verified domains only, and any member of a group can call it. For setup and verification state, use GET /custom_domains, which returns each domain with its validation_status and group assignments and requires an organization admin.
+     * Get the custom domains you can shorten with
      */
     async getBSDsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BSDsResponse>> {
         const requestOptions = await this.getBSDsRequestOpts();
@@ -83,11 +303,231 @@ export class BSDsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Fetch all Branded Short Domains
-     * Get BSDs
+     * Fetch the names of the custom domains the authenticated user can shorten links with, across every organization and group they belong to. The list holds verified domains only, and any member of a group can call it. For setup and verification state, use GET /custom_domains, which returns each domain with its validation_status and group assignments and requires an organization admin.
+     * Get the custom domains you can shorten with
      */
     async getBSDs(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BSDsResponse> {
         const response = await this.getBSDsRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getCustomDomain without sending the request
+     */
+    async getCustomDomainRequestOpts(requestParameters: GetCustomDomainRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['custom_domain'] == null) {
+            throw new runtime.RequiredError(
+                'custom_domain',
+                'Required parameter "custom_domain" was null or undefined when calling getCustomDomain().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/custom_domains/{custom_domain}`;
+        urlPath = urlPath.replace('{custom_domain}', encodeURIComponent(String(requestParameters['custom_domain'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get one custom domain, with its verification state, group assignments, and SSL status. Any member of a group the domain is assigned to can call it, and so can an administrator of the organization that holds it, which is the only way to read a domain that still waits on DNS verification.
+     * Get a custom domain
+     */
+    async getCustomDomainRaw(requestParameters: GetCustomDomainRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomDomainBody>> {
+        const requestOptions = await this.getCustomDomainRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CustomDomainBodyFromJSON(jsonValue));
+    }
+
+    /**
+     * Get one custom domain, with its verification state, group assignments, and SSL status. Any member of a group the domain is assigned to can call it, and so can an administrator of the organization that holds it, which is the only way to read a domain that still waits on DNS verification.
+     * Get a custom domain
+     */
+    async getCustomDomain(requestParameters: GetCustomDomainRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CustomDomainBody> {
+        const response = await this.getCustomDomainRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getCustomDomains without sending the request
+     */
+    async getCustomDomainsRequestOpts(requestParameters: GetCustomDomainsRequest): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        if (requestParameters['organization_guid'] != null) {
+            queryParameters['organization_guid'] = requestParameters['organization_guid'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/custom_domains`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get the custom domains of an organization, each with its verification state and group assignments. Without the organization_guid filter, the response covers every organization where the caller is an admin. Organizations where the caller is not an admin are left out.
+     * Get custom domains for an organization
+     */
+    async getCustomDomainsRaw(requestParameters: GetCustomDomainsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<CustomDomains>> {
+        const requestOptions = await this.getCustomDomainsRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => CustomDomainsFromJSON(jsonValue));
+    }
+
+    /**
+     * Get the custom domains of an organization, each with its verification state and group assignments. Without the organization_guid filter, the response covers every organization where the caller is an admin. Organizations where the caller is not an admin are left out.
+     * Get custom domains for an organization
+     */
+    async getCustomDomains(requestParameters: GetCustomDomainsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<CustomDomains> {
+        const response = await this.getCustomDomainsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for purchaseBsd without sending the request
+     */
+    async purchaseBsdRequestOpts(requestParameters: PurchaseBsdRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['purchase_bsd'] == null) {
+            throw new runtime.RequiredError(
+                'purchase_bsd',
+                'Required parameter "purchase_bsd" was null or undefined when calling purchaseBsd().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/domains`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PurchaseBSDToJSON(requestParameters['purchase_bsd']),
+        };
+    }
+
+    /**
+     * Register a domain that the organization\'s plan includes, and configure its DNS. Send the agreement_keys from GET /domains/{domain}/agreements. The caller must be an organization admin. Once the organization reaches the number of domains its plan includes, the request fails with ALREADY_RECEIVED_COMPLIMENTARY_DOMAIN. A domain priced at or above the complimentary limit fails with DOMAIN_NOT_COMPLIMENTARY. A blocked or trademarked name, or a domain over 32 characters, fails with DOMAIN_NOT_ALLOWED. A TLD that GET /domains does not offer fails with INVALID_ARG_DOMAIN. Pick a domain from GET /domains to avoid these errors. DNS verification takes up to 48 hours, so read GET /custom_domains for the validation_status when your user returns.
+     * Register a domain for an organization
+     */
+    async purchaseBsdRaw(requestParameters: PurchaseBsdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PurchaseBSDResponse>> {
+        const requestOptions = await this.purchaseBsdRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PurchaseBSDResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Register a domain that the organization\'s plan includes, and configure its DNS. Send the agreement_keys from GET /domains/{domain}/agreements. The caller must be an organization admin. Once the organization reaches the number of domains its plan includes, the request fails with ALREADY_RECEIVED_COMPLIMENTARY_DOMAIN. A domain priced at or above the complimentary limit fails with DOMAIN_NOT_COMPLIMENTARY. A blocked or trademarked name, or a domain over 32 characters, fails with DOMAIN_NOT_ALLOWED. A TLD that GET /domains does not offer fails with INVALID_ARG_DOMAIN. Pick a domain from GET /domains to avoid these errors. DNS verification takes up to 48 hours, so read GET /custom_domains for the validation_status when your user returns.
+     * Register a domain for an organization
+     */
+    async purchaseBsd(requestParameters: PurchaseBsdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PurchaseBSDResponse> {
+        const response = await this.purchaseBsdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for validateCustomDomain without sending the request
+     */
+    async validateCustomDomainRequestOpts(requestParameters: ValidateCustomDomainRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['domain_validate_body'] == null) {
+            throw new runtime.RequiredError(
+                'domain_validate_body',
+                'Required parameter "domain_validate_body" was null or undefined when calling validateCustomDomain().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/custom_domains`;
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DomainValidateBodyToJSON(requestParameters['domain_validate_body']),
+        };
+    }
+
+    /**
+     * Add a domain you already own to an organization and queue it for DNS verification. Set prevalidate to true to check the domain without adding it. The caller must be an organization admin. Verification runs asynchronously and takes up to 24 hours, so read GET /custom_domains for the validation_status when your user returns. The request fails when another Bitly account already holds the domain.
+     * Add a custom domain you own
+     */
+    async validateCustomDomainRaw(requestParameters: ValidateCustomDomainRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DomainValidate>> {
+        const requestOptions = await this.validateCustomDomainRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DomainValidateFromJSON(jsonValue));
+    }
+
+    /**
+     * Add a domain you already own to an organization and queue it for DNS verification. Set prevalidate to true to check the domain without adding it. The caller must be an organization admin. Verification runs asynchronously and takes up to 24 hours, so read GET /custom_domains for the validation_status when your user returns. The request fails when another Bitly account already holds the domain.
+     * Add a custom domain you own
+     */
+    async validateCustomDomain(requestParameters: ValidateCustomDomainRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DomainValidate> {
+        const response = await this.validateCustomDomainRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

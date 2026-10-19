@@ -12,6 +12,7 @@ Name | Type
 `deeplinks` | [Array&lt;DeeplinkRule&gt;](DeeplinkRule.md)
 `long_url` | string
 `expiration_at` | string
+`dynamic_routing` | [Array&lt;DynamicRoutingRule&gt;](DynamicRoutingRule.md)
 
 ## Example
 
@@ -26,6 +27,7 @@ const example = {
   "deeplinks": null,
   "long_url": null,
   "expiration_at": null,
+  "dynamic_routing": null,
 } satisfies BitlinkUpdateBody
 
 console.log(example)

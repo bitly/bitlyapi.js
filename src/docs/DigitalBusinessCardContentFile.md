@@ -1,0 +1,36 @@
+
+# DigitalBusinessCardContentFile
+
+
+## Properties
+
+Name | Type
+------------ | -------------
+`file_name` | string
+`data` | string
+
+## Example
+
+```typescript
+import type { DigitalBusinessCardContentFile } from ''
+
+// TODO: Update the object below with actual values
+const example = {
+  "file_name": JaneDoe.vcf,
+  "data": BEGIN:VCARD\nVERSION:3.0\nFN:Jane Doe\nORG:Bitly\nTITLE:Developer\nTEL;TYPE=WORK,VOICE:555-555-5555\nEMAIL:,
+} satisfies DigitalBusinessCardContentFile
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as DigitalBusinessCardContentFile
+console.log(exampleParsed)
+```
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
