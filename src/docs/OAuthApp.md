@@ -11,6 +11,7 @@ Name | Type
 `description` | string
 `link` | string
 `require_oauth_pkce` | boolean
+`internal_app` | boolean
 
 ## Example
 
@@ -24,6 +25,7 @@ const example = {
   "description": null,
   "link": null,
   "require_oauth_pkce": null,
+  "internal_app": null,
 } satisfies OAuthApp
 
 console.log(example)
