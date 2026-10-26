@@ -20,6 +20,13 @@ import {
     QRCodeTypeEnumToJSON,
     QRCodeTypeEnumToJSONTyped,
 } from './QRCodeTypeEnum';
+import type { DynamicRoutingRule } from './DynamicRoutingRule';
+import {
+    DynamicRoutingRuleFromJSON,
+    DynamicRoutingRuleFromJSONTyped,
+    DynamicRoutingRuleToJSON,
+    DynamicRoutingRuleToJSONTyped,
+} from './DynamicRoutingRule';
 
 /**
  * 
@@ -76,6 +83,12 @@ export interface QRCodeMinimal {
      */
     bitlink_id?: string;
     /**
+     * The short domain the qr code redirects from. Present for both bitlink and long_url qr codes.
+     * @type {string}
+     * @memberof QRCodeMinimal
+     */
+    domain?: string;
+    /**
      * Set to true if QR code has GS1 values.
      * @type {boolean}
      * @memberof QRCodeMinimal
@@ -105,6 +118,12 @@ export interface QRCodeMinimal {
      * @memberof QRCodeMinimal
      */
     expiration_at?: string;
+    /**
+     * Dynamic routing rules for this QR code. Only present when at least one rule is configured.
+     * @type {Array<DynamicRoutingRule>}
+     * @memberof QRCodeMinimal
+     */
+    dynamic_routing?: Array<DynamicRoutingRule>;
     /**
      * 
      * @type {string}
@@ -146,11 +165,13 @@ export function QRCodeMinimalFromJSONTyped(json: any, ignoreDiscriminator: boole
         'qr_code_type': json['qr_code_type'] == null ? undefined : QRCodeTypeEnumFromJSON(json['qr_code_type']),
         'long_urls': json['long_urls'] == null ? undefined : json['long_urls'],
         'bitlink_id': json['bitlink_id'] == null ? undefined : json['bitlink_id'],
+        'domain': json['domain'] == null ? undefined : json['domain'],
         'is_gs1': json['is_gs1'] == null ? undefined : json['is_gs1'],
         'created_by': json['created_by'] == null ? undefined : json['created_by'],
         'tags': json['tags'] == null ? undefined : json['tags'],
         'archived': json['archived'] == null ? undefined : json['archived'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
+        'dynamic_routing': json['dynamic_routing'] == null ? undefined : ((json['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleFromJSON)),
         'created': json['created'] == null ? undefined : json['created'],
         'modified': json['modified'] == null ? undefined : json['modified'],
     };
@@ -175,11 +196,13 @@ export function QRCodeMinimalToJSONTyped(value?: QRCodeMinimal | null, ignoreDis
         'qr_code_type': QRCodeTypeEnumToJSON(value['qr_code_type']),
         'long_urls': value['long_urls'],
         'bitlink_id': value['bitlink_id'],
+        'domain': value['domain'],
         'is_gs1': value['is_gs1'],
         'created_by': value['created_by'],
         'tags': value['tags'],
         'archived': value['archived'],
         'expiration_at': value['expiration_at'],
+        'dynamic_routing': value['dynamic_routing'] == null ? undefined : ((value['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleToJSON)),
         'created': value['created'],
         'modified': value['modified'],
     };
