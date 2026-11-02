@@ -5,6 +5,7 @@ All URIs are relative to *https://api-ssl.bitly.com/v4*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**getGroup**](GroupsApi.md#getgroup) | **GET** /groups/{group_guid} | Retrieve a Group |
+| [**getGroupAgenticTrafficRollup**](GroupsApi.md#getgroupagentictrafficrollup) | **GET** /groups/{group_guid}/agentic_traffic/rollup | Get Group Agentic Traffic Rollup |
 | [**getGroupClicks**](GroupsApi.md#getgroupclicks) | **GET** /groups/{group_guid}/clicks | Get clicks by group |
 | [**getGroupCodeScansByCity**](GroupsApi.md#getgroupcodescansbycity) | **GET** /groups/{group_guid}/codes/scans/cities | Get Scan Metrics for a Group by City |
 | [**getGroupCodeScansByCountry**](GroupsApi.md#getgroupcodescansbycountry) | **GET** /groups/{group_guid}/codes/scans/countries | Get Scan Metrics for a Group by Country |
@@ -107,6 +108,80 @@ example().catch(console.error);
 | **429** | MONTHLY_LIMIT_EXCEEDED |  -  |
 | **500** | INTERNAL_ERROR |  -  |
 | **503** | TEMPORARILY_UNAVAILABLE |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## getGroupAgenticTrafficRollup
+
+> GroupBitlinksCountRollup getGroupAgenticTrafficRollup(group_guid)
+
+Get Group Agentic Traffic Rollup
+
+Get the total agentic traffic (AI agents and assistants) count over the last 90 days for a group.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  GroupsApi,
+} from '';
+import type { GetGroupAgenticTrafficRollupRequest } from '';
+
+async function example() {
+  console.log("🚀 Testing  SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+  });
+  const api = new GroupsApi(config);
+
+  const body = {
+    // string | A GUID for a Bitly group
+    group_guid: Ba1bc23dE4F,
+  } satisfies GetGroupAgenticTrafficRollupRequest;
+
+  try {
+    const data = await api.getGroupAgenticTrafficRollup(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **group_guid** | `string` | A GUID for a Bitly group | [Defaults to `undefined`] |
+
+### Return type
+
+[**GroupBitlinksCountRollup**](GroupBitlinksCountRollup.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | SUCCESS |  -  |
+| **403** | FORBIDDEN |  -  |
+| **429** | MONTHLY_LIMIT_EXCEEDED |  -  |
+| **500** | INTERNAL_ERROR |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
