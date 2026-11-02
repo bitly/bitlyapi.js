@@ -58,7 +58,8 @@ export enum BaseMetricsFacetEnum {
     referring_domains = 'referring_domains',
     referring_networks = 'referring_networks',
     shorten_counts = 'shorten_counts',
-    destinations = 'destinations'
+    destinations = 'destinations',
+    agents = 'agents'
 }
 
 

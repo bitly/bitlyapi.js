@@ -49,6 +49,12 @@ export interface OAuthApp {
      * @memberof OAuthApp
      */
     require_oauth_pkce: boolean;
+    /**
+     * True for Bitly's own first-party apps (dashboard, mobile apps), as opposed to third-party integrations.
+     * @type {boolean}
+     * @memberof OAuthApp
+     */
+    internal_app?: boolean;
 }
 
 /**
@@ -78,6 +84,7 @@ export function OAuthAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'description': json['description'],
         'link': json['link'],
         'require_oauth_pkce': json['require_oauth_pkce'],
+        'internal_app': json['internal_app'] == null ? undefined : json['internal_app'],
     };
 }
 
@@ -97,6 +104,7 @@ export function OAuthAppToJSONTyped(value?: OAuthApp | null, ignoreDiscriminator
         'description': value['description'],
         'link': value['link'],
         'require_oauth_pkce': value['require_oauth_pkce'],
+        'internal_app': value['internal_app'],
     };
 }
 
