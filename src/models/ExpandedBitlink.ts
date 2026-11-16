@@ -38,6 +38,13 @@ export interface ExpandedBitlink {
      */
     long_url?: string;
     /**
+     * The list of destination URLs for this bitlink, including the default long URL and any dynamically routed destination URLs.
+     * 
+     * @type {Array<string>}
+     * @memberof ExpandedBitlink
+     */
+    long_urls?: Array<string>;
+    /**
      * 
      * @type {string}
      * @memberof ExpandedBitlink
@@ -65,6 +72,7 @@ export function ExpandedBitlinkFromJSONTyped(json: any, ignoreDiscriminator: boo
         'link': json['link'] == null ? undefined : json['link'],
         'id': json['id'] == null ? undefined : json['id'],
         'long_url': json['long_url'] == null ? undefined : json['long_url'],
+        'long_urls': json['long_urls'] == null ? undefined : json['long_urls'],
         'created_at': json['created_at'] == null ? undefined : json['created_at'],
     };
 }
@@ -83,6 +91,7 @@ export function ExpandedBitlinkToJSONTyped(value?: ExpandedBitlink | null, ignor
         'link': value['link'],
         'id': value['id'],
         'long_url': value['long_url'],
+        'long_urls': value['long_urls'],
         'created_at': value['created_at'],
     };
 }

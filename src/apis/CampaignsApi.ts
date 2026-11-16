@@ -14,6 +14,16 @@
 
 import * as runtime from '../runtime';
 import {
+    type AddChannelBitlinksRequest,
+    AddChannelBitlinksRequestFromJSON,
+    AddChannelBitlinksRequestToJSON,
+} from '../models/AddChannelBitlinksRequest';
+import {
+    type AddChannelBitlinksResponse,
+    AddChannelBitlinksResponseFromJSON,
+    AddChannelBitlinksResponseToJSON,
+} from '../models/AddChannelBitlinksResponse';
+import {
     type BadGateway,
     BadGatewayFromJSON,
     BadGatewayToJSON,
@@ -54,6 +64,11 @@ import {
     ChannelsToJSON,
 } from '../models/Channels';
 import {
+    type Conflict,
+    ConflictFromJSON,
+    ConflictToJSON,
+} from '../models/Conflict';
+import {
     type Forbidden,
     ForbiddenFromJSON,
     ForbiddenToJSON,
@@ -88,6 +103,11 @@ import {
     UpgradeRequiredFromJSON,
     UpgradeRequiredToJSON,
 } from '../models/UpgradeRequired';
+
+export interface AddChannelBitlinksOperationRequest {
+    channel_guid: string;
+    add_channel_bitlinks_request: AddChannelBitlinksRequest;
+}
 
 export interface CreateCampaignRequest {
     campaign_modify: CampaignModify;
@@ -128,6 +148,71 @@ export interface UpdateChannelRequest {
  * 
  */
 export class CampaignsApi extends runtime.BaseAPI {
+
+    /**
+     * Creates request options for addChannelBitlinks without sending the request
+     */
+    async addChannelBitlinksRequestOpts(requestParameters: AddChannelBitlinksOperationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['channel_guid'] == null) {
+            throw new runtime.RequiredError(
+                'channel_guid',
+                'Required parameter "channel_guid" was null or undefined when calling addChannelBitlinks().'
+            );
+        }
+
+        if (requestParameters['add_channel_bitlinks_request'] == null) {
+            throw new runtime.RequiredError(
+                'add_channel_bitlinks_request',
+                'Required parameter "add_channel_bitlinks_request" was null or undefined when calling addChannelBitlinks().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/channels/{channel_guid}/bitlinks`;
+        urlPath = urlPath.replace('{channel_guid}', encodeURIComponent(String(requestParameters['channel_guid'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AddChannelBitlinksRequestToJSON(requestParameters['add_channel_bitlinks_request']),
+        };
+    }
+
+    /**
+     * Adds the given bitlinks to a channel without affecting any bitlinks already associated with it, unlike Update a Channel which replaces the channel\'s entire bitlink membership. All bitlinks in a single request are associated with the same campaign_guid. If the given campaign has not already been associated with this channel, that association is created on first use before the bitlinks are added. The request is all-or-nothing: every bitlink is validated first, and if any are invalid, nothing is added. 
+     * Add Bitlinks to a Channel
+     */
+    async addChannelBitlinksRaw(requestParameters: AddChannelBitlinksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AddChannelBitlinksResponse>> {
+        const requestOptions = await this.addChannelBitlinksRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AddChannelBitlinksResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Adds the given bitlinks to a channel without affecting any bitlinks already associated with it, unlike Update a Channel which replaces the channel\'s entire bitlink membership. All bitlinks in a single request are associated with the same campaign_guid. If the given campaign has not already been associated with this channel, that association is created on first use before the bitlinks are added. The request is all-or-nothing: every bitlink is validated first, and if any are invalid, nothing is added. 
+     * Add Bitlinks to a Channel
+     */
+    async addChannelBitlinks(requestParameters: AddChannelBitlinksOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AddChannelBitlinksResponse> {
+        const response = await this.addChannelBitlinksRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Creates request options for createCampaign without sending the request

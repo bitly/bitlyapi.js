@@ -20,6 +20,13 @@ import {
     DeeplinkRuleToJSON,
     DeeplinkRuleToJSONTyped,
 } from './DeeplinkRule';
+import type { DynamicRoutingRule } from './DynamicRoutingRule';
+import {
+    DynamicRoutingRuleFromJSON,
+    DynamicRoutingRuleFromJSONTyped,
+    DynamicRoutingRuleToJSON,
+    DynamicRoutingRuleToJSONTyped,
+} from './DynamicRoutingRule';
 
 /**
  * 
@@ -63,6 +70,12 @@ export interface BitlinkUpdateBody {
      * @memberof BitlinkUpdateBody
      */
     expiration_at?: string;
+    /**
+     * Dynamic routing rules for this bitlink. Providing this field replaces all existing rules. Send an empty array to clear all rules.
+     * @type {Array<DynamicRoutingRule>}
+     * @memberof BitlinkUpdateBody
+     */
+    dynamic_routing?: Array<DynamicRoutingRule>;
 }
 
 /**
@@ -88,6 +101,7 @@ export function BitlinkUpdateBodyFromJSONTyped(json: any, ignoreDiscriminator: b
         'deeplinks': json['deeplinks'] == null ? undefined : ((json['deeplinks'] as Array<any>).map(DeeplinkRuleFromJSON)),
         'long_url': json['long_url'] == null ? undefined : json['long_url'],
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
+        'dynamic_routing': json['dynamic_routing'] == null ? undefined : ((json['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleFromJSON)),
     };
 }
 
@@ -108,6 +122,7 @@ export function BitlinkUpdateBodyToJSONTyped(value?: BitlinkUpdateBody | null, i
         'deeplinks': value['deeplinks'] == null ? undefined : ((value['deeplinks'] as Array<any>).map(DeeplinkRuleToJSON)),
         'long_url': value['long_url'],
         'expiration_at': value['expiration_at'],
+        'dynamic_routing': value['dynamic_routing'] == null ? undefined : ((value['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleToJSON)),
     };
 }
 
