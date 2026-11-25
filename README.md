@@ -1,6 +1,8 @@
 # Bitly API TypeScript Client
 
-This package exposes a generated TypeScript client for the Bitly API. 
+[![GitHub release](https://img.shields.io/github/v/release/bitly/bitlyapi.js)](https://github.com/bitly/bitlyapi.js/releases)
+
+This package exposes a generated TypeScript client for the Bitly API. It is published on npm as [`@bitly/api-client`](https://www.npmjs.com/package/@bitly/api-client).
 
 ## Installation
 
