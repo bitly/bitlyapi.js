@@ -54,6 +54,11 @@ import {
     GroupToJSON,
 } from '../models/Group';
 import {
+    type GroupBitlinksCountRollup,
+    GroupBitlinksCountRollupFromJSON,
+    GroupBitlinksCountRollupToJSON,
+} from '../models/GroupBitlinksCountRollup';
+import {
     type GroupClicks,
     GroupClicksFromJSON,
     GroupClicksToJSON,
@@ -150,6 +155,10 @@ import {
 } from '../models/UpgradeRequired';
 
 export interface GetGroupRequest {
+    group_guid: string;
+}
+
+export interface GetGroupAgenticTrafficRollupRequest {
     group_guid: string;
 }
 
@@ -396,6 +405,61 @@ export class GroupsApi extends runtime.BaseAPI {
      */
     async getGroup(requestParameters: GetGroupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Group> {
         const response = await this.getGroupRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for getGroupAgenticTrafficRollup without sending the request
+     */
+    async getGroupAgenticTrafficRollupRequestOpts(requestParameters: GetGroupAgenticTrafficRollupRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['group_guid'] == null) {
+            throw new runtime.RequiredError(
+                'group_guid',
+                'Required parameter "group_guid" was null or undefined when calling getGroupAgenticTrafficRollup().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/groups/{group_guid}/agentic_traffic/rollup`;
+        urlPath = urlPath.replace('{group_guid}', encodeURIComponent(String(requestParameters['group_guid'])));
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Get the total agentic traffic (AI agents and assistants) count over the last 90 days for a group.
+     * Get Group Agentic Traffic Rollup
+     */
+    async getGroupAgenticTrafficRollupRaw(requestParameters: GetGroupAgenticTrafficRollupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GroupBitlinksCountRollup>> {
+        const requestOptions = await this.getGroupAgenticTrafficRollupRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GroupBitlinksCountRollupFromJSON(jsonValue));
+    }
+
+    /**
+     * Get the total agentic traffic (AI agents and assistants) count over the last 90 days for a group.
+     * Get Group Agentic Traffic Rollup
+     */
+    async getGroupAgenticTrafficRollup(requestParameters: GetGroupAgenticTrafficRollupRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GroupBitlinksCountRollup> {
+        const response = await this.getGroupAgenticTrafficRollupRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -17,6 +17,7 @@ Name | Type
 `keyword` | string
 `bitlink_id` | string
 `expiration_at` | string
+`dynamic_routing` | [Array&lt;DynamicRoutingRule&gt;](DynamicRoutingRule.md)
 
 ## Example
 
@@ -35,6 +36,7 @@ const example = {
   "keyword": null,
   "bitlink_id": null,
   "expiration_at": null,
+  "dynamic_routing": null,
 } satisfies FullShorten
 
 console.log(example)

@@ -34,6 +34,13 @@ import {
     GS1MetadataToJSON,
     GS1MetadataToJSONTyped,
 } from './GS1Metadata';
+import type { DynamicRoutingRule } from './DynamicRoutingRule';
+import {
+    DynamicRoutingRuleFromJSON,
+    DynamicRoutingRuleFromJSONTyped,
+    DynamicRoutingRuleToJSON,
+    DynamicRoutingRuleToJSONTyped,
+} from './DynamicRoutingRule';
 
 /**
  * Customization and content values for a QR code created through the public API
@@ -89,6 +96,18 @@ export interface PublicCreateQRCodeRequest {
      * @memberof PublicCreateQRCodeRequest
      */
     tags?: Array<string>;
+    /**
+     * Optional dynamic routing rules for this decoupled QR code. Only supported for long_url destinations. Providing this field replaces all existing rules. Send an empty array to clear all rules.
+     * @type {Array<DynamicRoutingRule>}
+     * @memberof PublicCreateQRCodeRequest
+     */
+    dynamic_routing?: Array<DynamicRoutingRule>;
+    /**
+     * 
+     * @type {string}
+     * @memberof PublicCreateQRCodeRequest
+     */
+    domain?: string;
 }
 
 /**
@@ -118,6 +137,8 @@ export function PublicCreateQRCodeRequestFromJSONTyped(json: any, ignoreDiscrimi
         'gs1': json['gs1'] == null ? undefined : GS1MetadataFromJSON(json['gs1']),
         'expiration_at': json['expiration_at'] == null ? undefined : json['expiration_at'],
         'tags': json['tags'] == null ? undefined : json['tags'],
+        'dynamic_routing': json['dynamic_routing'] == null ? undefined : ((json['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleFromJSON)),
+        'domain': json['domain'] == null ? undefined : json['domain'],
     };
 }
 
@@ -140,6 +161,8 @@ export function PublicCreateQRCodeRequestToJSONTyped(value?: PublicCreateQRCodeR
         'gs1': GS1MetadataToJSON(value['gs1']),
         'expiration_at': value['expiration_at'],
         'tags': value['tags'],
+        'dynamic_routing': value['dynamic_routing'] == null ? undefined : ((value['dynamic_routing'] as Array<any>).map(DynamicRoutingRuleToJSON)),
+        'domain': value['domain'],
     };
 }
 
